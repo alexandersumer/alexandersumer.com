@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: 99% 0 0;
+  --fg: 20% 0 0;
+  --accent: 65% 0.2 250;
+}
+
+:root.dark {
+  --bg: 12% 0 0;
+  --fg: 96% 0 0;
+  --accent: 70% 0.2 250;
+}
+
+html {
+  color-scheme: light dark;
+}
+
+body {
+  @apply bg-[oklch(var(--bg))] text-[oklch(var(--fg))] antialiased;
+}
+
+.prose {
+  @apply prose-lg max-w-prose leading-7;
+}

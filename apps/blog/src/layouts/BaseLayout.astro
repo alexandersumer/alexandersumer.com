@@ -1,0 +1,74 @@
+---
+import '../styles/global.css';
+const {
+  title = 'alexandersumer.com',
+  description = 'Software, systems, notes',
+  ogImage = undefined,
+  canonical = undefined
+} = Astro.props;
+const site = 'https://alexandersumer.com';
+const canonicalUrl = canonical ? new URL(canonical, site).toString() : undefined;
+const resolvedOgImage = ogImage ? new URL(ogImage, site).toString() : undefined;
+---
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="article" />
+    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+    {resolvedOgImage && <meta property="og:image" content={resolvedOgImage} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {resolvedOgImage && <meta name="twitter:image" content={resolvedOgImage} />}
+    <slot name="head" />
+  </head>
+  <body class="bg-[oklch(var(--bg))] text-[oklch(var(--fg))]">
+    <header class="max-w-3xl mx-auto px-4 py-8 flex items-center justify-between">
+      <a href="/" class="font-semibold tracking-tight">alexandersumer.com</a>
+      <button
+        type="button"
+        class="text-sm px-3 py-1 border border-black/10 dark:border-white/10 rounded"
+        data-theme-toggle
+      >
+        Toggle theme
+      </button>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-4">
+      <slot />
+    </main>
+
+    <footer class="max-w-3xl mx-auto px-4 py-12 text-sm opacity-70">
+      © {new Date().getFullYear()} Alexander Sumer. All rights reserved.
+    </footer>
+
+    <script>
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+      const stored = localStorage.getItem('theme');
+      const root = document.documentElement;
+      const apply = (mode) => {
+        if (mode === 'dark') {
+          root.classList.add('dark');
+        } else {
+          root.classList.remove('dark');
+        }
+        localStorage.setItem('theme', mode);
+      };
+      if (stored === 'dark' || (!stored && prefersDark.matches)) {
+        root.classList.add('dark');
+      }
+      document.querySelector('[data-theme-toggle]')?.addEventListener('click', () => {
+        const next = root.classList.contains('dark') ? 'light' : 'dark';
+        apply(next);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "alexandersumer-monorepo",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.17.0",
+  "scripts": {
+    "build": "pnpm -C apps/blog build",
+    "dev": "pnpm -C apps/blog dev",
+    "lint": "pnpm -r lint"
+  },
+  "engines": {
+    "node": ">=20.10.0"
+  }
+}
