@@ -4,10 +4,11 @@ import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 
 const __filename = fileURLToPath(import.meta.url);
-const projectRoot = resolve(dirname(__filename), 'apps', 'blog');
+const projectRoot = resolve(dirname(__filename), '..');
+const astroBin = resolve(projectRoot, 'node_modules', '.bin', 'astro');
 
-const run = (cmd, args, extraEnv = {}) => {
-  return new Promise((resolvePromise, rejectPromise) => {
+const run = (cmd, args, extraEnv = {}) =>
+  new Promise((resolvePromise, rejectPromise) => {
     const child = spawn(cmd, args, {
       cwd: projectRoot,
       stdio: 'inherit',
@@ -26,16 +27,12 @@ const run = (cmd, args, extraEnv = {}) => {
       }
     });
   });
-};
 
-const astroBin = resolve(projectRoot, 'node_modules', '.bin', 'astro');
-const nodeModulesPath = resolve(projectRoot, 'node_modules');
-
-console.log('Build orchestrator');
+console.log('Astro build script');
 console.log(`  node executable : ${process.execPath}`);
 console.log(`  project root    : ${projectRoot}`);
 console.log(`  astro binary    : ${astroBin}`);
-console.log(`  node_modules?   : ${existsSync(nodeModulesPath)}`);
+console.log(`  node_modules?   : ${existsSync(resolve(projectRoot, 'node_modules'))}`);
 
 try {
   await run(process.execPath, [astroBin, 'build'], { ASTRO_TELEMETRY_DISABLED: '1' });
