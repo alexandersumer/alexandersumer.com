@@ -19,6 +19,12 @@ if (!existsSync(outputDir)) {
 
 const pagefindBin = resolve(projectRoot, 'node_modules', 'pagefind', 'lib', 'runner', 'bin.cjs');
 
+console.log('Pagefind CLI');
+console.log(`  project root : ${projectRoot}`);
+console.log(`  site dir     : ${distDir}`);
+console.log(`  output dir   : ${outputDir}`);
+console.log(`  binary path  : ${pagefindBin}`);
+
 const child = spawn(process.execPath, [pagefindBin, '--site', distDir, '--output-path', outputDir], {
   cwd: projectRoot,
   stdio: 'inherit'
@@ -30,5 +36,6 @@ child.on('error', (error) => {
 });
 
 child.on('exit', (code) => {
+  console.log(`Pagefind exited with code ${code}`);
   process.exit(code ?? 1);
 });
