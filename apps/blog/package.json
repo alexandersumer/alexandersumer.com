@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && pagefind --source ./dist",
+    "build": "astro build && pagefind --site ./dist",
     "preview": "astro preview",
     "lint": "astro check",
     "test": "pnpm run test:unit && pnpm run test:e2e",
