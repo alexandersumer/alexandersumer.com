@@ -1,6 +1,6 @@
 import rss from "@astrojs/rss";
-import { siteConfig } from "../config/site";
-import { getPublishedPosts, toFeedItems } from "../domain/posts";
+import { siteConfig } from "../features/site/config";
+import { getPublishedPosts, toFeedItems } from "../features/blog/api/posts";
 
 export async function GET(context) {
   const posts = await getPublishedPosts();

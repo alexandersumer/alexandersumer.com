@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
+import { formatDisplayDate } from "../../src/features/blog/utils/dates";
 
 type BlogEntry = {
   slug: string;
@@ -7,11 +8,15 @@ type BlogEntry = {
     description: string;
     pubDate: Date;
     draft?: boolean;
+    computedDates: {
+      published: string;
+      updated?: string;
+    };
   };
   body: string;
 };
 
-const modulePath = "../../src/domain/posts";
+const modulePath = "../../src/features/blog/api/posts";
 
 const entries: BlogEntry[] = [
   {
@@ -20,6 +25,9 @@ const entries: BlogEntry[] = [
       title: "Cloudflare",
       description: "Intro to Cloudflare",
       pubDate: new Date("2025-09-21"),
+      computedDates: {
+        published: formatDisplayDate(new Date("2025-09-21"))!,
+      },
     },
     body: "Edge content at the speed of light.".repeat(50),
   },
@@ -29,6 +37,9 @@ const entries: BlogEntry[] = [
       title: "Astro Rocks",
       description: "Building with Astro",
       pubDate: new Date("2024-01-01"),
+      computedDates: {
+        published: formatDisplayDate(new Date("2024-01-01"))!,
+      },
     },
     body: "Astro keeps content fast.".repeat(40),
   },
@@ -39,6 +50,9 @@ const entries: BlogEntry[] = [
       description: "Not published",
       pubDate: new Date("2023-01-01"),
       draft: true,
+      computedDates: {
+        published: formatDisplayDate(new Date("2023-01-01"))!,
+      },
     },
     body: "Draft draft draft.".repeat(10),
   },

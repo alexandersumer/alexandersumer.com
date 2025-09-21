@@ -1,12 +1,11 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import { integrations } from "../../config/integrations";
-import { siteConfig } from "../../config/site";
+import BaseLayout from "../../features/site/layouts/BaseLayout.astro";
+import { integrations, siteConfig } from "../../features/site/config";
 import {
   getAdjacentPosts,
   getPostBySlug,
   getPublishedPosts,
-} from "../../domain/posts";
+} from "../../features/blog/api/posts";
 
 export async function getStaticPaths() {
   const posts = await getPublishedPosts();

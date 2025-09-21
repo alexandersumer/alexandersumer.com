@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-const modulePath = "../../src/config/site";
+const modulePath = "../../src/features/site/config";
 const loadModule = async () => {
   vi.resetModules();
   return import(modulePath);

@@ -3,7 +3,7 @@ import {
   getEntryBySlug,
   type CollectionEntry,
 } from "astro:content";
-import { absoluteUrl } from "../../config/site";
+import { absoluteUrl } from "../../site/config";
 
 export type BlogEntry = CollectionEntry<"blog">;
 
@@ -20,15 +20,6 @@ const countWords = (content: string) =>
     .replace(/&[a-z]+;/gi, " ")
     .split(/\s+/)
     .filter(Boolean).length;
-
-const readableDate = (date: Date | undefined) =>
-  date
-    ? date.toLocaleDateString(undefined, {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      })
-    : undefined;
 
 export interface PostComputed {
   permalink: string;
@@ -48,36 +39,72 @@ export interface PostComputed {
 
 export type Post = BlogEntry & { computed: PostComputed };
 
-const withComputed = (entry: BlogEntry): Post => {
+type BlogFrontmatter = BlogEntry["data"] & {
+  computedDates: {
+    published: string;
+    updated?: string;
+  };
+};
+
+const getComputedDates = (entry: BlogEntry) =>
+  (entry.data as BlogFrontmatter).computedDates;
+
+const createPostComputed = (entry: BlogEntry): PostComputed => {
   const permalink = `${BLOG_BASE_PATH}/${entry.slug}/`;
   const canonicalUrl = absoluteUrl(permalink);
   const ogImagePath = `${permalink}${OG_IMAGE_SUFFIX}`;
   const words = countWords(entry.body ?? "");
   const minutes = Math.max(1, Math.round(words / WORDS_PER_MINUTE));
+  const { published, updated } = getComputedDates(entry);
 
   return {
-    ...entry,
-    computed: {
-      permalink,
-      canonicalUrl,
-      ogImage: {
-        path: ogImagePath,
-        url: absoluteUrl(ogImagePath),
-      },
-      readingTime: {
-        minutes,
-        words,
-        text: `${minutes} min read`,
-      },
-      publishedDisplay: readableDate(entry.data.pubDate)!,
-      updatedDisplay: readableDate(entry.data.updatedDate),
+    permalink,
+    canonicalUrl,
+    ogImage: {
+      path: ogImagePath,
+      url: absoluteUrl(ogImagePath),
     },
+    readingTime: {
+      minutes,
+      words,
+      text: `${minutes} min read`,
+    },
+    publishedDisplay: published,
+    updatedDisplay: updated,
   };
 };
 
+const withComputed = (entry: BlogEntry): Post => ({
+  ...entry,
+  computed: createPostComputed(entry),
+});
+
+const clonePost = (post: Post): Post => ({
+  ...post,
+  data: { ...post.data },
+  computed: {
+    ...post.computed,
+    ogImage: { ...post.computed.ogImage },
+    readingTime: { ...post.computed.readingTime },
+  },
+});
+
+let publishedPostsCache: Post[] | undefined;
+
+const ensurePublishedPostsCache = async (): Promise<Post[]> => {
+  if (publishedPostsCache) {
+    return publishedPostsCache;
+  }
+
+  const entries = await getCollection("blog", ({ data }) => !data.draft);
+  const posts = entries.sort(byPublishedDateDesc).map(withComputed);
+  publishedPostsCache = posts;
+  return posts;
+};
+
 export const getPublishedPosts = async (): Promise<Post[]> => {
-  const posts = await getCollection("blog", ({ data }) => !data.draft);
-  return posts.sort(byPublishedDateDesc).map(withComputed);
+  const posts = await ensurePublishedPostsCache();
+  return posts.map(clonePost);
 };
 
 export const getPostBySlug = async (slug: string): Promise<Post> => {
@@ -88,7 +115,10 @@ export const getPostBySlug = async (slug: string): Promise<Post> => {
   if (entry.data.draft) {
     throw new Error(`Post is marked as draft and cannot be rendered: ${slug}`);
   }
-  return withComputed(entry);
+
+  const posts = await ensurePublishedPostsCache();
+  const cached = posts.find((post) => post.slug === slug);
+  return cached ? clonePost(cached) : withComputed(entry);
 };
 
 export interface AdjacentPosts {

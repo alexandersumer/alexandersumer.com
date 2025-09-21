@@ -1,4 +1,4 @@
-import { siteConfig } from "../config/site";
+import { siteConfig } from "../features/site/config";
 
 export function GET() {
   const sitemapUrl = `${siteConfig.site.baseUrl}/sitemap-index.xml`;

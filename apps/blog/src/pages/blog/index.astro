@@ -1,9 +1,8 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import PagefindSearch from "../../components/PagefindSearch.astro";
-import { integrations } from "../../config/integrations";
-import { siteConfig } from "../../config/site";
-import { getPublishedPosts } from "../../domain/posts";
+import BaseLayout from "../../features/site/layouts/BaseLayout.astro";
+import PagefindSearch from "../../features/blog/components/PagefindSearch.astro";
+import { integrations, siteConfig } from "../../features/site/config";
+import { getPublishedPosts } from "../../features/blog/api/posts";
 
 const posts = await getPublishedPosts();
 const { pagefind } = integrations;
