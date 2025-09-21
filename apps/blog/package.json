@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "ASTRO_TELEMETRY_DISABLED=1 npx astro build && npx pagefind@1.4.0 --site dist --output-path dist/pagefind",
+    "build": "npx astro build && npx pagefind@1.4.0 --site dist --output-path dist/pagefind",
     "preview": "astro preview",
     "lint": "astro check",
     "test": "pnpm run test:unit && pnpm run test:e2e",
