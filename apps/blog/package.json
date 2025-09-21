@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "node ./scripts/build.mjs",
+    "build": "ASTRO_TELEMETRY_DISABLED=1 pnpm exec astro build && pnpm dlx pagefind@1.4.0 --site dist --output-path dist/pagefind",
     "preview": "astro preview",
     "lint": "astro check",
     "test": "pnpm run test:unit && pnpm run test:e2e",

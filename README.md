@@ -32,7 +32,6 @@ Set the output directory to `apps/blog/dist`. The Pages runtime auto-detects `ap
 ```
 apps/blog/
   src/          # layouts, pages, components, and MDX content
-  scripts/      # build helpers (Pagefind runner)
   site.config.json
   playwright.config.ts
 ```
@@ -42,5 +41,5 @@ apps/blog/
 ## Notes
 
 - The build approves native installs for `esbuild` and `sharp` through `package.json → pnpm.onlyBuiltDependencies`.
-- Pagefind runs after every production build; search assets land in `dist/pagefind`.
+- Pagefind runs after every production build via `pnpm dlx pagefind`; search assets land in `dist/pagefind`.
 - Comments are optional via Giscus—enable them by setting the `PUBLIC_GISCUS_*` variables.
