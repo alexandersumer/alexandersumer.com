@@ -148,7 +148,7 @@ To enable automatic deployments from CI, add a second workflow using [cloudflare
 ## Maintenance checklist
 
 - Run `corepack pnpm update --interactive` periodically to keep Astro/Tailwind/Pagefind current.
-- Build scripts for native tooling (like `esbuild` and `sharp`) are pre-approved through `package.json` → `pnpm.onlyBuiltDependencies`; add new entries there if future dependencies need compilation during install.
+- Build scripts for native tooling (like `esbuild` and `sharp`) are pre-approved through `package.json` → `pnpm.onlyBuiltDependencies`; add new entries there if future dependencies need compilation during install. Pagefind runs via `apps/blog/scripts/run-pagefind.mjs` after each static build so search assets land in `dist/pagefind` consistently.
 - Confirm OG images by visiting `/blog/<slug>/social-image.png` after major layout changes.
 - Rebuild locally after editing the search UI to regenerate Pagefind assets (`pnpm build`).
 - See [CONTRIBUTING.md](./CONTRIBUTING.md) for development guardrails and pre-PR checks.
