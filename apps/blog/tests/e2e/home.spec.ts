@@ -4,7 +4,7 @@ test.describe("homepage", () => {
   test("shows the hero content and navigation links", async ({ page }) => {
     await page.goto("/");
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
-      "Coming soon.",
+      "Site rebuild in progress.",
     );
     await expect(
       page.getByRole("link", { name: "Read the blog" }),
