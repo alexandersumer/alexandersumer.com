@@ -4,10 +4,10 @@
   "type": "module",
   "packageManager": "pnpm@10.17.0",
   "scripts": {
-    "build": "pnpm -C apps/blog build",
-    "dev": "pnpm -C apps/blog dev",
+    "build": "pnpm --filter alexander-blog run build",
+    "dev": "pnpm --filter alexander-blog run dev",
     "lint": "pnpm -r lint",
-    "test": "pnpm -C apps/blog test"
+    "test": "pnpm --filter alexander-blog run test"
   },
   "engines": {
     "node": ">=20.10.0"
