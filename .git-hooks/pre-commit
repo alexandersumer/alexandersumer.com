@@ -17,7 +17,23 @@ run() {
   "$@"
 }
 
-run "Prettier format check" pnpm exec prettier --plugin=prettier-plugin-astro --check .
+PRETTIER_FILES=()
+while IFS= read -r file; do
+  [[ -n "$file" ]] && PRETTIER_FILES+=("$file")
+done < <(
+  git diff --cached --name-only --diff-filter=ACM --relative \
+    | grep -E '\.(astro|jsx?|tsx?|mjs|cjs|json|ya?ml|mdx?|css|scss)$' \
+    || true
+)
+
+if (( ${#PRETTIER_FILES[@]} )); then
+  echo "[pre-commit] Formatting ${#PRETTIER_FILES[@]} staged file(s) with Prettier"
+  pnpm exec prettier --plugin=prettier-plugin-astro --write "${PRETTIER_FILES[@]}"
+  git add -- "${PRETTIER_FILES[@]}"
+  run "Prettier format check" pnpm exec prettier --plugin=prettier-plugin-astro --check "${PRETTIER_FILES[@]}"
+else
+  echo "[pre-commit] No staged files matched Prettier patterns"
+fi
 
 if [[ -d node_modules/@astrojs/check || -d apps/blog/node_modules/@astrojs/check ]]; then
   run "Astro lint" pnpm --filter alexander-blog run lint
