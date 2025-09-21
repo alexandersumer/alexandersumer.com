@@ -1,0 +1,16 @@
+{
+  "site": {
+    "name": "alexandersumer.com",
+    "tagline": "Software, systems, notes",
+    "author": "Alexander Sumer",
+    "baseUrl": "https://alexandersumer.com",
+    "contactEmail": "hello@alexandersumer.com",
+    "defaultOgImage": null
+  },
+  "branding": {
+    "headerLabel": "alexandersumer.com",
+    "accentColor": "#6E44FF",
+    "ogBackground": "#0f172a",
+    "ogForeground": "#f8fafc"
+  }
+}

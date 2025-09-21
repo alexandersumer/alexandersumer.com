@@ -1,13 +1,26 @@
-<div class="my-10 not-prose">
-  <div id="pagefind-search"></div>
-</div>
-<link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
-<script type="module">
-  import PagefindUI from '/pagefind/pagefind-ui.js';
-  new PagefindUI({
-    element: '#pagefind-search',
-    showImages: false,
-    showSubResults: true,
-    translations: { placeholder: 'Search posts' }
-  });
-</script>
+---
+import type { PagefindConfig } from '../config/integrations';
+
+interface Props {
+  config: PagefindConfig;
+}
+
+const { config }: Props = Astro.props;
+const assetPath = config.assetPath.replace(/\/$/, '');
+const scriptContent = `import PagefindUI from '${assetPath}/pagefind-ui.js';
+new PagefindUI({
+  element: '#pagefind-search',
+  showImages: false,
+  showSubResults: true,
+  translations: { placeholder: '${config.translations.placeholder.replace(/'/g, "\\'")}' }
+});`;
+---
+{config.enabled && (
+  <astro-fragment>
+    <div class="my-10 not-prose">
+      <div id="pagefind-search"></div>
+    </div>
+    <link rel="stylesheet" href={`${assetPath}/pagefind-ui.css`} />
+    <script type="module" set:html={scriptContent}></script>
+  </astro-fragment>
+)}

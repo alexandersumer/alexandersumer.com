@@ -6,24 +6,32 @@
     "dev": "astro dev",
     "build": "astro build && pagefind --source ./dist",
     "preview": "astro preview",
-    "lint": "astro check"
+    "lint": "astro check",
+    "test": "pnpm run test:unit && pnpm run test:e2e",
+    "test:unit": "vitest run",
+    "test:unit:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.0.0",
     "@astrojs/rss": "^4.0.0",
     "@astrojs/sitemap": "^3.0.0",
-    "@astrojs/tailwind": "^5.0.0",
+    "@astrojs/tailwind": "^6.0.2",
     "@cloudflare/pages-plugin-vercel-og": "^0.1.2",
     "astro": "^5.0.0",
-    "pagefind": "^1.1.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "pagefind": "^1.4.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
   },
   "devDependencies": {
-    "@tailwindcss/typography": "^0.5.15",
-    "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.43",
-    "tailwindcss": "^3.4.10",
-    "typescript": "^5.5.4"
+    "@playwright/test": "^1.55.0",
+    "@tailwindcss/typography": "^0.5.18",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4",
+    "@vitest/coverage-v8": "^3.2.4"
   }
 }

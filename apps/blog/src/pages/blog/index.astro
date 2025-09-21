@@ -1,15 +1,16 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
 import PagefindSearch from '../../components/PagefindSearch.astro';
+import { integrations } from '../../config/integrations';
+import { siteConfig } from '../../config/site';
+import { getPublishedPosts } from '../../lib/posts';
 
-const posts = (await getCollection('blog'))
-  .filter((post) => !post.data.draft)
-  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+const posts = await getPublishedPosts();
+const { pagefind } = integrations;
 ---
 <BaseLayout
-  title="Blog – alexandersumer.com"
-  description="Writing about software, systems, and learning"
+  title={`Blog – ${siteConfig.site.name}`}
+  description={siteConfig.site.tagline}
   canonical="/blog/"
 >
   <section class="prose dark:prose-invert">
@@ -17,7 +18,7 @@ const posts = (await getCollection('blog'))
     <p>Browse every post by Alexander Sumer.</p>
   </section>
 
-  {posts.length > 5 && <PagefindSearch />}
+  {pagefind.enabled && posts.length >= pagefind.minItems && <PagefindSearch config={pagefind} />}
 
   <ul class="divide-y divide-black/10 dark:divide-white/10 not-prose">
     {posts.map(({ slug, data }) => (

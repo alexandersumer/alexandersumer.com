@@ -6,7 +6,8 @@
   "scripts": {
     "build": "pnpm -C apps/blog build",
     "dev": "pnpm -C apps/blog dev",
-    "lint": "pnpm -r lint"
+    "lint": "pnpm -r lint",
+    "test": "pnpm -C apps/blog test"
   },
   "engines": {
     "node": ">=20.10.0"

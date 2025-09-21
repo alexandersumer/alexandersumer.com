@@ -2,6 +2,15 @@
 
 Modern, edge-first blog for [alexandersumer.com](https://alexandersumer.com), built with Astro, Tailwind CSS, and Cloudflare Pages. The repository follows a monorepo-friendly layout so you can expand beyond the blog later (dashboards, experiments, etc.) while keeping deployments fast and reliable.
 
+## Tech stack (as of September 2025)
+
+- Astro 5.13.x with the first-party MDX/RSS/Sitemap integrations
+- Tailwind CSS 3.4 (via `@astrojs/tailwind@6`) plus Typography plugin 0.5.x
+- React 19.1 for any interactive islands you add later
+- TypeScript 5.9 with strict Astro defaults
+- Vitest 3.2 + `@vitest/coverage-v8` for unit coverage, Playwright 1.55 for browser e2e
+- Pagefind 1.4 for static search indexing
+
 ## Requirements
 
 - **Node.js** ≥ 20.10 (matches Cloudflare’s default runtime)
@@ -23,9 +32,36 @@ corepack pnpm lint
 
 # 4. Create a production build + Pagefind search index
 corepack pnpm build
+
+# 5. Run the full automated test suite (unit + e2e)
+corepack pnpm test
 ```
 
 Production builds emit to `apps/blog/dist`. The Pagefind CLI runs automatically after Astro’s build to generate `/pagefind` assets used by the search UI.
+
+## Testing
+
+- `corepack pnpm test` – runs unit tests (Vitest with coverage thresholds) followed by Playwright end-to-end checks.
+- `corepack pnpm -C apps/blog test:unit [--coverage]` – standalone unit tests covering shared config and content services (coverage reporting available via the optional flag).
+- `corepack pnpm -C apps/blog test:e2e` – headless Chromium smoke tests exercising the homepage and blog routes.
+- `corepack pnpm -C apps/blog test:e2e:ui` – launches the Playwright UI runner for local debugging.
+
+First-time contributors should install the Playwright browser binaries once:
+
+```sh
+corepack pnpm -C apps/blog exec playwright install --with-deps
+```
+
+## Continuous integration
+
+GitHub Actions (`.github/workflows/ci.yml`) runs on every push/PR and is optimized around `pnpm`, mirroring the local workflow:
+
+- **Lint & typecheck** on Node.js 20 and 22 using `pnpm lint` (`astro check`).
+- **Unit tests with coverage** on both Node versions via `pnpm -C apps/blog test:unit:coverage`, publishing the HTML/LCOV bundle as an artifact.
+- **Playwright E2E** smoke tests on Node 22 after installing browsers with `pnpm exec playwright install --with-deps`, uploading the Playwright HTML report for debugging.
+- **Build** job gated on all checks that produces `apps/blog/dist` (uploaded for PRs) to verify the static export + Pagefind index.
+
+The workflow relies on `pnpm/action-setup` and `actions/setup-node` caching the pnpm store, so lockfile changes are the single source of truth. Telemetry is disabled and the Playwright browser cache lives under `${{ runner.temp }}` for rapid re-runs.
 
 ## Landing page
 
@@ -38,6 +74,8 @@ The homepage (`/`) is a minimal “coming soon” hero with links to the blog an
 ├─ apps/
 │  └─ blog/              # Astro site deployed to Cloudflare Pages
 │     ├─ src/
+│     │  ├─ config/      # Site metadata + integration feature flags
+│     │  ├─ lib/         # Content helpers (queries, feeds, etc.)
 │     │  ├─ content/     # MDX posts managed by Astro content collections
 │     │  ├─ layouts/     # Shared shells with SEO/meta helpers
 │     │  ├─ components/  # Pagefind search widget, etc.
@@ -71,10 +109,16 @@ draft: false
 - Use MDX when you want interactive components; plain Markdown works out of the box.
 - Assets referenced from frontmatter (e.g., `hero`) should live next to the MDX file.
 
+## Configuration
+
+- `apps/blog/site.config.json` centralizes site metadata, branding colors, and contact details. Front-end code imports typed helpers from `src/config/site.ts`, while build tooling and edge functions consume the same JSON for consistency.
+- Feature toggles and keys for integrations live in `src/config/integrations.ts`. Set them through environment variables (e.g., `PUBLIC_ENABLE_PAGEFIND`, `PUBLIC_GISCUS_*`) to enable Pagefind, Giscus, or override OG image colors per environment.
+- Content utilities in `src/lib/posts.ts` expose shared helpers (`getPublishedPosts`, `getAdjacentPosts`, `toFeedItems`) so pages, feeds, and tests agree on filtering/sorting rules.
+
 ## Search & comments
 
-- **Search** uses [Pagefind](https://pagefind.app). The search UI component in `src/components/PagefindSearch.astro` looks for the generated `/pagefind` assets during production builds. No backend is required.
-- **Comments** hook into [Giscus](https://giscus.app). Update the placeholders (`data-repo`, `data-*id`) in `src/pages/blog/[slug].astro` with your GitHub Discussions repository before enabling.
+- **Search** uses [Pagefind](https://pagefind.app). Enable it in production by default (or opt in locally) via `PUBLIC_ENABLE_PAGEFIND=true`. The search UI component reads translations and asset paths from the integrations config and expects the generated `/pagefind` assets present after `pnpm build`.
+- **Comments** hook into [Giscus](https://giscus.app). Provide `PUBLIC_ENABLE_GISCUS=true` alongside the GitHub identifiers (`PUBLIC_GISCUS_REPO`, `PUBLIC_GISCUS_REPO_ID`, `PUBLIC_GISCUS_CATEGORY`, `PUBLIC_GISCUS_CATEGORY_ID`) to activate the widget; otherwise the page shows a friendly “Comments are disabled” notice.
 
 ## Dynamic Open Graph images
 

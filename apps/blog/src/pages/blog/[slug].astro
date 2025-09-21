@@ -1,31 +1,44 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getCollection, getEntryBySlug } from 'astro:content';
+import { integrations } from '../../config/integrations';
+import { siteConfig } from '../../config/site';
+import { getAdjacentPosts, getPostBySlug, getPublishedPosts } from '../../lib/posts';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  const posts = await getPublishedPosts();
   return posts.map((post) => ({
     params: { slug: post.slug },
   }));
 }
 
 const { slug } = Astro.params;
-const entry = slug ? await getEntryBySlug('blog', slug) : undefined;
-if (!entry) {
-  throw new Error(`Post not found for slug: ${slug}`);
+if (!slug) {
+  throw new Error('Missing blog slug parameter');
 }
 
-const { Content, data } = await entry.render();
-const adjacent = (await getCollection('blog'))
-  .filter((post) => !post.data.draft)
-  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
-const currentIndex = adjacent.findIndex((post) => post.slug === entry.slug);
-const previous = currentIndex > 0 ? adjacent[currentIndex - 1] : undefined;
-const next = currentIndex >= 0 && currentIndex < adjacent.length - 1 ? adjacent[currentIndex + 1] : undefined;
+const posts = await getPublishedPosts();
+const entry = await getPostBySlug(slug);
+const { previous, next } = await getAdjacentPosts(entry.slug, posts);
+const { Content } = await entry.render();
+const { data } = entry;
 const ogImage = `/blog/${entry.slug}/social-image.png`;
+const { giscus } = integrations;
+const giscusAttributes = giscus.enabled
+  ? {
+      repo: giscus.repo!,
+      repoId: giscus.repoId!,
+      category: giscus.category!,
+      categoryId: giscus.categoryId!,
+      mapping: giscus.mapping,
+      reactionsEnabled: giscus.reactionsEnabled,
+      emitMetadata: giscus.emitMetadata,
+      theme: giscus.theme,
+      lang: giscus.lang,
+    }
+  : null;
 ---
 <BaseLayout
-  title={`${data.title} – alexandersumer.com`}
+  title={`${data.title} – ${siteConfig.site.name}`}
   description={data.description}
   ogImage={ogImage}
   canonical={`/blog/${entry.slug}/`}
@@ -55,21 +68,27 @@ const ogImage = `/blog/${entry.slug}/social-image.png`;
     )}
   </nav>
 
-  <section class="mt-12">
-    <script
-      src="https://giscus.app/client.js"
-      data-repo="YOUR_GITHUB_USERNAME/YOUR_DISCUSSIONS_REPO"
-      data-repo-id="REPLACE_WITH_REPO_ID"
-      data-category="General"
-      data-category-id="REPLACE_WITH_CATEGORY_ID"
-      data-mapping="pathname"
-      data-reactions-enabled="1"
-      data-emit-metadata="0"
-      data-theme="preferred_color_scheme"
-      data-lang="en"
-      crossorigin="anonymous"
-      async
-    ></script>
-    <div class="giscus" />
+  <section class="mt-12 not-prose">
+    {giscusAttributes ? (
+      <astro-fragment>
+        <script
+          src="https://giscus.app/client.js"
+          data-repo={giscusAttributes.repo}
+          data-repo-id={giscusAttributes.repoId}
+          data-category={giscusAttributes.category}
+          data-category-id={giscusAttributes.categoryId}
+          data-mapping={giscusAttributes.mapping}
+          data-reactions-enabled={giscusAttributes.reactionsEnabled}
+          data-emit-metadata={giscusAttributes.emitMetadata}
+          data-theme={giscusAttributes.theme}
+          data-lang={giscusAttributes.lang}
+          crossorigin="anonymous"
+          async
+        ></script>
+        <div class="giscus" />
+      </astro-fragment>
+    ) : (
+      <p class="text-sm opacity-70">Comments are disabled for this environment.</p>
+    )}
   </section>
 </BaseLayout>

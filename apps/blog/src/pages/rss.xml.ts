@@ -1,18 +1,14 @@
 import rss from '@astrojs/rss';
-import { getCollection } from 'astro:content';
+import { siteConfig } from '../config/site';
+import { getPublishedPosts, toFeedItems } from '../lib/posts';
 
 export async function GET(context) {
-  const posts = (await getCollection('blog')).filter((post) => !post.data.draft);
+  const posts = await getPublishedPosts();
 
   return rss({
-    title: 'alexandersumer.com',
-    description: 'Writing by Alexander Sumer',
-    site: context.site ?? 'https://alexandersumer.com',
-    items: posts.map((post) => ({
-      link: `/blog/${post.slug}/`,
-      title: post.data.title,
-      pubDate: post.data.pubDate,
-      description: post.data.description
-    }))
+    title: siteConfig.site.name,
+    description: siteConfig.site.tagline,
+    site: context.site ?? siteConfig.site.baseUrl,
+    items: toFeedItems(posts)
   });
 }

@@ -1,14 +1,17 @@
 ---
+import { canonicalHref, siteConfig, absoluteUrl } from '../config/site';
 import '../styles/global.css';
+
 const {
-  title = 'alexandersumer.com',
-  description = 'Software, systems, notes',
-  ogImage = undefined,
+  title = siteConfig.site.name,
+  description = siteConfig.site.tagline,
+  ogImage = siteConfig.site.defaultOgImage ?? undefined,
   canonical = undefined
 } = Astro.props;
-const site = 'https://alexandersumer.com';
-const canonicalUrl = canonical ? new URL(canonical, site).toString() : undefined;
-const resolvedOgImage = ogImage ? new URL(ogImage, site).toString() : undefined;
+
+const canonicalUrl = canonicalHref(canonical);
+const resolvedOgImage = ogImage ? absoluteUrl(ogImage) : undefined;
+const headerLabel = siteConfig.branding.headerLabel;
 ---
 <html lang="en" class="scroll-smooth">
   <head>
@@ -32,7 +35,7 @@ const resolvedOgImage = ogImage ? new URL(ogImage, site).toString() : undefined;
   </head>
   <body class="bg-[oklch(var(--bg))] text-[oklch(var(--fg))]">
     <header class="max-w-3xl mx-auto px-4 py-8 flex items-center justify-between">
-      <a href="/" class="font-semibold tracking-tight">alexandersumer.com</a>
+      <a href="/" class="font-semibold tracking-tight">{headerLabel}</a>
       <button
         type="button"
         class="text-sm px-3 py-1 border border-black/10 dark:border-white/10 rounded"
@@ -47,7 +50,7 @@ const resolvedOgImage = ogImage ? new URL(ogImage, site).toString() : undefined;
     </main>
 
     <footer class="max-w-3xl mx-auto px-4 py-12 text-sm opacity-70">
-      © {new Date().getFullYear()} Alexander Sumer. All rights reserved.
+      © {new Date().getFullYear()} {siteConfig.site.author}. All rights reserved.
     </footer>
 
     <script>
