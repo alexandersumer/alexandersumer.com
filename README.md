@@ -41,5 +41,5 @@ apps/blog/
 ## Notes
 
 - The build approves native installs for `esbuild` and `sharp` through `package.json → pnpm.onlyBuiltDependencies`.
-- Pagefind runs after every production build via `pnpm dlx pagefind`; search assets land in `dist/pagefind`.
+- Pagefind runs after every production build via `npx pagefind@1.4.0`; search assets land in `dist/pagefind`.
 - Comments are optional via Giscus—enable them by setting the `PUBLIC_GISCUS_*` variables.
