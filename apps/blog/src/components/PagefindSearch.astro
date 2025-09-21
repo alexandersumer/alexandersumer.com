@@ -1,5 +1,5 @@
 ---
-import PagefindSearchIsland from "./PagefindSearchIsland.astro";
+import PagefindSearchIsland from "./PagefindSearchIsland";
 import type { PagefindConfig } from "../config/integrations";
 
 interface Props {
@@ -8,16 +8,19 @@ interface Props {
 
 const { config }: Props = Astro.props;
 const assetPath = config.assetPath.replace(/\/$/, "");
+const placeholder = config.translations.placeholder;
 ---
 
 {
   config.enabled && (
     <astro-fragment>
       <div class="my-10 not-prose">
+        <div id="pagefind-search" />
         <PagefindSearchIsland
           client:idle
           assetPath={assetPath}
-          placeholder={config.translations.placeholder}
+          placeholder={placeholder}
+          targetSelector="#pagefind-search"
         />
       </div>
       <link rel="stylesheet" href={`${assetPath}/pagefind-ui.css`} />

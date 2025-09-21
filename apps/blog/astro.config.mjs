@@ -1,5 +1,6 @@
 import { defineConfig, envField } from "astro/config";
 import mdx from "@astrojs/mdx";
+import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 import site from "./site.config.json" assert { type: "json" };
@@ -7,7 +8,12 @@ import site from "./site.config.json" assert { type: "json" };
 export default defineConfig({
   site: site.site.baseUrl,
   output: "static",
-  integrations: [mdx(), tailwind({ applyBaseStyles: false }), sitemap()],
+  integrations: [
+    mdx(),
+    react(),
+    tailwind({ applyBaseStyles: false }),
+    sitemap(),
+  ],
   env: {
     schema: {
       PUBLIC_SITE_URL: envField.string({
