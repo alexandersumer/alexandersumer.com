@@ -7,11 +7,11 @@ const {
   site: { name: siteName },
 } = siteConfig;
 
-export const onRequest = vercelOGPagesPlugin<{ ogTitle: string }>({
-  imagePathSuffix: "/social-image.png",
-  component: ({ ogTitle }) => (
-    <div
-      style={{
+const ogComponent: React.FC<{ ogTitle: string }> = ({ ogTitle }) =>
+  React.createElement(
+    "div",
+    {
+      style: {
         height: "100%",
         width: "100%",
         display: "flex",
@@ -23,38 +23,45 @@ export const onRequest = vercelOGPagesPlugin<{ ogTitle: string }>({
         padding: "4rem",
         textAlign: "center",
         gap: "1.5rem",
-      }}
-    >
-      <span
-        style={{
+      },
+    },
+    React.createElement(
+      "span",
+      {
+        style: {
           fontSize: 24,
           letterSpacing: "0.3em",
           textTransform: "uppercase",
           opacity: 0.7,
-        }}
-      >
-        {siteName}
-      </span>
-      <span
-        style={{
+        },
+      },
+      siteName,
+    ),
+    React.createElement(
+      "span",
+      {
+        style: {
           fontSize: 64,
           fontWeight: 600,
           lineHeight: 1.1,
           maxWidth: "85%",
-        }}
-      >
-        {ogTitle}
-      </span>
-      <span
-        style={{
-          width: 120,
-          height: 4,
-          background: accentColor,
-          display: "inline-block",
-        }}
-      />
-    </div>
-  ),
+        },
+      },
+      ogTitle,
+    ),
+    React.createElement("span", {
+      style: {
+        width: 120,
+        height: 4,
+        background: accentColor,
+        display: "inline-block",
+      },
+    }),
+  );
+
+export const onRequest = vercelOGPagesPlugin<{ ogTitle: string }>({
+  imagePathSuffix: "/social-image.png",
+  component: ogComponent,
   extractors: {
     on: {
       'meta[property="og:title"]': (props) => ({
