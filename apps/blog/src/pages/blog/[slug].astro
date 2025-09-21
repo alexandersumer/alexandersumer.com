@@ -2,6 +2,13 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection, getEntryBySlug } from 'astro:content';
 
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+  }));
+}
+
 const { slug } = Astro.params;
 const entry = slug ? await getEntryBySlug('blog', slug) : undefined;
 if (!entry) {
