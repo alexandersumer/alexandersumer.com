@@ -1,18 +1,32 @@
 ---
-import { canonicalHref, siteConfig, absoluteUrl } from '../config/site';
-import '../styles/global.css';
+import { canonicalHref, siteConfig, absoluteUrl } from "../config/site";
+import ThemeToggle from "../components/ThemeToggle.astro";
+import "../styles/global.css";
 
 const {
   title = siteConfig.site.name,
   description = siteConfig.site.tagline,
   ogImage = siteConfig.site.defaultOgImage ?? undefined,
-  canonical = undefined
+  canonical = undefined,
 } = Astro.props;
 
 const canonicalUrl = canonicalHref(canonical);
 const resolvedOgImage = ogImage ? absoluteUrl(ogImage) : undefined;
 const headerLabel = siteConfig.branding.headerLabel;
+const themeInitScript = `(() => {
+  try {
+    const storageKey = 'theme';
+    const root = document.documentElement;
+    const stored = window.localStorage.getItem(storageKey);
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const mode = stored === 'dark' || stored === 'light' ? stored : prefersDark ? 'dark' : 'light';
+    root.classList.toggle('dark', mode === 'dark');
+  } catch (_) {
+    // Ignore
+  }
+})();`;
 ---
+
 <html lang="en" class="scroll-smooth">
   <head>
     <meta charset="utf-8" />
@@ -32,17 +46,18 @@ const headerLabel = siteConfig.branding.headerLabel;
     <meta name="twitter:description" content={description} />
     {resolvedOgImage && <meta name="twitter:image" content={resolvedOgImage} />}
     <slot name="head" />
+    <script is:inline>
+      {
+        themeInitScript;
+      }
+    </script>
   </head>
   <body class="bg-[oklch(var(--bg))] text-[oklch(var(--fg))]">
-    <header class="max-w-3xl mx-auto px-4 py-8 flex items-center justify-between">
+    <header
+      class="max-w-3xl mx-auto px-4 py-8 flex items-center justify-between"
+    >
       <a href="/" class="font-semibold tracking-tight">{headerLabel}</a>
-      <button
-        type="button"
-        class="text-sm px-3 py-1 border border-black/10 dark:border-white/10 rounded"
-        data-theme-toggle
-      >
-        Toggle theme
-      </button>
+      <ThemeToggle />
     </header>
 
     <main class="max-w-3xl mx-auto px-4">
@@ -50,28 +65,8 @@ const headerLabel = siteConfig.branding.headerLabel;
     </main>
 
     <footer class="max-w-3xl mx-auto px-4 py-12 text-sm opacity-70">
-      © {new Date().getFullYear()} {siteConfig.site.author}. All rights reserved.
+      © {new Date().getFullYear()}
+      {siteConfig.site.author}. All rights reserved.
     </footer>
-
-    <script>
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-      const stored = localStorage.getItem('theme');
-      const root = document.documentElement;
-      const apply = (mode) => {
-        if (mode === 'dark') {
-          root.classList.add('dark');
-        } else {
-          root.classList.remove('dark');
-        }
-        localStorage.setItem('theme', mode);
-      };
-      if (stored === 'dark' || (!stored && prefersDark.matches)) {
-        root.classList.add('dark');
-      }
-      document.querySelector('[data-theme-toggle]')?.addEventListener('click', () => {
-        const next = root.classList.contains('dark') ? 'light' : 'dark';
-        apply(next);
-      });
-    </script>
   </body>
 </html>

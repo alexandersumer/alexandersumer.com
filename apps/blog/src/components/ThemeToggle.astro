@@ -1,0 +1,75 @@
+<button
+  type="button"
+  class="text-sm px-3 py-1 border border-black/10 dark:border-white/10 rounded"
+  data-theme-toggle
+  aria-pressed="false"
+>
+  Toggle theme
+</button>
+<script is:inline>
+  (() => {
+    const STORAGE_KEY = "theme";
+    const root = document.documentElement;
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+    const readStored = () => {
+      try {
+        const value = window.localStorage.getItem(STORAGE_KEY);
+        return value === "dark" || value === "light" ? value : null;
+      } catch (error) {
+        return null;
+      }
+    };
+
+    const writeStored = (value) => {
+      try {
+        window.localStorage.setItem(STORAGE_KEY, value);
+      } catch (error) {
+        // ignore storage issues
+      }
+    };
+
+    const apply = (mode, button) => {
+      root.classList.toggle("dark", mode === "dark");
+      button.setAttribute("aria-pressed", mode === "dark" ? "true" : "false");
+    };
+
+    const initialize = () => {
+      const button = document.querySelector("[data-theme-toggle]");
+      if (!button) {
+        return;
+      }
+
+      let current = readStored() ?? (mediaQuery.matches ? "dark" : "light");
+      apply(current, button);
+      writeStored(current);
+
+      const handlePreferenceChange = (event) => {
+        const stored = readStored();
+        if (stored) {
+          return;
+        }
+        current = event.matches ? "dark" : "light";
+        apply(current, button);
+      };
+
+      if (typeof mediaQuery.addEventListener === "function") {
+        mediaQuery.addEventListener("change", handlePreferenceChange);
+      } else if (typeof mediaQuery.addListener === "function") {
+        mediaQuery.addListener(handlePreferenceChange);
+      }
+
+      button.addEventListener("click", () => {
+        current = current === "dark" ? "light" : "dark";
+        apply(current, button);
+        writeStored(current);
+      });
+    };
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initialize, { once: true });
+    } else {
+      initialize();
+    }
+  })();
+</script>

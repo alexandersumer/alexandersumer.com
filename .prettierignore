@@ -1,0 +1,5 @@
+node_modules
+apps/blog/.astro
+apps/blog/dist
+apps/blog/playwright-report
+apps/blog/test-results

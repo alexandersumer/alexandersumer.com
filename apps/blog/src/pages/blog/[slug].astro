@@ -1,8 +1,12 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { integrations } from '../../config/integrations';
-import { siteConfig } from '../../config/site';
-import { getAdjacentPosts, getPostBySlug, getPublishedPosts } from '../../lib/posts';
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { integrations } from "../../config/integrations";
+import { siteConfig } from "../../config/site";
+import {
+  getAdjacentPosts,
+  getPostBySlug,
+  getPublishedPosts,
+} from "../../domain/posts";
 
 export async function getStaticPaths() {
   const posts = await getPublishedPosts();
@@ -13,15 +17,16 @@ export async function getStaticPaths() {
 
 const { slug } = Astro.params;
 if (!slug) {
-  throw new Error('Missing blog slug parameter');
+  throw new Error("Missing blog slug parameter");
 }
 
 const posts = await getPublishedPosts();
-const entry = await getPostBySlug(slug);
-const { previous, next } = await getAdjacentPosts(entry.slug, posts);
-const { Content } = await entry.render();
-const { data } = entry;
-const ogImage = `/blog/${entry.slug}/social-image.png`;
+const post = await getPostBySlug(slug);
+const { previous, next } = await getAdjacentPosts(post.slug, posts);
+const { Content } = await post.render();
+const { data } = post;
+const { computed } = post;
+const ogImage = computed.ogImage.path;
 const { giscus } = integrations;
 const giscusAttributes = giscus.enabled
   ? {
@@ -37,58 +42,75 @@ const giscusAttributes = giscus.enabled
     }
   : null;
 ---
+
 <BaseLayout
   title={`${data.title} – ${siteConfig.site.name}`}
   description={data.description}
   ogImage={ogImage}
-  canonical={`/blog/${entry.slug}/`}
+  canonical={computed.permalink}
 >
   <article class="prose dark:prose-invert">
-    <p class="text-sm opacity-70">{data.pubDate.toLocaleDateString()}</p>
+    <p class="text-sm opacity-70">
+      {computed.publishedDisplay}
+      <span aria-hidden="true"> · </span>
+      <span>{computed.readingTime.text}</span>
+    </p>
     <h1>{data.title}</h1>
-    {data.updatedDate && (
-      <p class="text-xs opacity-60">Updated {data.updatedDate.toLocaleDateString()}</p>
-    )}
-    {data.tags.length > 0 && (
-      <p class="text-sm opacity-70">Tags: {data.tags.join(', ')}</p>
-    )}
+    {
+      computed.updatedDisplay && (
+        <p class="text-xs opacity-60">Updated {computed.updatedDisplay}</p>
+      )
+    }
+    {
+      data.tags.length > 0 && (
+        <p class="text-sm opacity-70">Tags: {data.tags.join(", ")}</p>
+      )
+    }
     <Content />
   </article>
 
   <nav class="mt-12 flex flex-col gap-4 not-prose">
-    {previous && (
-      <a class="text-sm" href={`/blog/${previous.slug}/`}>
-        ← Previous: {previous.data.title}
-      </a>
-    )}
-    {next && (
-      <a class="text-sm" href={`/blog/${next.slug}/`}>
-        Next: {next.data.title} →
-      </a>
-    )}
+    {
+      previous && (
+        <a class="text-sm" href={previous.computed.permalink}>
+          ← Previous: {previous.data.title}
+        </a>
+      )
+    }
+    {
+      next && (
+        <a class="text-sm" href={next.computed.permalink}>
+          Next: {next.data.title} →
+        </a>
+      )
+    }
   </nav>
 
   <section class="mt-12 not-prose">
-    {giscusAttributes ? (
-      <astro-fragment>
-        <script
-          src="https://giscus.app/client.js"
-          data-repo={giscusAttributes.repo}
-          data-repo-id={giscusAttributes.repoId}
-          data-category={giscusAttributes.category}
-          data-category-id={giscusAttributes.categoryId}
-          data-mapping={giscusAttributes.mapping}
-          data-reactions-enabled={giscusAttributes.reactionsEnabled}
-          data-emit-metadata={giscusAttributes.emitMetadata}
-          data-theme={giscusAttributes.theme}
-          data-lang={giscusAttributes.lang}
-          crossorigin="anonymous"
-          async
-        ></script>
-        <div class="giscus" />
-      </astro-fragment>
-    ) : (
-      <p class="text-sm opacity-70">Comments are disabled for this environment.</p>
-    )}
+    {
+      giscusAttributes ? (
+        <astro-fragment>
+          <script
+            src="https://giscus.app/client.js"
+            data-repo={giscusAttributes.repo}
+            data-repo-id={giscusAttributes.repoId}
+            data-category={giscusAttributes.category}
+            data-category-id={giscusAttributes.categoryId}
+            data-mapping={giscusAttributes.mapping}
+            data-reactions-enabled={giscusAttributes.reactionsEnabled}
+            data-emit-metadata={giscusAttributes.emitMetadata}
+            data-theme={giscusAttributes.theme}
+            data-lang={giscusAttributes.lang}
+            crossorigin="anonymous"
+            async
+          />
+          <div class="giscus" />
+        </astro-fragment>
+      ) : (
+        <p class="text-sm opacity-70">
+          Comments are disabled for this environment.
+        </p>
+      )
+    }
   </section>
 </BaseLayout>

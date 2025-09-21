@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ "${SKIP_PRECOMMIT:-0}" == "1" ]]; then
+  echo "[pre-commit] SKIP_PRECOMMIT=1, skipping checks."
+  exit 0
+fi
+
+if ! command -v pnpm >/dev/null 2>&1; then
+  echo "[pre-commit] pnpm is required for repository checks." >&2
+  exit 1
+fi
+
+run() {
+  echo "[pre-commit] $1"
+  shift
+  "$@"
+}
+
+run "Prettier format check" pnpm exec prettier --plugin=prettier-plugin-astro --check .
+
+if [[ -d node_modules/@astrojs/check || -d apps/blog/node_modules/@astrojs/check ]]; then
+  run "Astro lint" pnpm --filter alexander-blog run lint
+else
+  echo "[pre-commit] Skipping astro check: @astrojs/check not installed."
+fi
+
+run "Vitest" pnpm --filter alexander-blog run test:unit
+run "Playwright" pnpm --filter alexander-blog run test:e2e

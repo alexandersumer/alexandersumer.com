@@ -1,13 +1,14 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import PagefindSearch from '../../components/PagefindSearch.astro';
-import { integrations } from '../../config/integrations';
-import { siteConfig } from '../../config/site';
-import { getPublishedPosts } from '../../lib/posts';
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PagefindSearch from "../../components/PagefindSearch.astro";
+import { integrations } from "../../config/integrations";
+import { siteConfig } from "../../config/site";
+import { getPublishedPosts } from "../../domain/posts";
 
 const posts = await getPublishedPosts();
 const { pagefind } = integrations;
 ---
+
 <BaseLayout
   title={`Blog – ${siteConfig.site.name}`}
   description={siteConfig.site.tagline}
@@ -18,23 +19,30 @@ const { pagefind } = integrations;
     <p>Browse every post by Alexander Sumer.</p>
   </section>
 
-  {pagefind.enabled && posts.length >= pagefind.minItems && <PagefindSearch config={pagefind} />}
+  {
+    pagefind.enabled && posts.length >= pagefind.minItems && (
+      <PagefindSearch config={pagefind} />
+    )
+  }
 
   <ul class="divide-y divide-black/10 dark:divide-white/10 not-prose">
-    {posts.map(({ slug, data }) => (
-      <li class="py-6">
-        <a href={`/blog/${slug}/`} class="text-xl font-semibold text-[oklch(var(--fg))] hover:underline">
-          {data.title}
-        </a>
-        <div class="text-sm opacity-70">
-          {data.pubDate.toLocaleDateString(undefined, {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric'
-          })}
-        </div>
-        <p class="mt-2 opacity-80">{data.description}</p>
-      </li>
-    ))}
+    {
+      posts.map((post) => (
+        <li class="py-6">
+          <a
+            href={post.computed.permalink}
+            class="text-xl font-semibold text-[oklch(var(--fg))] hover:underline"
+          >
+            {post.data.title}
+          </a>
+          <div class="text-sm opacity-70">
+            {post.computed.publishedDisplay}
+            <span aria-hidden="true"> · </span>
+            <span>{post.computed.readingTime.text}</span>
+          </div>
+          <p class="mt-2 opacity-80">{post.data.description}</p>
+        </li>
+      ))
+    }
   </ul>
 </BaseLayout>
