@@ -4,7 +4,7 @@
   "type": "module",
   "packageManager": "pnpm@10.17.0",
   "scripts": {
-    "build": "pnpm -C apps/blog build",
+    "build": "node ./build.js",
     "dev": "pnpm -C apps/blog dev",
     "lint": "pnpm -r lint",
     "test": "pnpm -C apps/blog test"
