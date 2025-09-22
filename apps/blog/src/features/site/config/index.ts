@@ -1,18 +1,75 @@
 import siteConfigJson from "../../../../site.config.json";
-import {
-  PUBLIC_SITE_URL,
-  PUBLIC_ENABLE_PAGEFIND,
-  PUBLIC_PAGEFIND_MIN_ITEMS,
-  PUBLIC_PAGEFIND_PLACEHOLDER,
-  PUBLIC_ENABLE_GISCUS,
-  PUBLIC_GISCUS_REPO,
-  PUBLIC_GISCUS_REPO_ID,
-  PUBLIC_GISCUS_CATEGORY,
-  PUBLIC_GISCUS_CATEGORY_ID,
-  PUBLIC_OG_BACKGROUND,
-  PUBLIC_OG_FOREGROUND,
-  PUBLIC_OG_ACCENT,
-} from "astro:env/client";
+
+type MaybeEnvValue = string | number | boolean | undefined;
+
+type RuntimeEnv = Record<string, MaybeEnvValue>;
+
+const readImportMetaEnv = (): RuntimeEnv => {
+  try {
+    const meta = import.meta as { env?: RuntimeEnv };
+    return meta.env ?? {};
+  } catch {
+    return {};
+  }
+};
+
+const processEnv = (() => {
+  if (typeof process === "undefined") {
+    return {} as RuntimeEnv;
+  }
+  return process.env as RuntimeEnv;
+})();
+
+const runtimeEnv: RuntimeEnv = {
+  ...processEnv,
+  ...readImportMetaEnv(),
+};
+
+const coerceBoolean = (value: MaybeEnvValue): boolean | undefined => {
+  if (typeof value === "boolean") {
+    return value;
+  }
+  if (typeof value === "string") {
+    const normalized = value.trim().toLowerCase();
+    if (["true", "1", "yes", "on", "prod", "production"].includes(normalized)) {
+      return true;
+    }
+    if (
+      ["false", "0", "no", "off", "dev", "development", "test"].includes(
+        normalized,
+      )
+    ) {
+      return false;
+    }
+  }
+  return undefined;
+};
+
+const coerceNumber = (value: MaybeEnvValue): number | undefined => {
+  if (typeof value === "number") {
+    return Number.isFinite(value) ? value : undefined;
+  }
+  if (typeof value === "string") {
+    const trimmed = value.trim();
+    if (!trimmed) {
+      return undefined;
+    }
+    const parsed = Number.parseInt(trimmed, 10);
+    return Number.isNaN(parsed) ? undefined : parsed;
+  }
+  return undefined;
+};
+
+const coerceString = (value: MaybeEnvValue): string | undefined => {
+  if (typeof value === "string") {
+    const trimmed = value.trim();
+    return trimmed.length > 0 ? trimmed : undefined;
+  }
+  if (typeof value === "number" || typeof value === "boolean") {
+    return String(value);
+  }
+  return undefined;
+};
 
 export interface SiteMetadata {
   name: string;
@@ -84,37 +141,51 @@ const normalizeBaseUrl = (maybeUrl: string) => {
 };
 
 const resolvedBaseUrl = (() => {
-  const provided = PUBLIC_SITE_URL ?? siteConfigJson.site.baseUrl;
-  return normalizeBaseUrl(provided);
+  const provided =
+    coerceString(runtimeEnv.PUBLIC_SITE_URL) ?? siteConfigJson.site.baseUrl;
+  try {
+    return normalizeBaseUrl(provided);
+  } catch (error) {
+    throw new Error(`Invalid site base URL provided: ${provided}`);
+  }
 })();
 
-const defaultPagefindEnabled =
-  typeof PUBLIC_ENABLE_PAGEFIND === "boolean"
-    ? PUBLIC_ENABLE_PAGEFIND
-    : import.meta.env.PROD;
+const defaultProdFlag =
+  coerceBoolean(runtimeEnv.PROD) ?? coerceBoolean(runtimeEnv.NODE_ENV) ?? false;
+
+const resolvedPagefindEnabled = () => {
+  const explicit = coerceBoolean(runtimeEnv.PUBLIC_ENABLE_PAGEFIND);
+  if (typeof explicit === "boolean") {
+    return explicit;
+  }
+  return defaultProdFlag;
+};
 
 const pagefind: PagefindConfig = {
-  enabled: defaultPagefindEnabled,
-  minItems: PUBLIC_PAGEFIND_MIN_ITEMS ?? 1,
+  enabled: resolvedPagefindEnabled(),
+  minItems: coerceNumber(runtimeEnv.PUBLIC_PAGEFIND_MIN_ITEMS) ?? 1,
   assetPath: "/pagefind",
   translations: {
-    placeholder: PUBLIC_PAGEFIND_PLACEHOLDER ?? "Search posts",
+    placeholder:
+      coerceString(runtimeEnv.PUBLIC_PAGEFIND_PLACEHOLDER) ?? "Search posts",
   },
 };
 
 const hasGiscusConfig = Boolean(
-  PUBLIC_GISCUS_REPO &&
-    PUBLIC_GISCUS_REPO_ID &&
-    PUBLIC_GISCUS_CATEGORY &&
-    PUBLIC_GISCUS_CATEGORY_ID,
+  coerceString(runtimeEnv.PUBLIC_GISCUS_REPO) &&
+    coerceString(runtimeEnv.PUBLIC_GISCUS_REPO_ID) &&
+    coerceString(runtimeEnv.PUBLIC_GISCUS_CATEGORY) &&
+    coerceString(runtimeEnv.PUBLIC_GISCUS_CATEGORY_ID),
 );
 
 const giscus: GiscusConfig = {
-  enabled: Boolean(PUBLIC_ENABLE_GISCUS && hasGiscusConfig),
-  repo: PUBLIC_GISCUS_REPO,
-  repoId: PUBLIC_GISCUS_REPO_ID,
-  category: PUBLIC_GISCUS_CATEGORY,
-  categoryId: PUBLIC_GISCUS_CATEGORY_ID,
+  enabled: Boolean(
+    coerceBoolean(runtimeEnv.PUBLIC_ENABLE_GISCUS) && hasGiscusConfig,
+  ),
+  repo: coerceString(runtimeEnv.PUBLIC_GISCUS_REPO),
+  repoId: coerceString(runtimeEnv.PUBLIC_GISCUS_REPO_ID),
+  category: coerceString(runtimeEnv.PUBLIC_GISCUS_CATEGORY),
+  categoryId: coerceString(runtimeEnv.PUBLIC_GISCUS_CATEGORY_ID),
   mapping: "pathname",
   reactionsEnabled: "1",
   emitMetadata: "0",
@@ -123,9 +194,15 @@ const giscus: GiscusConfig = {
 };
 
 const ogImage: OgImageConfig = {
-  background: PUBLIC_OG_BACKGROUND ?? siteConfigJson.branding.ogBackground,
-  foreground: PUBLIC_OG_FOREGROUND ?? siteConfigJson.branding.ogForeground,
-  accent: PUBLIC_OG_ACCENT ?? siteConfigJson.branding.accentColor,
+  background:
+    coerceString(runtimeEnv.PUBLIC_OG_BACKGROUND) ??
+    siteConfigJson.branding.ogBackground,
+  foreground:
+    coerceString(runtimeEnv.PUBLIC_OG_FOREGROUND) ??
+    siteConfigJson.branding.ogForeground,
+  accent:
+    coerceString(runtimeEnv.PUBLIC_OG_ACCENT) ??
+    siteConfigJson.branding.accentColor,
   fallbackTitle: siteConfigJson.site.name,
 };
 
