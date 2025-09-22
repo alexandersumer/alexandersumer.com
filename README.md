@@ -1,80 +1,64 @@
 # alexandersumer.com
 
-This monorepo hosts the Astro application that powers alexandersumer.com. The site is a static export deployed to Cloudflare Pages with Pagefind search assets and optional Giscus comments.
+Static site for alexandersumer.com. The Astro app lives in `apps/blog`, deploys to Cloudflare Pages, and ships with Pagefind search plus optional Giscus comments.
 
 ## Prerequisites
 
-- Node.js 20.10+
-- [corepack](https://nodejs.org/api/corepack.html) enabled (ships with Node ≥16.13)
-- `pnpm@10.17.0` (managed automatically by corepack)
+- Node.js 20+
+- [corepack](https://nodejs.org/api/corepack.html) enabled
+- `pnpm@10.17.0` (corepack installs it automatically)
 
 ## Quick start
 
 ```sh
 corepack pnpm install
-corepack pnpm dev # http://localhost:4321
+corepack pnpm --filter alexander-blog dev  # http://localhost:4321
 ```
 
-## Key scripts
+## Useful scripts
 
-- `corepack pnpm dev` – Astro development server with live reload.
-- `corepack pnpm build` – Production build followed by `pagefind` indexing (outputs to `apps/blog/dist`).
-- `corepack pnpm test` – Runs Vitest unit tests and Playwright E2E suites.
-- `corepack pnpm lint` – Wraps `astro check`; ensure `@astrojs/check` is present in `node_modules` before running.
+- `corepack pnpm --filter alexander-blog dev` – Astro dev server with HMR.
+- `corepack pnpm --filter alexander-blog build` – Static build + Pagefind index in `apps/blog/dist`.
+- `corepack pnpm --filter alexander-blog test:unit` – Vitest unit suite.
+- `corepack pnpm --filter alexander-blog test:e2e` – Playwright smoke tests.
+- `corepack pnpm --filter alexander-blog lint` – Runs `astro check` (install `@astrojs/check` locally when prompted).
 
-## Project layout
+## Source layout (apps/blog)
 
 ```
-apps/blog/
-  astro.config.mjs      # Astro project configuration with env schema
-  package.json
-  src/
-    config/             # Env-aware site + integration configuration (see app.ts)
-    domain/posts/       # Content-domain helpers (collection access, metadata, feeds)
-    components/         # UI primitives (ThemeToggle, PagefindSearch, layouts)
-    layouts/, pages/, … # Astro routes and shared structure
-  functions/            # Cloudflare Pages functions (OG image middleware)
-  tests/                # Playwright E2E suites
-  test/unit/            # Vitest unit tests
+src/
+  features/
+    site/        # Layout shell, theming, config helpers, OG middleware support
+    blog/        # Blog data access, computed metadata, Pagefind UI
+  content/      # Astro content collections (blog posts + transforms)
+  pages/        # Astro routes
+  styles/       # Global CSS
+functions/      # Cloudflare Pages Functions (OG image generation)
+test/           # Vitest setup + unit suites
+tests/          # Playwright end-to-end specs
 ```
 
-### Architecture highlights
+## Configuration notes
 
-- `src/config/app.ts` owns env validation (zod + Astro schema), exposing typed config consumed via `config/site.ts` and `config/integrations.ts`.
-- `src/domain/posts` centralises content operations (collection access, sorting, adjacent lookups, reading time, canonical + OG data) so routes, feeds, and middleware share one model.
-- Client interactions run through focused components: `ThemeToggle.astro` persists the current theme, and `PagefindSearch.astro` delegates to `PagefindSearchIsland.astro` to lazy-load search assets.
+- Environment overrides are read from `import.meta.env` or `process.env`. Set `PUBLIC_SITE_URL`, `PUBLIC_ENABLE_PAGEFIND`, and the `PUBLIC_GISCUS_*` keys to mirror production behaviour.
+- Blog frontmatter enriches each entry with computed display dates during `astro sync`, so collection consumers (`features/blog/api/posts.ts`) receive ready-to-render metadata.
 
 ## Testing
 
 ```sh
-corepack pnpm --filter alexander-blog run test:unit # Vitest suite
-corepack pnpm --filter alexander-blog run test:e2e  # Playwright (spawns dev server)
+corepack pnpm --filter alexander-blog test:unit
+corepack pnpm --filter alexander-blog test:e2e
 ```
 
-E2E runs start the Astro dev server on `127.0.0.1:4321` and execute the Chromium project defined in `playwright.config.ts`.
+Playwright starts Astro on `127.0.0.1:4321` and runs the Chromium project defined in `playwright.config.ts`.
 
-## Git hooks
+## Deploying
 
-Repo-managed hooks live in `.git-hooks/`. Point Git at them with:
-
-```sh
-git config core.hooksPath .git-hooks
-```
-
-The `pre-commit` hook runs Prettier checks, Astro lint (when `@astrojs/check` is available locally), and both unit and E2E test suites. Set `SKIP_PRECOMMIT=1` to skip the hook for a given commit.
-
-## Build & deploy
-
-Deploy to Cloudflare Pages using:
+Cloudflare Pages command:
 
 ```
-corepack pnpm install --frozen-lockfile && corepack pnpm build
+corepack pnpm install --frozen-lockfile
+corepack pnpm --filter alexander-blog build
 ```
 
-Configure Pages to serve the `apps/blog/dist` output directory. The runtime will automatically use `apps/blog/functions` for the OG image middleware.
-
-## Additional notes
-
-- `pagefind@1.4.0` runs after every production build; assets land in `dist/pagefind`.
-- `pnpm.onlyBuiltDependencies` permits native installs for `esbuild` and `sharp` during the build pipeline.
-- Giscus comments remain optional—enable via the `PUBLIC_GISCUS_*` environment variables.
+Publish the `apps/blog/dist` directory and include `apps/blog/functions` for the OG image middleware. Pagefind assets are generated at `dist/pagefind` as part of the build.
