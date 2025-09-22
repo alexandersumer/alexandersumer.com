@@ -13,18 +13,6 @@ const {
 const canonicalUrl = canonicalHref(canonical);
 const resolvedOgImage = ogImage ? absoluteUrl(ogImage) : undefined;
 const headerLabel = siteConfig.branding.headerLabel;
-const themeInitScript = `(() => {
-  try {
-    const storageKey = 'theme';
-    const root = document.documentElement;
-    const stored = window.localStorage.getItem(storageKey);
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const mode = stored === 'dark' || stored === 'light' ? stored : prefersDark ? 'dark' : 'light';
-    root.classList.toggle('dark', mode === 'dark');
-  } catch (_) {
-    // Ignore
-  }
-})();`;
 ---
 
 <html lang="en" class="scroll-smooth">
@@ -48,7 +36,18 @@ const themeInitScript = `(() => {
     <slot name="head" />
     <script is:inline>
       {
-        themeInitScript;
+        `(() => {
+  try {
+    const storageKey = 'theme';
+    const root = document.documentElement;
+    const stored = window.localStorage.getItem(storageKey);
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const mode = stored === 'dark' || stored === 'light' ? stored : prefersDark ? 'dark' : 'light';
+    root.classList.toggle('dark', mode === 'dark');
+  } catch (_) {
+    // Ignore
+  }
+})();`;
       }
     </script>
   </head>

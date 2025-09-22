@@ -55,8 +55,6 @@
 
       if (typeof mediaQuery.addEventListener === "function") {
         mediaQuery.addEventListener("change", handlePreferenceChange);
-      } else if (typeof mediaQuery.addListener === "function") {
-        mediaQuery.addListener(handlePreferenceChange);
       }
 
       button.addEventListener("click", () => {

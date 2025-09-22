@@ -21,6 +21,7 @@ corepack pnpm --filter alexander-blog dev  # http://localhost:4321
 - `corepack pnpm --filter alexander-blog build` – Static build + Pagefind index in `apps/blog/dist`.
 - `corepack pnpm --filter alexander-blog test:unit` – Vitest unit suite.
 - `corepack pnpm --filter alexander-blog test:e2e` – Playwright smoke tests.
+- `corepack pnpm --filter alexander-blog test:functions` – Bundles Cloudflare Pages Functions via Wrangler.
 - `corepack pnpm --filter alexander-blog lint` – Runs `astro check`.
 
 ## Source layout (apps/blog)
@@ -49,6 +50,7 @@ tests/          # Playwright end-to-end specs
 ```sh
 corepack pnpm --filter alexander-blog test:unit
 corepack pnpm --filter alexander-blog test:e2e
+corepack pnpm --filter alexander-blog test:functions
 ```
 
 Playwright starts Astro on `127.0.0.1:4321` and runs the Chromium project defined in `playwright.config.ts`.

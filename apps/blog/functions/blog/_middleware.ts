@@ -1,6 +1,6 @@
 import React from "react";
 import vercelOGPagesPlugin from "@cloudflare/pages-plugin-vercel-og";
-import { siteConfig } from "../../src/features/site/config";
+import { siteConfig } from "../../src/features/site/config/worker";
 
 const {
   branding: { ogBackground, ogForeground, accentColor },

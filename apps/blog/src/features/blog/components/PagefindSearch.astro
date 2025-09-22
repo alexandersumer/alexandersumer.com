@@ -7,7 +7,6 @@ interface Props {
 
 const { config }: Props = Astro.props;
 const assetPath = config.assetPath.replace(/\/$/, "");
-const placeholder = config.translations.placeholder;
 const targetId = "pagefind-search";
 ---
 
@@ -21,7 +20,7 @@ const targetId = "pagefind-search";
       <script type="module" is:inline>
         {`(() => {
   const assetPath = ${JSON.stringify(assetPath)};
-  const placeholder = ${JSON.stringify(placeholder)};
+  const placeholder = ${JSON.stringify(config.translations.placeholder)};
   const targetSelector = ${JSON.stringify(`#${targetId}`)};
   let hasLoaded = false;
 

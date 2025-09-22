@@ -7,7 +7,7 @@
     "build": "pnpm --filter alexander-blog run build",
     "dev": "pnpm --filter alexander-blog run dev",
     "lint": "pnpm -r lint",
-    "test": "pnpm --filter alexander-blog run test"
+    "test": "pnpm --filter alexander-blog run test && pnpm --filter alexander-blog run test:functions"
   },
   "engines": {
     "node": ">=20.10.0"
