@@ -64,8 +64,8 @@ export const onRequest = vercelOGPagesPlugin<{ ogTitle: string }>({
   component: ogComponent,
   extractors: {
     on: {
-      'meta[property="og:title"]': (props) => ({
-        element(element) {
+      'meta[property="og:title"]': (props: { ogTitle: string }) => ({
+        element(element: Element) {
           props.ogTitle = element.getAttribute("content") || siteName;
         },
       }),

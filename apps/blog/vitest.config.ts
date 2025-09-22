@@ -1,4 +1,5 @@
 import { defineConfig } from "vitest/config";
+import { fileURLToPath } from "node:url";
 
 export default defineConfig({
   test: {
@@ -17,6 +18,13 @@ export default defineConfig({
         functions: 90,
         lines: 90,
       },
+    },
+  },
+  resolve: {
+    alias: {
+      "astro:env/client": fileURLToPath(
+        new URL("./test/stubs/astro-env-client.ts", import.meta.url),
+      ),
     },
   },
 });

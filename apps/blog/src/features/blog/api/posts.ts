@@ -1,8 +1,4 @@
-import {
-  getCollection,
-  getEntryBySlug,
-  type CollectionEntry,
-} from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
 import { absoluteUrl } from "../../site/config";
 
 export type BlogEntry = CollectionEntry<"blog">;
@@ -39,23 +35,12 @@ export interface PostComputed {
 
 export type Post = BlogEntry & { computed: PostComputed };
 
-type BlogFrontmatter = BlogEntry["data"] & {
-  computedDates: {
-    published: string;
-    updated?: string;
-  };
-};
-
-const getComputedDates = (entry: BlogEntry) =>
-  (entry.data as BlogFrontmatter).computedDates;
-
 const createPostComputed = (entry: BlogEntry): PostComputed => {
   const permalink = `${BLOG_BASE_PATH}/${entry.slug}/`;
   const canonicalUrl = absoluteUrl(permalink);
   const ogImagePath = `${permalink}${OG_IMAGE_SUFFIX}`;
   const words = countWords(entry.body ?? "");
   const minutes = Math.max(1, Math.round(words / WORDS_PER_MINUTE));
-  const { published, updated } = getComputedDates(entry);
 
   return {
     permalink,
@@ -69,56 +54,40 @@ const createPostComputed = (entry: BlogEntry): PostComputed => {
       words,
       text: `${minutes} min read`,
     },
-    publishedDisplay: published,
-    updatedDisplay: updated,
+    publishedDisplay: entry.data.publishedDisplay,
+    updatedDisplay: entry.data.updatedDisplay,
   };
 };
 
-const withComputed = (entry: BlogEntry): Post => ({
+const toPost = (entry: BlogEntry): Post => ({
   ...entry,
   computed: createPostComputed(entry),
 });
 
-const clonePost = (post: Post): Post => ({
-  ...post,
-  data: { ...post.data },
-  computed: {
-    ...post.computed,
-    ogImage: { ...post.computed.ogImage },
-    readingTime: { ...post.computed.readingTime },
-  },
-});
+export const getPublishedPosts = async (): Promise<Post[]> => {
+  const entries = await getCollection("blog", ({ data }) => !data.draft);
+  return entries.sort(byPublishedDateDesc).map(toPost);
+};
 
-let publishedPostsCache: Post[] | undefined;
-
-const ensurePublishedPostsCache = async (): Promise<Post[]> => {
-  if (publishedPostsCache) {
-    return publishedPostsCache;
+export const getPostBySlug = async (
+  slug: string,
+  posts?: Post[],
+): Promise<Post> => {
+  const collection = posts ?? (await getPublishedPosts());
+  const publishedMatch = collection.find((post) => post.slug === slug);
+  if (publishedMatch) {
+    return publishedMatch;
   }
 
-  const entries = await getCollection("blog", ({ data }) => !data.draft);
-  const posts = entries.sort(byPublishedDateDesc).map(withComputed);
-  publishedPostsCache = posts;
-  return posts;
-};
-
-export const getPublishedPosts = async (): Promise<Post[]> => {
-  const posts = await ensurePublishedPostsCache();
-  return posts.map(clonePost);
-};
-
-export const getPostBySlug = async (slug: string): Promise<Post> => {
-  const entry = await getEntryBySlug("blog", slug);
+  const allEntries = await getCollection("blog");
+  const entry = allEntries.find((candidate) => candidate.slug === slug);
   if (!entry) {
     throw new Error(`Post not found for slug: ${slug}`);
   }
   if (entry.data.draft) {
     throw new Error(`Post is marked as draft and cannot be rendered: ${slug}`);
   }
-
-  const posts = await ensurePublishedPostsCache();
-  const cached = posts.find((post) => post.slug === slug);
-  return cached ? clonePost(cached) : withComputed(entry);
+  return toPost(entry);
 };
 
 export interface AdjacentPosts {

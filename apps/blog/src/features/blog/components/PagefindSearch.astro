@@ -1,5 +1,4 @@
 ---
-import PagefindSearchIsland from "./PagefindSearchIsland";
 import type { PagefindConfig } from "../../site/config";
 
 interface Props {
@@ -9,21 +8,80 @@ interface Props {
 const { config }: Props = Astro.props;
 const assetPath = config.assetPath.replace(/\/$/, "");
 const placeholder = config.translations.placeholder;
+const targetId = "pagefind-search";
 ---
 
 {
   config.enabled && (
     <astro-fragment>
       <div class="my-10 not-prose">
-        <div id="pagefind-search" />
-        <PagefindSearchIsland
-          client:idle
-          assetPath={assetPath}
-          placeholder={placeholder}
-          targetSelector="#pagefind-search"
-        />
+        <div id={targetId} />
       </div>
       <link rel="stylesheet" href={`${assetPath}/pagefind-ui.css`} />
+      <script type="module" is:inline>
+        {`(() => {
+  const assetPath = ${JSON.stringify(assetPath)};
+  const placeholder = ${JSON.stringify(placeholder)};
+  const targetSelector = ${JSON.stringify(`#${targetId}`)};
+  let hasLoaded = false;
+
+  const load = async () => {
+    if (hasLoaded) {
+      return;
+    }
+    hasLoaded = true;
+    try {
+      const module = await import(assetPath + "/pagefind-ui.js");
+      const PagefindUI = module?.default;
+      if (typeof PagefindUI !== "function") {
+        throw new Error("PagefindUI export unavailable");
+      }
+      new PagefindUI({
+        element: targetSelector,
+        showImages: false,
+        showSubResults: true,
+        translations: { placeholder },
+      });
+    } catch (error) {
+      console.error("Failed to initialise Pagefind search", error);
+    }
+  };
+
+  const scheduleLoad = () => {
+    if ("requestIdleCallback" in window) {
+      window.requestIdleCallback?.(load);
+    } else {
+      window.setTimeout(load, 0);
+    }
+  };
+
+  const startWhenVisible = () => {
+    const target = document.querySelector(targetSelector);
+    if (!target) {
+      return;
+    }
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          observer.disconnect();
+          scheduleLoad();
+        }
+      });
+      observer.observe(target);
+      return;
+    }
+    scheduleLoad();
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", startWhenVisible, {
+      once: true,
+    });
+  } else {
+    startWhenVisible();
+  }
+})();`}
+      </script>
     </astro-fragment>
   )
 }

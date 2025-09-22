@@ -1,0 +1,96 @@
+---
+import type { GiscusConfig } from "../../site/config";
+
+interface Props {
+  config: GiscusConfig;
+}
+
+const { config }: Props = Astro.props;
+const containerId = "giscus-thread";
+const attributes = config.enabled
+  ? {
+      repo: config.repo!,
+      repoId: config.repoId!,
+      category: config.category!,
+      categoryId: config.categoryId!,
+      mapping: config.mapping,
+      reactionsEnabled: config.reactionsEnabled,
+      emitMetadata: config.emitMetadata,
+      theme: config.theme,
+      lang: config.lang,
+    }
+  : null;
+
+const script = attributes
+  ? `(() => {
+  const containerId = ${JSON.stringify(containerId)};
+  const attributes = ${JSON.stringify(attributes)};
+
+  const toDataAttribute = (key) =>
+    'data-' + key.replace(/[A-Z]/g, (segment) => '-' + segment.toLowerCase());
+
+  const hydrate = () => {
+    const host = document.getElementById(containerId);
+    if (!host || host.dataset.giscusLoaded === 'true') {
+      return;
+    }
+    host.dataset.giscusLoaded = 'true';
+    const script = document.createElement('script');
+    script.src = 'https://giscus.app/client.js';
+    script.async = true;
+    script.crossOrigin = 'anonymous';
+    Object.entries(attributes).forEach(([key, value]) => {
+      if (value == null) {
+        return;
+      }
+      script.setAttribute(toDataAttribute(key), String(value));
+    });
+    host.innerHTML = '';
+    host.append(script);
+  };
+
+  const loadWhenVisible = () => {
+    const host = document.getElementById(containerId);
+    if (!host) {
+      return;
+    }
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          observer.disconnect();
+          hydrate();
+        }
+      });
+      observer.observe(host);
+      return;
+    }
+    hydrate();
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadWhenVisible, { once: true });
+  } else {
+    loadWhenVisible();
+  }
+})();`
+  : null;
+---
+
+{
+  config.enabled && attributes && script ? (
+    <astro-fragment>
+      <div id={containerId} class="giscus" data-giscus-loaded="false">
+        <noscript>
+          Please enable JavaScript to view the comments powered by Giscus.
+        </noscript>
+      </div>
+      <script type="module" is:inline>
+        {script}
+      </script>
+    </astro-fragment>
+  ) : (
+    <p class="text-sm opacity-70">
+      Comments are disabled for this environment.
+    </p>
+  )
+}

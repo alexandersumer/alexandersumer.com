@@ -1,8 +1,9 @@
+import type { APIContext } from "astro";
 import rss from "@astrojs/rss";
 import { siteConfig } from "../features/site/config";
 import { getPublishedPosts, toFeedItems } from "../features/blog/api/posts";
 
-export async function GET(context) {
+export async function GET(context: APIContext) {
   const posts = await getPublishedPosts();
 
   return rss({

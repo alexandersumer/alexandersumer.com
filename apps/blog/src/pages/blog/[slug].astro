@@ -6,6 +6,7 @@ import {
   getPostBySlug,
   getPublishedPosts,
 } from "../../features/blog/api/posts";
+import GiscusComments from "../../features/blog/components/GiscusComments.astro";
 
 export async function getStaticPaths() {
   const posts = await getPublishedPosts();
@@ -20,26 +21,13 @@ if (!slug) {
 }
 
 const posts = await getPublishedPosts();
-const post = await getPostBySlug(slug);
+const post = await getPostBySlug(slug, posts);
 const { previous, next } = await getAdjacentPosts(post.slug, posts);
 const { Content } = await post.render();
 const { data } = post;
 const { computed } = post;
 const ogImage = computed.ogImage.path;
 const { giscus } = integrations;
-const giscusAttributes = giscus.enabled
-  ? {
-      repo: giscus.repo!,
-      repoId: giscus.repoId!,
-      category: giscus.category!,
-      categoryId: giscus.categoryId!,
-      mapping: giscus.mapping,
-      reactionsEnabled: giscus.reactionsEnabled,
-      emitMetadata: giscus.emitMetadata,
-      theme: giscus.theme,
-      lang: giscus.lang,
-    }
-  : null;
 ---
 
 <BaseLayout
@@ -86,30 +74,6 @@ const giscusAttributes = giscus.enabled
   </nav>
 
   <section class="mt-12 not-prose">
-    {
-      giscusAttributes ? (
-        <astro-fragment>
-          <script
-            src="https://giscus.app/client.js"
-            data-repo={giscusAttributes.repo}
-            data-repo-id={giscusAttributes.repoId}
-            data-category={giscusAttributes.category}
-            data-category-id={giscusAttributes.categoryId}
-            data-mapping={giscusAttributes.mapping}
-            data-reactions-enabled={giscusAttributes.reactionsEnabled}
-            data-emit-metadata={giscusAttributes.emitMetadata}
-            data-theme={giscusAttributes.theme}
-            data-lang={giscusAttributes.lang}
-            crossorigin="anonymous"
-            async
-          />
-          <div class="giscus" />
-        </astro-fragment>
-      ) : (
-        <p class="text-sm opacity-70">
-          Comments are disabled for this environment.
-        </p>
-      )
-    }
+    <GiscusComments config={giscus} />
   </section>
 </BaseLayout>

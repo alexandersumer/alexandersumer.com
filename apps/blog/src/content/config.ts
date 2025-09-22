@@ -16,10 +16,8 @@ const blog = defineCollection({
       })
       .transform((data) => ({
         ...data,
-        computedDates: {
-          published: formatDisplayDate(data.pubDate)!,
-          updated: formatDisplayDate(data.updatedDate),
-        },
+        publishedDisplay: formatDisplayDate(data.pubDate)!,
+        updatedDisplay: formatDisplayDate(data.updatedDate),
       })),
 });
 
