@@ -1,0 +1,43 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Extra elements to inject into <head> */
+  headExtra?: string;
+}
+
+const { title, description = 'Alexander Sumer — writing about what matters.' } = Astro.props;
+const fullTitle = title === 'Alexander Sumer' ? title : `${title} — Alexander Sumer`;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{fullTitle}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script is:inline>
+      (function() {
+        var s = localStorage.getItem('theme');
+        var t = s === 'dark' || s === 'light' ? s
+              : window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark'
+              : 'light';
+        document.documentElement.setAttribute('data-theme', t);
+      })();
+    </script>
+  </head>
+  <body>
+    <slot name="before-header" />
+    <Header />
+    <main class="site-main">
+      <slot />
+    </main>
+    <slot name="after-main" />
+    <Footer />
+  </body>
+</html>

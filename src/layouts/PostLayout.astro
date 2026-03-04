@@ -1,0 +1,29 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import ReadingProgress from '../components/ReadingProgress.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+
+interface Props {
+  title: string;
+  date: Date;
+  description?: string;
+  headings: { depth: number; slug: string; text: string }[];
+}
+
+const { title, date, description, headings } = Astro.props;
+const formattedDate = date.toLocaleDateString('en-US', {
+  day: 'numeric',
+  month: 'short',
+  year: 'numeric',
+});
+---
+
+<BaseLayout title={title} description={description}>
+  <ReadingProgress slot="before-header" />
+  <article>
+    <h1 class="post-title">{title}</h1>
+    <p class="post-meta">{formattedDate}</p>
+    <slot />
+  </article>
+  {headings.length >= 3 && <TableOfContents headings={headings} slot="after-main" />}
+</BaseLayout>

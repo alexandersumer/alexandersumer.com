@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout title="Alexander Sumer">
+  <div class="home-bio">
+    <p>
+      Hi, I'm Alexander. I write when I get deeply curious about something that
+      matters to me. Lately I am focused on taking transformative AI seriously.
+    </p>
+  </div>
+
+  <div class="home-links">
+    <a href="https://alexandersumer.github.io/resume/" target="_blank" rel="noopener">Resume</a>
+    <a href="https://www.linkedin.com/in/alexandersumer" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+
+  <h2 class="home-section-title">Writing</h2>
+  <ul class="blog-posts">
+    {posts.map(post => (
+      <li>
+        <time datetime={post.data.date.toISOString().slice(0, 10)}>
+          {post.data.date.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}
+        </time>
+        <a href={`/blog/${post.id}`}>{post.data.title}</a>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>

@@ -1,0 +1,584 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+/* ═══════════════════════════════════════
+   DESIGN TOKENS — LIGHT (default)
+   ═══════════════════════════════════════ */
+:root {
+  --bg:            #ffffff;
+  --bg-code:       #f7f7f7;
+
+  --text:          #242424;
+  --text-muted:    #696969;
+  --text-faint:    #767676;
+  --heading:       #000000;
+
+  --link:          #087da1;
+  --link-hover:    #065f7c;
+  --link-visited:  #6b4c9a;
+
+  --border:        #e5e5e5;
+  --border-bq:     #d0d0d0;
+  --code-border:   #eeeeee;
+
+  --selection-bg:  #b4d5fe;
+  --selection-fg:  #000000;
+
+  --progress:      #087da1;
+  --progress-bg:   #e5e5e5;
+
+  --toc-active:    #087da1;
+  --toc-marker:    #087da1;
+
+  --content-w:     700px;
+  --toc-w:         240px;
+  --toc-gap:       60px;
+
+  --body-lh:       1.7;
+  --body-ls:       -0.003em;
+  --heading-ls:    -0.02em;
+
+  --font-body:     'Lora', Charter, Georgia, 'Times New Roman', serif;
+  --font-ui:       'Inter', -apple-system, system-ui, BlinkMacSystemFont,
+                   'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  color-scheme: light;
+}
+
+/* ═══════════════════════════════════════
+   DARK MODE
+   ═══════════════════════════════════════ */
+[data-theme="dark"] {
+  --bg:            #1a1a1f;
+  --bg-code:       #28282f;
+
+  --text:          #d9d9d9;
+  --text-muted:    #a0a0a6;
+  --text-faint:    #87878f;
+  --heading:       #f0f0f0;
+
+  --link:          #7cc4db;
+  --link-hover:    #9bd4e6;
+  --link-visited:  #bbaad6;
+
+  --border:        #35353f;
+  --border-bq:     #45454f;
+  --code-border:   #35353f;
+
+  --selection-bg:  #2d4a6b;
+  --selection-fg:  #ffffff;
+
+  --progress:      #7cc4db;
+  --progress-bg:   #35353f;
+
+  --toc-active:    #7cc4db;
+  --toc-marker:    #7cc4db;
+
+  --body-lh:       1.75;
+  --body-ls:       0.005em;
+  --heading-ls:    -0.015em;
+
+  color-scheme: dark;
+}
+
+/* System fallback when JS fails to set data-theme.
+   Must duplicate tokens — CSS has no mixin/extend for custom properties. */
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]) {
+    --bg:            #1a1a1f;
+    --bg-code:       #28282f;
+    --text:          #d9d9d9;
+    --text-muted:    #a0a0a6;
+    --text-faint:    #87878f;
+    --heading:       #f0f0f0;
+    --link:          #7cc4db;
+    --link-hover:    #9bd4e6;
+    --link-visited:  #bbaad6;
+    --border:        #35353f;
+    --border-bq:     #45454f;
+    --code-border:   #35353f;
+    --selection-bg:  #2d4a6b;
+    --selection-fg:  #ffffff;
+    --progress:      #7cc4db;
+    --progress-bg:   #35353f;
+    --toc-active:    #7cc4db;
+    --toc-marker:    #7cc4db;
+    --body-lh:       1.75;
+    --body-ls:       0.005em;
+    --heading-ls:    -0.015em;
+    color-scheme: dark;
+  }
+}
+
+
+/* ═══════════════════════════════════════
+   RESET & BASE
+   ═══════════════════════════════════════ */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: var(--body-lh);
+  letter-spacing: var(--body-ls);
+  color: var(--text);
+  background: var(--bg);
+  overflow-wrap: break-word;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+::selection {
+  background: var(--selection-bg);
+  color: var(--selection-fg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+}
+
+
+/* ═══════════════════════════════════════
+   READING PROGRESS BAR
+   ═══════════════════════════════════════ */
+#reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background: var(--progress);
+  z-index: 1000;
+  transition: width 50ms linear;
+}
+
+
+/* ═══════════════════════════════════════
+   SITE LAYOUT
+   ═══════════════════════════════════════ */
+.site-header {
+  max-width: var(--content-w);
+  margin: 0 auto;
+  padding: 32px 24px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.site-header__left {
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+}
+
+.site-header__title {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.site-header__title a {
+  color: var(--heading);
+  text-decoration: none;
+}
+.site-header__title a:hover {
+  color: var(--heading);
+}
+
+.site-header__nav {
+  display: flex;
+  gap: 20px;
+  font-family: var(--font-ui);
+  font-size: 14px;
+}
+
+.site-header__nav a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+.site-header__nav a:hover {
+  color: var(--text);
+}
+
+.site-main {
+  max-width: var(--content-w);
+  margin: 0 auto;
+  padding: 40px 24px 60px;
+}
+
+.site-footer {
+  max-width: var(--content-w);
+  margin: 0 auto;
+  padding: 0 24px 48px;
+  border-top: 1px solid var(--border);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--text-faint);
+  text-align: center;
+}
+.site-footer p { margin: 12px 0 0; }
+.site-footer a { color: var(--text-faint); text-decoration: none; }
+.site-footer a:hover { color: var(--text); }
+
+
+/* ═══════════════════════════════════════
+   TYPOGRAPHY
+   ═══════════════════════════════════════ */
+p { margin: 0 0 28px; }
+
+h1, h2, h3, h4 {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  color: var(--heading);
+  letter-spacing: var(--heading-ls);
+  margin: 48px 0 14px;
+  line-height: 1.25;
+}
+
+h1 { font-size: 34px; }
+h2 { font-size: 24px; }
+h3 { font-size: 20px; }
+h4 { font-size: 18px; }
+
+strong { font-weight: 700; }
+em { font-style: italic; }
+
+
+/* ═══════════════════════════════════════
+   LINKS
+   ═══════════════════════════════════════ */
+a {
+  color: var(--link);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  transition: color 0.15s ease;
+}
+a:hover  { color: var(--link-hover); }
+a:visited { color: var(--link-visited); }
+
+
+/* ═══════════════════════════════════════
+   BLOCKQUOTES
+   ═══════════════════════════════════════ */
+blockquote {
+  margin: 32px 0;
+  padding: 4px 0 4px 24px;
+  border-left: 3px solid var(--border-bq);
+  color: var(--text-muted);
+  font-style: italic;
+}
+blockquote p { margin: 8px 0; }
+blockquote strong { color: var(--text); font-style: normal; }
+
+
+/* ═══════════════════════════════════════
+   HR / IMAGES / LISTS
+   ═══════════════════════════════════════ */
+hr {
+  margin: 40px 0;
+  border: none;
+  border-top: 1px solid var(--border);
+}
+
+img {
+  display: block;
+  margin: 32px 0;
+  max-width: 100%;
+  height: auto;
+  border-radius: 2px;
+}
+
+ul, ol { padding-left: 24px; margin: 0 0 28px; }
+li { margin: 6px 0; }
+li ul, li ol { margin: 6px 0 6px; }
+li li { margin: 4px 0; font-size: 0.95em; }
+
+
+/* ═══════════════════════════════════════
+   CODE
+   ═══════════════════════════════════════ */
+pre {
+  margin: 28px 0;
+  padding: 16px 20px;
+  background: var(--bg-code);
+  border: 1px solid var(--code-border);
+  border-radius: 4px;
+  overflow-x: auto;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+code {
+  padding: 2px 5px;
+  background: var(--bg-code);
+  border-radius: 3px;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  font-size: 15px;
+  color: var(--text);
+}
+
+pre code {
+  padding: 0;
+  background: none;
+  border-radius: 0;
+  font-size: 14px;
+}
+
+
+/* ═══════════════════════════════════════
+   TABLES
+   ═══════════════════════════════════════ */
+table {
+  width: 100%;
+  margin: 28px 0;
+  border-collapse: collapse;
+  font-family: var(--font-ui);
+  font-size: 15px;
+}
+
+th, td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+thead th {
+  font-weight: 600;
+  color: var(--heading);
+}
+
+
+/* ═══════════════════════════════════════
+   DETAILS / SUMMARY
+   ═══════════════════════════════════════ */
+details { margin: 24px 0; }
+
+summary {
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-weight: 500;
+  color: var(--text-muted);
+  padding: 4px 0;
+}
+summary:hover { color: var(--text); }
+
+
+/* ═══════════════════════════════════════
+   POST META
+   ═══════════════════════════════════════ */
+.post-meta {
+  margin: 4px 0 36px;
+  color: var(--text-muted);
+  font-size: 15px;
+  font-family: var(--font-ui);
+}
+
+.post-title {
+  font-size: 36px;
+  margin: 0 0 4px;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+}
+
+
+/* ═══════════════════════════════════════
+   BLOG POST LIST
+   ═══════════════════════════════════════ */
+.blog-posts {
+  list-style: none;
+  margin: 24px 0;
+  padding: 0;
+}
+
+.blog-posts li {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 8px 0;
+}
+
+.blog-posts time {
+  flex-shrink: 0;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  color: var(--text-faint);
+  white-space: nowrap;
+}
+
+.blog-posts a {
+  font-family: var(--font-ui);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  line-height: 1.3;
+}
+.blog-posts a:hover { color: var(--link); }
+.blog-posts a:visited { color: var(--text); }
+
+
+/* ═══════════════════════════════════════
+   SIDEBAR TOC (wide screens)
+   ═══════════════════════════════════════ */
+.toc-sidebar {
+  display: none;
+}
+
+@media (min-width: 1200px) {
+  .toc-sidebar {
+    display: block;
+    position: fixed;
+    top: 100px;
+    left: calc((100vw - var(--content-w)) / 2 + var(--content-w) + var(--toc-gap));
+    width: var(--toc-w);
+    max-height: calc(100vh - 160px);
+    overflow-y: auto;
+    font-family: var(--font-ui);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .toc-sidebar__title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-faint);
+    margin: 0 0 12px;
+    padding-left: 16px;
+  }
+
+  .toc-sidebar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .toc-sidebar li {
+    margin: 0;
+    padding: 0;
+  }
+
+  .toc-sidebar a {
+    display: block;
+    padding: 5px 0 5px 16px;
+    color: var(--text-faint);
+    text-decoration: none;
+    border-left: 2px solid var(--border);
+    transition: color 0.15s ease, border-color 0.2s ease;
+  }
+
+  .toc-sidebar a:visited {
+    color: var(--text-faint);
+  }
+
+  .toc-sidebar a:hover {
+    color: var(--text);
+  }
+
+  .toc-sidebar a.active {
+    color: var(--toc-active);
+    border-left-color: var(--toc-marker);
+    font-weight: 500;
+  }
+
+  .toc-sidebar .toc-h3 {
+    padding-left: 28px;
+  }
+
+  .toc-sidebar::-webkit-scrollbar {
+    width: 3px;
+  }
+  .toc-sidebar::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
+  }
+}
+
+
+/* ═══════════════════════════════════════
+   THEME TOGGLE
+   ═══════════════════════════════════════ */
+.theme-toggle {
+  all: unset;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 18px;
+  line-height: 1;
+  padding: 6px;
+  transition: color 0.15s ease;
+  -webkit-user-select: none;
+  user-select: none;
+  flex-shrink: 0;
+}
+.theme-toggle:hover { color: var(--text); }
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+
+/* ═══════════════════════════════════════
+   HOMEPAGE
+   ═══════════════════════════════════════ */
+.home-bio {
+  margin: 24px 0 48px;
+  font-size: 19px;
+  line-height: 1.7;
+}
+
+.home-bio p:last-child {
+  margin-bottom: 0;
+}
+
+.home-links {
+  display: flex;
+  gap: 20px;
+  margin: 0 0 48px;
+  font-family: var(--font-ui);
+  font-size: 15px;
+}
+
+.home-section-title {
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
+  margin: 0 0 8px;
+  font-weight: 600;
+}
+
+
+/* ═══════════════════════════════════════
+   MOBILE
+   ═══════════════════════════════════════ */
+@media (max-width: 640px) {
+  body { font-size: 17px; }
+
+  .site-header { padding: 24px 20px 0; }
+  .site-main { padding: 32px 20px 48px; }
+  .site-footer { padding: 0 20px 40px; }
+
+  .post-title { font-size: 28px; }
+  h2 { font-size: 22px; }
+  h3 { font-size: 19px; }
+
+  .blog-posts li {
+    flex-direction: column;
+    gap: 2px;
+    padding: 10px 0;
+  }
+
+  blockquote { padding-left: 16px; }
+}

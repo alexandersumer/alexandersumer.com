@@ -1,0 +1,79 @@
+---
+interface Props {
+  headings: { depth: number; slug: string; text: string }[];
+}
+
+const { headings } = Astro.props;
+const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
+---
+
+<nav class="toc-sidebar" aria-label="Table of contents" id="toc-sidebar">
+  <p class="toc-sidebar__title">On this page</p>
+  <ul>
+    {tocHeadings.map(h => (
+      <li>
+        <a href={`#${h.slug}`} class={h.depth === 3 ? 'toc-h3' : ''}>
+          {h.text}
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<script>
+  let controller: AbortController | null = null;
+
+  function initToc() {
+    controller?.abort();
+    controller = new AbortController();
+    const { signal } = controller;
+
+    const toc = document.getElementById('toc-sidebar');
+    if (!toc) return;
+
+    const links = toc.querySelectorAll<HTMLAnchorElement>('a');
+    const headingIds = Array.from(links).map(a => a.getAttribute('href')!.slice(1));
+    const headingEls = headingIds
+      .map(id => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+
+    let ticking = false;
+
+    function updateActive() {
+      let current = -1;
+
+      for (let i = 0; i < headingEls.length; i++) {
+        if (headingEls[i].getBoundingClientRect().top <= 120) {
+          current = i;
+        }
+      }
+
+      links.forEach((link, i) => {
+        link.classList.toggle('active', i === current);
+      });
+    }
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => { updateActive(); ticking = false; });
+        ticking = true;
+      }
+    }, { signal });
+
+    updateActive();
+
+    toc.addEventListener('click', (e) => {
+      const link = (e.target as HTMLElement).closest('a');
+      if (!link) return;
+      e.preventDefault();
+      const target = document.getElementById(link.getAttribute('href')!.slice(1));
+      if (target) {
+        window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' });
+        history.replaceState(null, '', link.getAttribute('href')!);
+      }
+    }, { signal });
+  }
+
+  initToc();
+  document.addEventListener('astro:after-swap', initToc);
+</script>

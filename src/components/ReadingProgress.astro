@@ -1,0 +1,34 @@
+<div id="reading-progress" aria-hidden="true"></div>
+
+<script>
+  let controller: AbortController | null = null;
+
+  function initProgress() {
+    controller?.abort();
+    controller = new AbortController();
+
+    const bar = document.getElementById('reading-progress');
+    if (!bar) return;
+
+    let ticking = false;
+
+    function update() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      bar.style.width = `${Math.min(progress, 100)}%`;
+    }
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => { update(); ticking = false; });
+        ticking = true;
+      }
+    }, { signal: controller.signal });
+
+    update();
+  }
+
+  initProgress();
+  document.addEventListener('astro:after-swap', initProgress);
+</script>
