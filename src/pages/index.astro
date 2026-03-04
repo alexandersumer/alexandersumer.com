@@ -4,9 +4,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PostList from '../components/PostList.astro';
 import { getCollection } from 'astro:content';
 import profilePhoto from '../assets/alexander.jpg';
+import { sortPosts } from '../utils/format';
 
-const posts = (await getCollection('blog', ({ data }) => !data.draft))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const posts = sortPosts(await getCollection('blog', ({ data }) => !data.draft));
 ---
 
 <BaseLayout title="Alexander Sumer">

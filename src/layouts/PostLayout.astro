@@ -3,12 +3,13 @@ import BaseLayout from './BaseLayout.astro';
 import ReadingProgress from '../components/ReadingProgress.astro';
 import TableOfContents from '../components/TableOfContents.astro';
 import { formatDate, isoDate } from '../utils/format';
+import type { Heading } from '../types';
 
 interface Props {
   title: string;
   date: Date;
   description: string;
-  headings: { depth: number; slug: string; text: string }[];
+  headings: Heading[];
 }
 
 const { title, date, description, headings } = Astro.props;

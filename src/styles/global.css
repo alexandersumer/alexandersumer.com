@@ -73,31 +73,6 @@
   --toc-marker:    #7cc4db;
 }
 
-/* System fallback when JS fails to set data-theme.
-   Must duplicate tokens — CSS has no mixin/extend for custom properties. */
-@media (prefers-color-scheme: dark) {
-  html:not([data-theme]) {
-    --bg:            #1c1c22;
-    --bg-code:       #2a2a31;
-    --text:          #d0d0d4;
-    --text-muted:    #a0a0a6;
-    --text-faint:    #87878f;
-    --heading:       #e2e2e6;
-    --link:          #7cc4db;
-    --link-hover:    #9bd4e6;
-    --link-visited:  #bbaad6;
-    --border:        #35353f;
-    --border-bq:     #45454f;
-    --code-border:   #35353f;
-    --selection-bg:  #2d4a6b;
-    --selection-fg:  #ffffff;
-    --progress:      #e8a020;
-    --progress-bg:   #35353f;
-    --toc-active:    #7cc4db;
-    --toc-marker:    #7cc4db;
-  }
-}
-
 
 /* ═══════════════════════════════════════
    RESET & BASE

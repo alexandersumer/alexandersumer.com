@@ -1,6 +1,8 @@
 ---
+import type { Heading } from '../types';
+
 interface Props {
-  headings: { depth: number; slug: string; text: string }[];
+  headings: Heading[];
 }
 
 const { headings } = Astro.props;
