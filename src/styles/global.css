@@ -216,7 +216,7 @@ body {
 .site-footer {
   max-width: var(--content-w);
   margin: 0 auto;
-  padding: 0 24px 48px;
+  padding: 20px 24px 48px;
   border-top: 1px solid var(--border);
   font-family: var(--font-ui);
   font-size: 13px;
@@ -568,7 +568,7 @@ summary:hover { color: var(--text); }
 
   .site-header { padding: 24px 20px 0; }
   .site-main { padding: 32px 20px 48px; }
-  .site-footer { padding: 0 20px 40px; }
+  .site-footer { padding: 20px 20px 40px; }
 
   .post-title { font-size: 28px; }
   h2 { font-size: 22px; }

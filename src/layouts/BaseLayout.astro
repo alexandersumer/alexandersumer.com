@@ -6,8 +6,6 @@ import Footer from '../components/Footer.astro';
 interface Props {
   title: string;
   description?: string;
-  /** Extra elements to inject into <head> */
-  headExtra?: string;
 }
 
 const { title, description = 'Alexander Sumer — writing about what matters.' } = Astro.props;

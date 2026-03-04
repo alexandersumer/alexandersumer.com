@@ -24,7 +24,12 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Fetch resume
+        run: |
+          mkdir -p public/resume
+          curl -fsSL https://raw.githubusercontent.com/alexandersumer/resume/main/index.html -o public/resume/index.html
       - run: npm run build
+      - run: npm test
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
