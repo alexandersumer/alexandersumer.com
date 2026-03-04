@@ -9,9 +9,10 @@ I was trying to figure out what to do with my career if I take transformative AI
 
 The model I ended up with is simple: progress is fastest where correctness is cheaply verifiable, and slowest where it isn't. That asymmetry predicts not just capability, but deployment, productivity, alignment, and which jobs get squeezed first.
 
-### About the writing process
-
-_I used Claude Opus 4.6 to find and cross-reference sources, stress-test arguments and proofread the essay. The central ideas came from my own reading and thinking. I have thoroughly reviewed every word in the essay myself._
+<details class="writing-process">
+  <summary>About the writing process</summary>
+  <p>I used Claude Opus 4.6 to find and cross-reference sources, stress-test arguments and proofread the essay. The central ideas came from my own reading and thinking. I have thoroughly reviewed every word in the essay myself.</p>
+</details>
 
 ## Definitions
 
