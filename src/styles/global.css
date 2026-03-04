@@ -73,10 +73,6 @@
   --toc-active:    #7cc4db;
   --toc-marker:    #7cc4db;
 
-  --body-lh:       1.75;
-  --body-ls:       0.005em;
-  --heading-ls:    -0.015em;
-
   color-scheme: dark;
 }
 
@@ -102,9 +98,6 @@
     --progress-bg:   #35353f;
     --toc-active:    #7cc4db;
     --toc-marker:    #7cc4db;
-    --body-lh:       1.75;
-    --body-ls:       0.005em;
-    --heading-ls:    -0.015em;
     color-scheme: dark;
   }
 }
