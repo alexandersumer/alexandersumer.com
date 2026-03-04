@@ -30,8 +30,8 @@
   --toc-marker:    #087da1;
 
   --content-w:     700px;
-  --toc-w:         240px;
-  --toc-gap:       60px;
+  --toc-w:         220px;
+  --toc-gap:       48px;
 
   --body-lh:       1.7;
   --body-ls:       -0.003em;
@@ -117,6 +117,11 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
 body {
   margin: 0;
   font-family: var(--font-body);
@@ -126,6 +131,9 @@ body {
   color: var(--text);
   background: var(--bg);
   overflow-wrap: break-word;
+  font-variant-ligatures: common-ligatures contextual;
+  font-kerning: auto;
+  font-variant-numeric: oldstyle-nums proportional-nums;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background 0.3s ease, color 0.3s ease;
@@ -258,11 +266,18 @@ a {
   color: var(--link);
   text-decoration: underline;
   text-decoration-thickness: 1px;
-  text-underline-offset: 2px;
+  text-underline-offset: 0.15em;
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
   transition: color 0.15s ease;
 }
-a:hover  { color: var(--link-hover); }
-a:visited { color: var(--link-visited); }
+a:hover {
+  color: var(--link-hover);
+  text-decoration-color: currentColor;
+}
+a:visited {
+  color: var(--link-visited);
+  text-decoration-color: color-mix(in srgb, var(--link-visited) 40%, transparent);
+}
 
 
 /* ═══════════════════════════════════════
@@ -344,6 +359,7 @@ table {
   border-collapse: collapse;
   font-family: var(--font-ui);
   font-size: 15px;
+  font-variant-numeric: lining-nums tabular-nums;
 }
 
 th, td {
@@ -434,12 +450,12 @@ summary:hover { color: var(--text); }
   display: none;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1360px) {
   .toc-sidebar {
     display: block;
     position: fixed;
     top: 100px;
-    left: calc((100vw - var(--content-w)) / 2 + var(--content-w) + var(--toc-gap));
+    left: calc((100vw - var(--content-w)) / 2 - var(--toc-gap) - var(--toc-w));
     width: var(--toc-w);
     max-height: calc(100vh - 160px);
     overflow-y: auto;
