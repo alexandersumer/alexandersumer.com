@@ -1,4 +1,4 @@
-# alexandersumer.com
+# [alexandersumer.com](https://alexandersumer.com)
 
 Personal site and blog built with [Astro](https://astro.build/), deployed to GitHub Pages.
 
