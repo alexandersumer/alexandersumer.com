@@ -153,6 +153,8 @@ body {
   background: var(--progress);
   z-index: 1000;
   transition: width 50ms linear;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 
