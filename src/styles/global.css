@@ -48,13 +48,13 @@
    DARK MODE
    ═══════════════════════════════════════ */
 [data-theme="dark"] {
-  --bg:            #1a1a1f;
-  --bg-code:       #28282f;
+  --bg:            #1c1c22;
+  --bg-code:       #2a2a31;
 
-  --text:          #d9d9d9;
+  --text:          #d0d0d4;
   --text-muted:    #a0a0a6;
   --text-faint:    #87878f;
-  --heading:       #f0f0f0;
+  --heading:       #e2e2e6;
 
   --link:          #7cc4db;
   --link-hover:    #9bd4e6;
@@ -84,12 +84,12 @@
    Must duplicate tokens — CSS has no mixin/extend for custom properties. */
 @media (prefers-color-scheme: dark) {
   html:not([data-theme]) {
-    --bg:            #1a1a1f;
-    --bg-code:       #28282f;
-    --text:          #d9d9d9;
+    --bg:            #1c1c22;
+    --bg-code:       #2a2a31;
+    --text:          #d0d0d4;
     --text-muted:    #a0a0a6;
     --text-faint:    #87878f;
-    --heading:       #f0f0f0;
+    --heading:       #e2e2e6;
     --link:          #7cc4db;
     --link-hover:    #9bd4e6;
     --link-visited:  #bbaad6;
@@ -131,6 +131,7 @@ body {
   color: var(--text);
   background: var(--bg);
   overflow-wrap: break-word;
+  font-optical-sizing: auto;
   font-variant-ligatures: common-ligatures contextual;
   font-kerning: auto;
   font-variant-numeric: oldstyle-nums proportional-nums;
@@ -529,8 +530,9 @@ summary:hover { color: var(--text); }
   all: unset;
   cursor: pointer;
   color: var(--text-muted);
-  font-size: 18px;
-  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 6px;
   transition: color 0.15s ease;
   -webkit-user-select: none;
