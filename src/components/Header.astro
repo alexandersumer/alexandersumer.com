@@ -4,9 +4,9 @@ const currentPath = Astro.url.pathname;
 
 <header class="site-header">
   <div class="site-header__left">
-    <h1 class="site-header__title">
+    <div class="site-header__title">
       <a href="/">Alexander Sumer</a>
-    </h1>
+    </div>
     <nav class="site-header__nav">
       <a href="/" aria-current={currentPath === '/' ? 'page' : undefined}>Home</a>
       <a href="/blog" aria-current={currentPath.startsWith('/blog') ? 'page' : undefined}>Blog</a>

@@ -41,7 +41,7 @@
   --font-ui:       'Inter', -apple-system, system-ui, BlinkMacSystemFont,
                    'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 
-  color-scheme: light;
+  color-scheme: light dark;
 }
 
 /* ═══════════════════════════════════════
@@ -72,8 +72,6 @@
 
   --toc-active:    #7cc4db;
   --toc-marker:    #7cc4db;
-
-  color-scheme: dark;
 }
 
 /* System fallback when JS fails to set data-theme.
@@ -98,7 +96,6 @@
     --progress-bg:   #35353f;
     --toc-active:    #7cc4db;
     --toc-marker:    #7cc4db;
-    color-scheme: dark;
   }
 }
 
@@ -113,6 +110,7 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 5rem;
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -183,6 +181,8 @@ body {
   font-size: 20px;
   font-weight: 700;
   line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--heading);
 }
 
 .site-header__title a {
@@ -544,6 +544,9 @@ summary:hover { color: var(--text); }
    HOMEPAGE
    ═══════════════════════════════════════ */
 .home-bio {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
   margin: 24px 0 48px;
   font-size: 19px;
   line-height: 1.7;
@@ -551,6 +554,15 @@ summary:hover { color: var(--text); }
 
 .home-bio p:last-child {
   margin-bottom: 0;
+}
+
+.home-photo {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  margin: 0;
 }
 
 .home-links {
@@ -584,6 +596,11 @@ summary:hover { color: var(--text); }
   .post-title { font-size: 28px; }
   h2 { font-size: 22px; }
   h3 { font-size: 19px; }
+
+  .home-bio {
+    flex-direction: column;
+    gap: 16px;
+  }
 
   .blog-posts li {
     flex-direction: column;
