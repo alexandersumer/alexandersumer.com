@@ -1,7 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PostList from '../components/PostList.astro';
 import { getCollection } from 'astro:content';
+import profilePhoto from '../assets/alexander.jpg';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
@@ -9,7 +11,7 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
 
 <BaseLayout title="Alexander Sumer">
   <div class="home-bio">
-    <img src="/alexander.jpg" alt="Alexander Sumer" class="home-photo" width="88" height="88" />
+    <Image src={profilePhoto} alt="Alexander Sumer" class="home-photo" width={88} height={88} />
     <p>
       Hi, I'm Alexander. I write when I get deeply curious about something that
       matters to me. Lately I am focused on taking transformative AI seriously.
@@ -19,6 +21,8 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
   <div class="home-links">
     <a href="/resume/">Resume</a>
     <a href="https://www.linkedin.com/in/alexandersumer" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://x.com/xegisunowoumsyq" target="_blank" rel="noopener">X</a>
+    <a href="https://www.instagram.com/alexander2357_/" target="_blank" rel="noopener">Instagram</a>
   </div>
 
   <h2 class="home-section-title">Writing</h2>

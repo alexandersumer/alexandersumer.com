@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 /* ═══════════════════════════════════════
    DESIGN TOKENS — LIGHT (default)
@@ -37,8 +36,8 @@
   --body-ls:       -0.003em;
   --heading-ls:    -0.02em;
 
-  --font-body:     'Lora', Charter, Georgia, 'Times New Roman', serif;
-  --font-ui:       'Inter', -apple-system, system-ui, BlinkMacSystemFont,
+  --font-body:     'Lora Variable', Charter, Georgia, 'Times New Roman', serif;
+  --font-ui:       'Inter Variable', -apple-system, system-ui, BlinkMacSystemFont,
                    'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 
   color-scheme: light dark;
@@ -343,6 +342,24 @@ pre code {
   font-size: 14px;
 }
 
+.astro-code,
+.astro-code span {
+  color: var(--shiki-light) !important;
+  background-color: transparent !important;
+}
+
+[data-theme="dark"] .astro-code,
+[data-theme="dark"] .astro-code span {
+  color: var(--shiki-dark) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]) .astro-code,
+  html:not([data-theme]) .astro-code span {
+    color: var(--shiki-dark) !important;
+  }
+}
+
 
 /* ═══════════════════════════════════════
    TABLES
@@ -561,6 +578,7 @@ summary:hover { color: var(--text); }
   height: 88px;
   border-radius: 50%;
   object-fit: cover;
+  object-position: 50% 35%;
   flex-shrink: 0;
   margin: 0;
 }

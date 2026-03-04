@@ -12,10 +12,22 @@ interface Props {
 }
 
 const { title, date, description, headings } = Astro.props;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description,
+  datePublished: isoDate(date),
+  author: { '@type': 'Person', name: 'Alexander Sumer', url: 'https://alexandersumer.com' },
+  url: new URL(Astro.url.pathname, Astro.site).href,
+};
 ---
 
-<BaseLayout title={title} description={description}>
-  <ReadingProgress slot="before-header" />
+<BaseLayout title={title} description={description} type="article">
+  <Fragment slot="before-header">
+    <ReadingProgress />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </Fragment>
   <article>
     <h1 class="post-title">{title}</h1>
     <p class="post-meta">
