@@ -166,7 +166,8 @@ body {
   color: var(--heading);
   text-decoration: none;
 }
-.site-header__title a:hover {
+.site-header__title a:hover,
+.site-header__title a:visited {
   color: var(--heading);
 }
 
@@ -185,9 +186,14 @@ body {
 .site-header__nav a:hover {
   color: var(--text);
 }
+.site-header__nav a:visited {
+  color: var(--text-muted);
+}
 .site-header__nav a[aria-current='page'] {
   color: var(--text);
-  font-weight: 500;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 
 .site-main {
@@ -274,8 +280,8 @@ a:hover {
   text-decoration-color: currentColor;
 }
 a:visited {
-  color: var(--link-visited);
-  text-decoration-color: color-mix(in srgb, var(--link-visited) 40%, transparent);
+  color: var(--link);
+  text-decoration-color: color-mix(in srgb, var(--link) 40%, transparent);
 }
 
 /* ═══════════════════════════════════════
