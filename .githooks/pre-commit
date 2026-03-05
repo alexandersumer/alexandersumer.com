@@ -1,0 +1,10 @@
+#!/bin/sh
+set -e
+
+# Fix formatting on all staged files
+npx prettier --write .
+git add -u
+
+# Full CI: build (type-checks) + all tests
+npm run build
+npm test

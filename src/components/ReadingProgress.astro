@@ -19,12 +19,19 @@
       bar.style.width = `${Math.min(progress, 100)}%`;
     }
 
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        requestAnimationFrame(() => { update(); ticking = false; });
-        ticking = true;
-      }
-    }, { signal: controller.signal });
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            update();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      },
+      { signal: controller.signal }
+    );
 
     update();
   }

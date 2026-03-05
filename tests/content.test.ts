@@ -11,8 +11,8 @@ import { blogSchema } from '../src/content/schema';
 const CONTENT_DIR = new URL('../src/content/blog', import.meta.url).pathname;
 
 const posts = readdirSync(CONTENT_DIR)
-  .filter(f => f.endsWith('.md'))
-  .map(filename => {
+  .filter((f) => f.endsWith('.md'))
+  .map((filename) => {
     const raw = readFileSync(join(CONTENT_DIR, filename), 'utf-8');
     const { data } = matter(raw);
     return { filename, data };

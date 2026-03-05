@@ -19,7 +19,9 @@ function readHtml(relPath: string): CheerioAPI {
 describe.skipIf(!hasDist)('Build output', () => {
   describe('dist/index.html (homepage)', () => {
     let $: CheerioAPI;
-    beforeAll(() => { $ = readHtml('index.html'); });
+    beforeAll(() => {
+      $ = readHtml('index.html');
+    });
 
     it('has correct <title>', () => {
       expect($('title').text()).toBe('Alexander Sumer');
@@ -30,8 +32,12 @@ describe.skipIf(!hasDist)('Build output', () => {
     });
 
     it('has theme-init script in <head>', () => {
-      const headScripts = $('head script').map((_, el) => $(el).html()).get();
-      expect(headScripts.some(s => s?.includes('localStorage.getItem') && s?.includes('data-theme'))).toBe(true);
+      const headScripts = $('head script')
+        .map((_, el) => $(el).html())
+        .get();
+      expect(
+        headScripts.some((s) => s?.includes('localStorage.getItem') && s?.includes('data-theme'))
+      ).toBe(true);
     });
 
     it('has bio text', () => {
@@ -39,7 +45,9 @@ describe.skipIf(!hasDist)('Build output', () => {
     });
 
     it('resume link points to /resume/', () => {
-      const resumeLink = $('.site-footer__links a').filter((_, el) => $(el).text().trim() === 'Resume');
+      const resumeLink = $('.site-footer__links a').filter(
+        (_, el) => $(el).text().trim() === 'Resume'
+      );
       expect(resumeLink.attr('href')).toBe('/resume/');
     });
 
@@ -67,7 +75,9 @@ describe.skipIf(!hasDist)('Build output', () => {
 
   describe('dist/blog/index.html (blog list)', () => {
     let $: CheerioAPI;
-    beforeAll(() => { $ = readHtml('blog/index.html'); });
+    beforeAll(() => {
+      $ = readHtml('blog/index.html');
+    });
 
     it('has correct <title>', () => {
       expect($('title').text()).toBe('Blog — Alexander Sumer');
@@ -84,7 +94,9 @@ describe.skipIf(!hasDist)('Build output', () => {
 
   describe('dist/blog/what-to-do-if-you-take-agi-seriously/index.html (blog post)', () => {
     let $: CheerioAPI;
-    beforeAll(() => { $ = readHtml('blog/what-to-do-if-you-take-agi-seriously/index.html'); });
+    beforeAll(() => {
+      $ = readHtml('blog/what-to-do-if-you-take-agi-seriously/index.html');
+    });
 
     it('has correct <title>', () => {
       expect($('title').text()).toContain('What to Do If You Take AGI Seriously');
@@ -135,8 +147,10 @@ describe.skipIf(!hasDist)('Build output', () => {
     });
 
     it('theme-init script is in <head>', () => {
-      const headScripts = $('head script').map((_, el) => $(el).html()).get();
-      expect(headScripts.some(s => s?.includes('localStorage.getItem'))).toBe(true);
+      const headScripts = $('head script')
+        .map((_, el) => $(el).html())
+        .get();
+      expect(headScripts.some((s) => s?.includes('localStorage.getItem'))).toBe(true);
     });
   });
 

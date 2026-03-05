@@ -6,19 +6,21 @@ interface Props {
 }
 
 const { headings } = Astro.props;
-const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
+const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
 ---
 
 <nav class="toc-sidebar" aria-label="Table of contents" id="toc-sidebar">
   <p class="toc-sidebar__title">On this page</p>
   <ul>
-    {tocHeadings.map(h => (
-      <li>
-        <a href={`#${h.slug}`} class={h.depth === 3 ? 'toc-h3' : ''}>
-          {h.text}
-        </a>
-      </li>
-    ))}
+    {
+      tocHeadings.map((h) => (
+        <li>
+          <a href={`#${h.slug}`} class={h.depth === 3 ? 'toc-h3' : ''}>
+            {h.text}
+          </a>
+        </li>
+      ))
+    }
   </ul>
 </nav>
 
@@ -34,9 +36,9 @@ const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
     if (!toc) return;
 
     const links = toc.querySelectorAll<HTMLAnchorElement>('a');
-    const headingIds = Array.from(links).map(a => a.getAttribute('href')!.slice(1));
+    const headingIds = Array.from(links).map((a) => a.getAttribute('href')!.slice(1));
     const headingEls = headingIds
-      .map(id => document.getElementById(id))
+      .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => el !== null);
 
     let ticking = false;
@@ -55,25 +57,39 @@ const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
       });
     }
 
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        requestAnimationFrame(() => { updateActive(); ticking = false; });
-        ticking = true;
-      }
-    }, { signal });
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            updateActive();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      },
+      { signal }
+    );
 
     updateActive();
 
-    toc.addEventListener('click', (e) => {
-      const link = (e.target as HTMLElement).closest('a');
-      if (!link) return;
-      e.preventDefault();
-      const target = document.getElementById(link.getAttribute('href')!.slice(1));
-      if (target) {
-        window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' });
-        history.replaceState(null, '', link.getAttribute('href')!);
-      }
-    }, { signal });
+    toc.addEventListener(
+      'click',
+      (e) => {
+        const link = (e.target as HTMLElement).closest('a');
+        if (!link) return;
+        e.preventDefault();
+        const target = document.getElementById(link.getAttribute('href')!.slice(1));
+        if (target) {
+          window.scrollTo({
+            top: target.getBoundingClientRect().top + window.scrollY - 80,
+            behavior: 'smooth',
+          });
+          history.replaceState(null, '', link.getAttribute('href')!);
+        }
+      },
+      { signal }
+    );
   }
 
   initToc();

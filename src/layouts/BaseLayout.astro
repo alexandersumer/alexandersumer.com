@@ -12,7 +12,12 @@ interface Props {
   type?: string;
 }
 
-const { title, description = 'Alexander Sumer — writing about what matters.', image, type = 'website' } = Astro.props;
+const {
+  title,
+  description = 'Alexander Sumer — writing about what matters.',
+  image,
+  type = 'website',
+} = Astro.props;
 const fullTitle = title === 'Alexander Sumer' ? title : `${title} — Alexander Sumer`;
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
 const ogImage = image ? new URL(image, Astro.site).href : new URL('/og-image.jpg', Astro.site).href;
@@ -40,10 +45,13 @@ const ogImage = image ? new URL(image, Astro.site).href : new URL('/og-image.jpg
     <meta name="twitter:image" content={ogImage} />
 
     <script is:inline>
-      (function() {
+      (function () {
         var s = localStorage.getItem('theme');
-        var t = s === 'dark' || s === 'light' ? s
-              : window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark'
+        var t =
+          s === 'dark' || s === 'light'
+            ? s
+            : window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
               : 'light';
         document.documentElement.setAttribute('data-theme', t);
       })();
