@@ -671,19 +671,20 @@ summary:hover {
   margin: 0;
 }
 
-.site-footer__links {
+.home-links {
   display: flex;
-  justify-content: center;
   gap: 20px;
-  margin-bottom: 8px;
+  padding: 20px 0;
+  border-top: 1px solid var(--border);
+  font-family: var(--font-ui);
+  font-size: 14px;
 }
 
-.site-footer__links a {
-  color: var(--text-faint);
+.home-links a {
+  color: var(--text-muted);
   text-decoration: none;
-  font-size: 13px;
 }
-.site-footer__links a:hover {
+.home-links a:hover {
   color: var(--text);
 }
 

@@ -45,14 +45,12 @@ describe.skipIf(!hasDist)('Build output', () => {
     });
 
     it('resume link points to /resume/', () => {
-      const resumeLink = $('.site-footer__links a').filter(
-        (_, el) => $(el).text().trim() === 'Resume'
-      );
+      const resumeLink = $('.home-links a').filter((_, el) => $(el).text().trim() === 'Resume');
       expect(resumeLink.attr('href')).toBe('/resume/');
     });
 
     it('linkedin link is external with noopener', () => {
-      const li = $('.site-footer__links a[href*="linkedin"]');
+      const li = $('.home-links a[href*="linkedin"]');
       expect(li.attr('rel')).toContain('noopener');
       expect(li.attr('target')).toBe('_blank');
     });
