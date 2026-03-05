@@ -1,7 +1,7 @@
 ---
 title: "What to Do If You Take AGI Seriously"
 date: 2026-02-13
-description: "A framework for making career and life decisions under deep uncertainty about transformative AI — anchored in one idea: progress is fastest where correctness is cheaply verifiable."
+description: "A framework for acting on transformative AI without needing to get the timeline right."
 draft: false
 ---
 
