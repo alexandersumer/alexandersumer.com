@@ -622,27 +622,29 @@ summary:hover { color: var(--text); }
   margin: 0;
 }
 
-.home-links {
+.site-footer__links {
   display: flex;
+  justify-content: center;
   gap: 20px;
-  margin: 32px 0 0;
-  font-family: var(--font-ui);
-  font-size: 13px;
+  margin-bottom: 8px;
 }
 
-.home-links a {
+.site-footer__links a {
   color: var(--text-faint);
   text-decoration: none;
+  font-size: 13px;
 }
-.home-links a:hover { color: var(--text); }
+.site-footer__links a:hover { color: var(--text); }
 
 .home-section-title {
-  font-size: 16px;
+  font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.1em;
   color: var(--text-faint);
   margin: 0 0 8px;
   font-weight: 600;
+  border-top: 1px solid var(--border);
+  padding-top: 28px;
 }
 
 

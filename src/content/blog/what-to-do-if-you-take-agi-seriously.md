@@ -1,7 +1,7 @@
 ---
 title: "What to Do If You Take AGI Seriously"
 date: 2026-02-13
-description: "A framework for acting on transformative AI without needing to get the timeline right."
+description: "A map of where AI is heading and one principle for making decisions that hold up even when you're wrong about when."
 draft: false
 ---
 
