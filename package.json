@@ -10,7 +10,7 @@
     "lint:check": "prettier --check .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "prepare": "git config core.hooksPath .githooks || true"
+    "prepare": "husky"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.0",
@@ -22,9 +22,14 @@
     "@astrojs/check": "^0.9.6",
     "cheerio": "^1.2.0",
     "gray-matter": "^4.0.3",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.3.2",
     "prettier": "^3.8.1",
     "prettier-plugin-astro": "^0.14.1",
     "typescript": "^5.9.3",
     "vitest": "^4.0.18"
+  },
+  "lint-staged": {
+    "*.{js,ts,astro,css,md,json,yml,yaml}": "prettier --write"
   }
 }
