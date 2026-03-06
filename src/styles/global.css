@@ -7,7 +7,7 @@
 
   --text: #242424;
   --text-muted: #696969;
-  --text-faint: #737373;
+  --text-faint: #707070;
   --heading: #000000;
 
   --link: #087da1;
@@ -51,7 +51,7 @@
 
   --text: #d0d0d4;
   --text-muted: #a0a0a6;
-  --text-faint: #87878f;
+  --text-faint: #929298;
   --heading: #e2e2e6;
 
   --link: #7cc4db;
@@ -104,6 +104,11 @@ body {
   transition:
     background 0.3s ease,
     color 0.3s ease;
+}
+
+[data-theme='dark'] body {
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
 }
 
 ::selection {
@@ -209,6 +214,7 @@ body {
   font-size: 13px;
   color: var(--text-faint);
   text-align: center;
+  font-variant-numeric: lining-nums;
 }
 .site-footer p {
   margin: 12px 0 0;
@@ -225,7 +231,7 @@ body {
    TYPOGRAPHY
    ═══════════════════════════════════════ */
 p {
-  margin: 0 0 28px;
+  margin: 0 0 32px;
 }
 
 h1,
@@ -481,6 +487,7 @@ summary:hover {
   color: var(--text-muted);
   font-size: 15px;
   font-family: var(--font-ui);
+  font-variant-numeric: lining-nums;
 }
 
 .post-title {
@@ -527,6 +534,7 @@ summary:hover {
   font-size: 14px;
   color: var(--text-faint);
   white-space: nowrap;
+  font-variant-numeric: lining-nums;
 }
 
 .blog-posts a {
