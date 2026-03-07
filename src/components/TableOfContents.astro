@@ -46,9 +46,16 @@ const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
     function updateActive() {
       let current = -1;
 
-      for (let i = 0; i < headingEls.length; i++) {
-        if (headingEls[i].getBoundingClientRect().top <= 120) {
-          current = i;
+      const atBottom =
+        window.innerHeight + Math.ceil(window.scrollY) >= document.documentElement.scrollHeight;
+
+      if (atBottom) {
+        current = headingEls.length - 1;
+      } else {
+        for (let i = 0; i < headingEls.length; i++) {
+          if (headingEls[i].getBoundingClientRect().top <= 120) {
+            current = i;
+          }
         }
       }
 
