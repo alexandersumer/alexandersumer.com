@@ -43,7 +43,7 @@ This additive structure matters for interpretability. The model's final output, 
 
 ## 4. Attention is information routing
 
-A token often needs information from somewhere else in the sequence. To predict the next word in "The capital of France is ___", the current position needs to pull in information from "France." More generally, tokens need a way to look up context.
+A token often needs information from somewhere else in the sequence. To predict the next word in "The capital of France is \_\_\_", the current position needs to pull in information from "France." More generally, tokens need a way to look up context.
 
 Attention is that lookup mechanism. Attention heads do not mainly transform information in place the way MLP layers do. MLPs apply nonlinear functions to each position independently. Attention heads move information between positions. For each token, a head asks: which other tokens have information I need, and what should I copy from them?
 
@@ -78,7 +78,7 @@ Finding a feature is only the start. The deeper question is how the model uses f
 
 That is what a circuit is for. A circuit is a subgraph of the model's computation that explains a specific behavior: not just what features exist, but how features in earlier layers lead to features in later layers and finally to the output.
 
-The major case study is the Indirect Object Identification, or IOI, circuit in GPT-2 Small. Given "When Mary and John went to the store, John gave a drink to ___", the model predicts "Mary." The interesting part is not just that it gets the answer right. It is that researchers can identify a set of attention heads with distinct roles in producing that answer. Some detect that "John" is repeated. Some identify "Mary" as the non-repeated name. Some suppress "John" from the prediction.
+The major case study is the Indirect Object Identification, or IOI, circuit in GPT-2 Small. Given "When Mary and John went to the store, John gave a drink to \_\_\_", the model predicts "Mary." The interesting part is not just that it gets the answer right. It is that researchers can identify a set of attention heads with distinct roles in producing that answer. Some detect that "John" is repeated. Some identify "Mary" as the non-repeated name. Some suppress "John" from the prediction.
 
 The core technique here is activation patching, which is best understood as a controlled experiment on the model's internals. You run the model on a clean input and a corrupted input, for example with the names scrambled. Then you selectively swap one component's activations from the corrupted run into the clean run and check whether the prediction breaks. If replacing a specific head's output damages the prediction, that head is causally involved in the behavior, not just correlated with it.
 
