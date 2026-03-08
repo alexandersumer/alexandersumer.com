@@ -678,7 +678,7 @@ summary:hover {
   height: 88px;
   border-radius: 50%;
   object-fit: cover;
-  object-position: 55% 20%;
+  object-position: 50% 25%;
   flex-shrink: 0;
   margin: 0;
 }
