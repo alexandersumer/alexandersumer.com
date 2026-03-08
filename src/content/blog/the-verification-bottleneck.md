@@ -1,5 +1,5 @@
 ---
-title: 'The Verification Bottleneck: Why AI-Generated Code Breaks at Service Boundaries'
+title: 'The Verification Bottleneck'
 date: 2026-03-08
 description: 'AI tools produce code faster than teams can verify it. The failures concentrate at service boundaries, and no existing tool closes the gap alone.'
 draft: false
