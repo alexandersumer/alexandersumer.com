@@ -1,5 +1,5 @@
 ---
-title: "Preparing for ARENA: The Mental Models You'll Need"
+title: 'Mental Models for ARENA'
 date: 2026-03-06
 description: 'A guide to the key mental models you need before starting ARENA, covering transformers, mechanistic interpretability, RL, and alignment.'
 draft: false
