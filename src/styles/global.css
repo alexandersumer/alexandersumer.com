@@ -674,13 +674,12 @@ summary:hover {
 }
 
 .home-photo {
-  width: 88px;
-  height: 88px;
-  border-radius: 50%;
+  width: 176px;
+  height: 176px;
+  border-radius: 8px;
   object-fit: cover;
-  object-position: 40% 22%;
-  flex-shrink: 0;
-  margin: 0;
+  object-position: center;
+  margin: 0 0 8px;
 }
 
 .home-links {
