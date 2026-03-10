@@ -31,7 +31,7 @@ Two libraries make this manageable. Get comfortable with both before the program
 
 `einsum` makes tensor multiplication declarative. Matrix multiplication, dot products, and outer products are all the same underlying operation: multiply along shared axes and sum. Instead of remembering which PyTorch function handles which shape, you name the axes. `einsum('batch seq dim, dim hidden -> batch seq hidden', x, w)` says: multiply along `dim`, keep everything else. Axis names that appear in both inputs but not the output get contracted. The remaining names define the shape of the result.
 
-`einops` solves a different problem. A single tensor axis often packs multiple logical dimensions together, and you need to unpack them. Consider a tensor of shape `(2, 10, 512)`: two batch items, 10 tokens each, 512 dimensions per token. That 512 is not a flat list of numbers. It contains 8 attention heads worth of information concatenated together, 64 dimensions per head. Positions 0–63 belong to head 1, 64–127 to head 2, and so on through head 8.
+`einops` solves a different problem. A single tensor axis often packs multiple logical dimensions together, and you need to unpack them. Consider a tensor of shape `(2, 10, 512)`: two batch items, 10 tokens each, 512 dimensions per token. That 512 is not a flat list of numbers. It contains information from 8 attention heads concatenated together, 64 dimensions per head. Positions 0–63 belong to head 1, 64–127 to head 2, and so on through head 8.
 
 `rearrange(x, 'batch seq (heads dim) -> batch heads seq dim', heads=8)` makes that hidden structure explicit. It splits the 512 into 8 groups of 64 and gives each head its own axis, producing shape `(2, 8, 10, 64)`: 2 batch items, 8 heads, 10 tokens, 64 dimensions per head. Each head now has a clean workspace to compute attention in, without its numbers interleaved with the other heads.
 
@@ -96,7 +96,7 @@ Two problems dominate this setting. The first is credit assignment. If you win a
 
 You'll implement two algorithms. Deep Q-Networks, or DQN, learn a map of how good each action is in each situation, then pick the best one. Proximal Policy Optimization, or PPO, skips the map and directly adjusts what the agent does. That directness is part of why PPO scales to RLHF, where the action space is all possible text outputs and building a value map over that is impractical.
 
-PPO matters most for safety because it underlies RLHF, Reinforcement Learning from Human Feedback. In RLHF, human preference judgments like "output A is better than output B" get turned into a reward signal for fine-tuning language models. You'll apply RLHF to the transformers you build earlier in the course.
+In RLHF, Reinforcement Learning from Human Feedback, human preference judgments like "output A is better than output B" get turned into a reward signal for fine-tuning language models. You'll apply RLHF to the transformers you build earlier in the course.
 
 ## 8. Evaluations
 
