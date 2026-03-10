@@ -27,7 +27,15 @@ You'll implement everything from scratch in PyTorch, so you need to think native
 
 The important point is not just that tensors store numbers. They store structure. If you lose track of what each axis means, transformer code becomes hard to read very quickly.
 
-The `einops` library helps by making axis structure explicit. Instead of chaining `reshape`, `permute`, and `transpose`, you can write `rearrange(x, 'batch seq (heads dim) -> batch heads seq dim', heads=8)` and the intent is obvious. Get comfortable with `einops` and `einsum` before the program starts. They show up everywhere.
+Two libraries make this manageable. Get comfortable with both before the program starts. They show up everywhere.
+
+`einsum` makes tensor multiplication declarative. Matrix multiplication, dot products, and outer products are all the same underlying operation: multiply along shared axes and sum. Instead of remembering which PyTorch function handles which shape, you name the axes. `einsum('batch seq dim, dim hidden -> batch seq hidden', x, w)` says: multiply along `dim`, keep everything else. Axis names that appear in both inputs but not the output get contracted. The remaining names define the shape of the result.
+
+`einops` solves a different problem. A single tensor axis often packs multiple logical dimensions together, and you need to unpack them. Consider a tensor of shape `(2, 10, 512)`: two batch items, 10 tokens each, 512 dimensions per token. That 512 is not a flat list of numbers. It contains 8 attention heads worth of information concatenated together, 64 dimensions per head. Positions 0–63 belong to head 1, 64–127 to head 2, and so on through head 8.
+
+`rearrange(x, 'batch seq (heads dim) -> batch heads seq dim', heads=8)` makes that hidden structure explicit. It splits the 512 into 8 groups of 64 and gives each head its own axis, producing shape `(2, 8, 10, 64)`: 2 batch items, 8 heads, 10 tokens, 64 dimensions per head. Each head now has a clean workspace to compute attention in, without its numbers interleaved with the other heads.
+
+This pays off immediately in section 4. Every attention head needs its own separate queries, keys, and values. The rearrange is what splits them apart so each head can operate independently, and the reverse merges them back when the head is done.
 
 ## 3. The transformer as a residual stream computer
 
