@@ -7,7 +7,9 @@ draft: false
 
 ## What you're walking into
 
-ARENA has five sequenced chapters: Neural Network Fundamentals, Transformers & Mechanistic Interpretability, Reinforcement Learning, LLM Evaluations, and Alignment Science. Each builds on the last. This guide covers the mental models you'll need going in.
+ARENA has five sequenced chapters: Neural Network Fundamentals, Transformers & Mechanistic Interpretability, Reinforcement Learning, LLM Evaluations, and Alignment Science. This post introduces nine mental models that cut across those chapters. The goal is to make the concepts easier to follow when they come up, not to teach them from scratch.
+
+This assumes you are comfortable with Python, tensors, and basic ML, but new to interpretability and alignment.
 
 ---
 
@@ -15,11 +17,11 @@ ARENA has five sequenced chapters: Neural Network Fundamentals, Transformers & M
 
 A neural network is a parameterized function mapping inputs to outputs. Training adjusts those parameters to reduce a measure of error, called the loss function, by computing how each parameter contributed to the error and updating it accordingly with gradient descent.
 
-Every architectural choice changes what the network can learn easily. Convolutions encode the assumption that nearby pixels matter more than distant ones. Attention, which we'll get to in section 4, lets the network learn which parts of the input matter for a given prediction. Residual connections, which you'll build into a ResNet in Chapter 0, are central to the rest of the curriculum.
+Every architectural choice changes what the network can learn easily. Convolutions encode the assumption that nearby pixels matter more than distant ones. Attention lets the network learn which parts of the input matter for a given prediction. Residual connections are central to the rest of the curriculum, and you will build them into a ResNet in Chapter 0.
 
 Residual connections solve a simple problem. Without one, each layer has to rewrite its entire input from scratch, like rewriting a whole document every time even if only a few sentences need to change. That is a hard job, and it makes it easy to lose useful information along the way. A residual connection changes this: the layer's output gets added back to its input, so the layer only has to learn the difference between what came in and what should go out.
 
-That difference is the "residual," like the residual in statistics: the gap between a prediction and the actual value. A layer can now default to doing nothing, output zero, and pass the input through unchanged. Then it only has to learn small corrections. This is easier to optimize, and it is the same basic idea that makes transformers work.
+That difference is the "residual," like the residual in statistics: the gap between a prediction and the actual value. A layer can now default to doing nothing, output zero, and pass the input through unchanged. Then it only has to learn small corrections. This is easier to optimize. The same idea shows up at every layer of a transformer.
 
 ## 2. Tensors are the language, einops is the dialect
 
@@ -39,22 +41,17 @@ The key question is: where does the model keep its current working state as it p
 
 No component replaces what is already there. It only adds to it. This is the residual connection idea from section 1, applied at every step.
 
-This additive structure matters for interpretability. The model's final output, the logits or raw scores over the vocabulary, is built from the sum of many component contributions. So you can ask a concrete question like: what did attention head 3 in layer 2 contribute to this prediction? That decomposition is one of the main reasons mechanistic interpretability is possible.
+This additive structure matters for interpretability. The model's final output is a set of logits, raw scores over the vocabulary, and those logits are built from the sum of many component contributions. So you can ask: what did attention head 3 in layer 2 add to this prediction? That decomposition is what makes mechanistic interpretability possible.
 
 ## 4. Attention is information routing
 
 A token often needs information from somewhere else in the sequence. To predict the next word in "The capital of France is \_\_\_", the current position needs to pull in information from "France." More generally, tokens need a way to look up context.
 
-Attention is that lookup mechanism. Attention heads do not mainly transform information in place the way MLP layers do. MLPs apply nonlinear functions to each position independently. Attention heads move information between positions. For each token, a head asks: which other tokens have information I need, and what should I copy from them?
+Attention is that lookup mechanism. Where MLP layers transform each position independently, attention heads move information between positions. For each token, a head asks: which other tokens have information I need, and what should I copy from them?
 
-Each head uses four matrices to do this:
+This breaks into two subproblems. The QK circuit (query and key matrices) decides where to look. Each token produces a query ("what am I looking for?") and a key ("what do I contain?"). When a query and key point in similar directions, the head attends to that source position. The OV circuit (value and output matrices) decides what to move. It extracts content from the source and writes it into the destination token's residual stream. These two subproblems are largely independent, which is why they can be studied separately.
 
-- **Q** (query) and **K** (key) determine where to look. Each token produces a query, meaning "what am I looking for?", and a key, meaning "what do I contain?" Queries and keys that point in similar directions produce high attention scores, causing the head to attend to that source position.
-- **V** (value) and **O** (output) determine what to move. The value extracts the relevant content from the source, and the output matrix writes it into the destination token's residual stream.
-
-So there are really two subproblems here: where to look, handled by QK, and what to move, handled by OV. These are largely independent, which is why they can often be studied separately.
-
-Induction heads are your first case study. Their job is pattern completion: if A was followed by B earlier in the context, and A appears again now, predict B. In simple terms, they do something like "I've seen this pattern before, so what came next last time?" This requires two heads across layers working together. The first, often called a previous-token head, copies information about what preceded each token. The second uses that information to find the match and boost the continuation.
+Induction heads are the first case study. Their job is pattern completion: if A was followed by B earlier in the context, and A appears again, predict B. This requires two heads working together across layers. The first copies information about what preceded each token. The second uses that information to find the match and boost the continuation.
 
 ## 5. Features, directions, and superposition
 
@@ -64,23 +61,23 @@ That picture is simple enough in principle. The complication is that the model s
 
 In a 3D space, you can have three perfectly independent directions. In a 1,000-dimensional space, you get 1,000. But networks appear to use many more features than that. A 1,000-dimensional residual stream may encode tens of thousands of concepts.
 
-So what happens when there are more concepts than clean slots? The model packs multiple features into overlapping directions. That is superposition.
+So what happens when there are more concepts than clean slots? The model packs multiple features into overlapping directions. That is superposition. Think of it like assigning many different radio stations to nearly the same frequency. As long as only a few broadcast at once, you can still pick out each signal.
 
-This works because of two facts. First, most features are sparse: "is this about dogs" and "is this a legal term" are rarely active at the same time. Second, high-dimensional spaces have much more room than our 3D intuition suggests. As dimensions grow, you can fit huge numbers of directions that are not perfectly orthogonal but still interfere only a little.
+This works because of two facts. First, most features are sparse: "is this about dogs" and "is this a legal term" are rarely active at the same time. Second, high-dimensional spaces have much more room than 3D intuition suggests. As dimensions grow, you can fit large numbers of near-orthogonal directions that interfere only a little.
 
-The model takes advantage of this by storing features in near-separate directions rather than perfectly separate ones. Because most of those features rarely turn on together, the overlap usually does not cause serious problems.
+A sparse autoencoder, or SAE, is a network trained to recover individual features from a model's mixed internal activations. It learns a larger feature space while enforcing that only a few features should be active at once. The hope is that these learned features line up with interpretable concepts.
 
-Sparse autoencoders, or SAEs, are the main tool for untangling this. If superposition mixes many features together, an SAE tries to recover a cleaner set of underlying features from the model's internal activations. It does this by learning a larger feature space, while enforcing that only a few features should be active at once. The hope is that these learned features line up with interpretable concepts.
+This is why neuron-by-neuron inspection often breaks down, and why SAEs are a major focus of the interpretability chapters.
 
 ## 6. Circuits: how features connect
 
-Finding a feature is only the start. The deeper question is how the model uses features to produce a behavior.
+Finding a feature is only the start. The deeper question is how the model uses features to produce a behavior. A circuit is the smallest causal story you can tell about that: which components, in which order, produce a specific output.
 
-That is what a circuit is for. A circuit is a subgraph of the model's computation that explains a specific behavior: not just what features exist, but how features in earlier layers lead to features in later layers and finally to the output.
+The major case study is the Indirect Object Identification, or IOI, circuit in GPT-2 Small. Given "When Mary and John went to the store, John gave a drink to \_\_\_", the model predicts "Mary." Researchers traced this to a set of attention heads with distinct roles. Some detect that "John" is repeated. Some identify "Mary" as the non-repeated name. Some suppress "John" from the prediction.
 
-The major case study is the Indirect Object Identification, or IOI, circuit in GPT-2 Small. Given "When Mary and John went to the store, John gave a drink to \_\_\_", the model predicts "Mary." The interesting part is not just that it gets the answer right. It is that researchers can identify a set of attention heads with distinct roles in producing that answer. Some detect that "John" is repeated. Some identify "Mary" as the non-repeated name. Some suppress "John" from the prediction.
+The technique for establishing this is activation patching, a way to run a controlled experiment on the model's internals. You run the model on a clean input and a corrupted input, for example with the names scrambled. Then you swap one component's activations from the corrupted run into the clean run. If the prediction breaks, that component was causally involved. For instance, patching the "repeated name" head in the IOI circuit shifts the output away from "Mary" and back toward chance.
 
-The core technique here is activation patching, which is best understood as a controlled experiment on the model's internals. You run the model on a clean input and a corrupted input, for example with the names scrambled. Then you selectively swap one component's activations from the corrupted run into the clean run and check whether the prediction breaks. If replacing a specific head's output damages the prediction, that head is causally involved in the behavior, not just correlated with it.
+This is how you move from knowing what features exist to knowing how the model actually uses them.
 
 ## 7. Reinforcement learning and RLHF
 
@@ -90,29 +87,25 @@ That makes the problem harder. The agent has to learn a policy, a rule mapping s
 
 Two problems dominate this setting. The first is credit assignment. If you win a chess game, which move deserves the credit: the opening, the middle-game sacrifice, or the endgame technique? The second is exploration versus exploitation. Should the agent try new strategies that might work better, or keep using the strategy that already seems best?
 
-You'll implement Deep Q-Networks, or DQN, which learn the expected value of each action in each situation, and Proximal Policy Optimization, or PPO, which directly adjusts the policy.
+You will implement two algorithms. Deep Q-Networks, or DQN, learn the expected value of each action in each state and then pick the best one. Proximal Policy Optimization, or PPO, skips the value table and updates the policy directly, which scales better when the action space is large, like generating text token by token.
 
-PPO matters most for safety because it underlies RLHF, Reinforcement Learning from Human Feedback. In RLHF, human preference judgments like "output A is better than output B" get turned into a reward signal for fine-tuning language models. You'll apply RLHF to the transformers you build earlier in the course.
+PPO matters for safety because it underlies RLHF, Reinforcement Learning from Human Feedback. In RLHF, human preference judgments ("output A is better than output B") become a reward signal for fine-tuning language models. You will apply RLHF to the transformers you build earlier in the course.
 
 ## 8. Evaluations
 
-Loss tells you how well a model predicts on average. That is useful, but it is not enough. A model can have good overall performance and still fail in exactly the ways you care about.
+Loss tells you how well a model predicts on average. That is useful, but not enough. A model can score well on aggregate benchmarks and still, say, reliably follow harmful instructions when they are phrased as role-play.
 
-That is why evaluations matter. They are not just benchmarks for capability. They are tests for specific behaviors and failure modes.
+Evaluations test for specific behaviors and failure modes, not just overall capability. You will build a benchmark from scratch, use the UK AISI's Inspect library for standardized evaluations, and construct LLM agents (models given tools and multi-step reasoning scaffolding) to evaluate.
 
-You'll build a benchmark from scratch, use the UK AISI's Inspect library for standardized evaluations, and construct LLM agents, meaning models given tools and multi-step reasoning scaffolding, to evaluate.
-
-Evaluation is harder than it looks. Models can game benchmarks. Capabilities can depend heavily on prompt format, tool access, or surrounding context. And there is a real gap between "can do X in a lab" and "will do X in deployment." Good evaluations try to close that gap.
+Evaluation is harder than it looks. Models can game benchmarks. Capabilities can depend on prompt format, tool access, or surrounding context. There is a real gap between "can do X in a lab" and "will do X in deployment." This is how capability gets tested instead of assumed.
 
 ## 9. Alignment science
 
-A model can be capable and still pursue the wrong objective. That is the basic problem alignment tries to address.
+A model can be capable and still pursue the wrong objective. The hard part is that misalignment may not show up during training. A model can behave well on the distribution it was trained on and drift when the context changes, for instance following instructions faithfully in evaluations but behaving differently when it detects it is deployed unsupervised.
 
-This chapter covers several ways that problem can show up. One is emergent misalignment, where fine-tuning for one objective causes unexpected behavioral changes on others. Another is persona vectors and model psychology, which try to characterize stable behavioral tendencies in models. You'll also look at interpretability applied to chain-of-thought reasoning, and at both black-box and white-box methods for characterizing misaligned behavior.
+This chapter covers several angles on that problem. Emergent misalignment is when fine-tuning for one objective causes unexpected behavioral changes on others. Persona vectors and model psychology try to characterize stable behavioral tendencies. You will also apply interpretability to chain-of-thought reasoning, and use both black-box methods (studying behavior from the outside) and white-box methods (examining activations and weights directly) to detect misaligned behavior.
 
-Black-box methods study behavior from the outside, without seeing internals. White-box methods examine activations and weights directly.
-
-The common thread is that alignment is not just about whether a model can do something useful. It is about whether its behavior reliably tracks the objective you intended, including in settings you did not hand-design in advance.
+This is where the earlier tools stop being abstract. Everything you learned about features, circuits, and evaluations converges on the question: does this model do what we intended, including in settings we did not design for?
 
 ---
 
