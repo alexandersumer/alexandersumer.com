@@ -60,7 +60,7 @@ Each head uses four matrices to do this:
 
 So there are really two subproblems here: where to look, handled by QK, and what to move, handled by OV. These are largely independent, which is why they can often be studied separately.
 
-Induction heads are your first case study. The basic idea is: "I've seen this pattern before, so what came next last time?" If A was followed by B earlier in the context, and A appears again now, predict B. This requires two heads across layers working together. The first, often called a previous-token head, copies information about what preceded each token. The second uses that information to find the match and boost the continuation.
+Induction heads are your first case study. The basic idea is: "I've seen this pattern before, so what came next last time?" If A was followed by B earlier in the context, and A appears again now, predict B. This requires two heads across layers working together. The first, often called a previous-token head, is purely mechanical: it always attends one position back, regardless of content, copying information about what preceded each token. The second head is the interesting one. It uses the information the first head copied to find the matching token and boost the predicted continuation. This two-head composition, one head setting up the information another head needs, is the simplest example of a circuit, which section 6 covers in full.
 
 ## 5. Features, directions, and superposition
 
@@ -74,7 +74,7 @@ This works because of two facts. First, most features are sparse: "is this about
 
 The model takes advantage of this by storing features in near-separate directions rather than perfectly separate ones. Because most of those features rarely turn on together, the overlap usually does not cause serious problems.
 
-Sparse autoencoders, or SAEs, are the main tool for untangling this. If superposition mixes many features together, an SAE tries to recover a cleaner set of underlying features from the model's internal activations. It does this by learning a larger feature space, while enforcing that only a few features should be active at once. The hope is that these learned features line up with interpretable concepts.
+Sparse autoencoders, or SAEs, are the main tool for untangling this. If the model compressed 10,000 features into 1,000 dimensions via superposition, an SAE expands back out to a larger space and looks for axes that correspond to individual features. It enforces that only a few features should be active at once. That sparsity constraint is what makes this work: without it, there are infinitely many ways to decompose the activations and no reason to prefer one over another. The hope is that these learned features line up with interpretable concepts.
 
 ## 6. Circuits: how features connect
 
@@ -94,7 +94,7 @@ That makes the problem harder. The agent has to learn a policy, a rule mapping s
 
 Two problems dominate this setting. The first is credit assignment. If you win a chess game, which move deserves the credit: the opening, the middle-game sacrifice, or the endgame technique? The second is exploration versus exploitation. Should the agent try new strategies that might work better, or keep using the strategy that already seems best?
 
-You'll implement Deep Q-Networks, or DQN, which learn the expected value of each action in each situation, and Proximal Policy Optimization, or PPO, which directly adjusts the policy.
+You'll implement two algorithms. Deep Q-Networks, or DQN, learn a map of how good each action is in each situation, then pick the best one. Proximal Policy Optimization, or PPO, skips the map and directly adjusts what the agent does. That directness is part of why PPO scales to RLHF, where the action space is all possible text outputs and building a value map over that is impractical.
 
 PPO matters most for safety because it underlies RLHF, Reinforcement Learning from Human Feedback. In RLHF, human preference judgments like "output A is better than output B" get turned into a reward signal for fine-tuning language models. You'll apply RLHF to the transformers you build earlier in the course.
 
