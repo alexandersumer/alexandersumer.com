@@ -126,7 +126,7 @@ The question running through all of this is whether a model's behavior reliably 
 
 **Pacing:** ARENA is dense. You won't retain everything on the first pass. Focus on understanding why each technique works. You can look up the details later.
 
-**Capstone:** The final three weeks are project time. Start thinking early. A clean replication of one result from a recent paper is worth more than an ambitious half-finished project.
+**Capstone:** The final week is project time. Start thinking early. A clean replication of one result from a recent paper is worth more than an ambitious half-finished project.
 
 **Prerequisites:** Be fluent with PyTorch tensor operations, basic linear algebra such as matrix multiplication, eigenvalues, and SVD, and Python. Work through the prerequisite notebook they send you.
 
