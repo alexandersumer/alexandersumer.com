@@ -25,9 +25,9 @@ The anti-pattern is the monolithic prompt. Stuffing all requirements into one in
 
 Front-load context. Before the agent writes anything, have it read the README, understand the test framework, confirm it can reproduce the problem. Lead with constraints and context, not implementation details.
 
-### Your Project Instructions File Is Infrastructure
+### Invest in Your Project Instructions File
 
-Every major coding agent has a project-level instructions file: `CLAUDE.md` for Claude Code, `.cursorrules` for Cursor, `.github/copilot-instructions.md` for GitHub Copilot, `AGENTS.md` for Codex. Most teams underinvest in this. The file is read at the start of every conversation. It is your agent's persistent memory.
+Every major coding agent has a project-level instructions file: `CLAUDE.md` for Claude Code, `.cursorrules` for Cursor, `.github/copilot-instructions.md` for GitHub Copilot, `AGENTS.md` for Codex. Most teams underinvest in this. It gets read at the start of every conversation, so it's worth getting right.
 
 What it should contain: project structure, how to build/test/lint, key architectural decisions, and how the agent should verify its own work.
 
@@ -43,7 +43,7 @@ For monorepos: hierarchical instruction files. Root for global rules, subdirecto
 
 Create multiple full clones of your repo, not worktrees. Full clones let you check out the same branch in multiple sessions simultaneously.
 
-Each session has its own context window. Three parallel sessions triple your total context budget. One session on auth refactoring, another writing tests, a third on docs. They don't interfere with each other.
+Each session has its own context window. Three parallel sessions triple your total context budget, and they don't interfere with each other.
 
 One concern per session.
 
