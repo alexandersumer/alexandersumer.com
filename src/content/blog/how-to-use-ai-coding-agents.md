@@ -59,6 +59,16 @@ Use the most intelligent models even if they're expensive. Don't optimize for to
 
 More advanced: use a multi-model strategy. Smartest model for planning and complex reasoning. Faster model for well-defined execution. A different model entirely for QA, because cross-model verification catches errors that self-review misses.
 
+### Work in Agent-Friendly Languages
+
+Coding agents perform best in languages that satisfy three conditions simultaneously: a strong static type system, source-available package distribution, and large-scale popularity. Today that's TypeScript, Go, and Rust.
+
+Each condition matters on its own. Static types give the agent a compiler-driven feedback loop: free, instant verification at every edit that narrows the search space of valid programs. Without types, the agent relies on runtime testing or human review to know if its output is correct. Source-available packaging (npm packages, Go modules, Rust crates) means the model has likely seen the internals of libraries it calls, and at inference time the agent can read dependency source directly instead of relying on documentation that's often incomplete or wrong. JVM and .NET ecosystems distribute compiled artifacts by default, so agents hallucinate APIs more often. Popularity provides training data volume. An obscure language could be perfectly typed and fully source-distributed but still underserved due to sparse training signal.
+
+The three conditions compound, they don't just add. Types without source availability means the agent verifies its own code but guesses at library interfaces (Kotlin, C#). Source availability without types means the agent reads everything but gets weak correctness feedback (Python, Ruby). Popularity without the other two means lots of training data but high error rates (JavaScript without TypeScript). You need all three.
+
+This maps to observed reality. AI coding tools consistently produce their best results in TypeScript, Go, and Rust. Performance degrades noticeably in JVM languages despite their popularity and type systems, and in dynamic languages despite their popularity and source availability.
+
 ### Automate Your Repetition
 
 If you find yourself typing something over and over, automate it.
