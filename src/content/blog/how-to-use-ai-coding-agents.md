@@ -1,33 +1,29 @@
 ---
-title: 'How to Use AI Coding Agents'
+title: 'How to Use AI Coding Agents Effectively'
 date: 2026-03-15
 description: 'The gap between frustration and productivity with AI coding agents is judgment. Plan, execute, and verify separately, and invest in fast feedback loops.'
 draft: false
 ---
 
-Many people use coding agents for a bit, get frustrated, and conclude "they're not good." That's like picking up a guitar, fumbling through a few chords, and concluding the instrument is broken. What you are actually building when you use these tools intensely is judgment: when to delegate, when to collaborate, and when to do the work yourself. That judgment compounds. The people getting the most out of agents today aren't using better tools. They built the skill to use them well.
+Many people use coding agents for a bit, get frustrated, and conclude "they're not good." That's like picking up a guitar, fumbling through a few chords, and concluding the instrument is broken. What you are actually building when you use these tools intensely is judgment: when to delegate, when to collaborate, and when to do the work yourself. The people getting the most out of agents today aren't using better tools. They built the skill to use them well.
 
-Planning, execution, and verification are fundamentally different activities and they need to happen separately. People conflate them. They ask the agent to plan and build at the same time, and the result is worse plans AND worse code. Most coding agents have a planning or read-only mode that lets the agent analyze your codebase and propose a strategy without writing anything. Use it. If yours doesn't, just tell the agent: "analyze this codebase and propose a plan. Do not write any code." Separating planning from execution reduces token consumption by 40-60% on complex tasks.
+Planning, execution, and verification are fundamentally different activities and they need to happen separately. People conflate them. They ask the agent to plan and build at the same time, and the result is worse plans AND worse code. Most coding agents have a planning or read-only mode that lets the agent analyze your codebase and propose a strategy without writing anything. Use it. If yours doesn't, just tell the agent: "analyze this codebase and propose a plan. Do not write any code."
 
 ---
 
 ## Planning
 
-### Write Specs Before Code
-
-Start every project with a spec.md that the AI drafts and you approve. Review it. Correct it. Only then implement. The spec should define what "done" looks like: acceptance criteria, not feature descriptions. Version-control it alongside the code. When implementation drifts, the spec is what you go back to.
-
 ### Plan Your Sessions
 
 Take your time writing prompts. Think through the sequence: what goes first, what the agent needs to learn before it acts, what commands it will run and in what order.
 
-Create structured prompt plans: a sequence of prompts for each task, executed one by one. Each chunk small enough that the agent handles it within context.
+Break your task into a sequence of prompts, executed one by one. Each chunk small enough that the agent handles it within context.
 
-Example session: (1) agent reads relevant code and existing tests, (2) drafts a spec, (3) you review, (4) implement step 1, (5) verify step 1, (6) implement step 2, and so on.
+Example session: (1) agent reads relevant code and existing tests, (2) you review what it found, (3) implement step 1, (4) verify step 1, (5) implement step 2, and so on.
 
 The anti-pattern is the monolithic prompt. Stuffing all requirements into one instruction. The result feels like "10 devs worked on it without talking to each other."
 
-Front-load context. Before the agent writes anything, have it read the README, understand the test framework, confirm it can reproduce the problem. What you tell the agent first shapes how it interprets everything after. Lead with constraints and context, not implementation details.
+Front-load context. Before the agent writes anything, have it read the README, understand the test framework, confirm it can reproduce the problem. Lead with constraints and context, not implementation details.
 
 ### Your Project Instructions File Is Infrastructure
 
@@ -47,7 +43,7 @@ For monorepos: hierarchical instruction files. Root for global rules, subdirecto
 
 Create multiple full clones of your repo, not worktrees. Full clones let you check out the same branch in multiple sessions simultaneously.
 
-Each session has its own context window. Three parallel sessions triple your total context budget. One session on auth refactoring, another writing tests, a third on docs. No cross-contamination, no quality degradation from overloading a single context.
+Each session has its own context window. Three parallel sessions triple your total context budget. One session on auth refactoring, another writing tests, a third on docs. They don't interfere with each other.
 
 One concern per session.
 
@@ -101,7 +97,7 @@ Don't rely on the model to remember your rules. Enforce them with automation.
 
 Most coding agents support automated guardrails: hooks that fire at lifecycle events, rules that trigger on specific actions, or pre/post-processing steps. Block edits on the main branch, run the linter before accepting changes, auto-format after every edit, run the full test suite before the agent declares itself done.
 
-An instruction in your project file saying "never use rm -rf" can be forgotten under context pressure. An automated rule that blocks it cannot.
+An instruction in your project file saying "never use rm -rf" can get ignored. An automated rule that blocks it cannot.
 
 ---
 
@@ -127,7 +123,7 @@ Coding agents perform best in languages that satisfy three conditions simultaneo
 
 Each condition matters on its own. Static types give the agent a compiler-driven feedback loop: free, instant verification at every edit that narrows the search space of valid programs. Without types, the agent relies on runtime testing or human review to know if its output is correct. Source-available packaging (npm packages, Go modules, Rust crates) means the model trained on the full dependency graph, and at inference time the agent can read actual library source on disk rather than speculating from documentation that's often incomplete or wrong. JVM and .NET ecosystems distribute compiled bytecode by default. There is nothing for the agent to open and read, so it hallucinates APIs more often. Popularity provides training data volume. An obscure language could be perfectly typed and fully source-distributed but still underserved due to sparse training signal.
 
-The three conditions compound, they don't just add. Types without source availability means the agent verifies its own code but guesses at library interfaces (Kotlin, C#). Source availability without types means the agent reads everything but gets weak correctness feedback (Python, Ruby). Popularity without the other two means lots of training data but high error rates (JavaScript without TypeScript). You need all three.
+You need all three together. Types without source availability means the agent verifies its own code but guesses at library interfaces (Kotlin, C#). Source availability without types means the agent reads everything but gets weak correctness feedback (Python, Ruby). Popularity without the other two means lots of training data but high error rates (JavaScript without TypeScript).
 
 AI coding tools consistently produce their best results in TypeScript, Go, and Rust. Performance degrades noticeably in JVM languages despite their popularity and type systems, and in dynamic languages despite their popularity and source availability.
 
