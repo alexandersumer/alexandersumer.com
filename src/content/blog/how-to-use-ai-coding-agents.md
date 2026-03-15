@@ -21,7 +21,7 @@ Break your task into a sequence of prompts, executed one by one. Each chunk smal
 
 Example session: (1) agent reads relevant code and existing tests, (2) you review what it found, (3) implement step 1, (4) verify step 1, (5) implement step 2, and so on.
 
-The anti-pattern is the monolithic prompt. Stuffing all requirements into one instruction. The result feels like "10 devs worked on it without talking to each other."
+The anti-pattern is monolithic execution: stuffing all requirements into one prompt and asking the agent to build everything at once. The result feels like "10 devs worked on it without talking to each other." Giving the agent all the context up front is fine, as long as it's reasoning about the plan, not executing it all in one shot.
 
 Front-load context. Before the agent writes anything, have it read the README, understand the test framework, confirm it can reproduce the problem. Lead with constraints and context, not implementation details.
 
