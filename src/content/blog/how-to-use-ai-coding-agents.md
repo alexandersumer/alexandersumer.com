@@ -5,7 +5,7 @@ description: 'The gap between frustration and productivity with AI coding agents
 draft: false
 ---
 
-Many people use coding agents for a bit, get frustrated, and conclude "they're not good." That's like playing a piano for a week and saying pianos don't work. What you are actually building when you use these tools intensely is judgment: when to delegate, when to collaborate, and when to do the work yourself. Most teams report using AI in roughly 60% of their work but can fully delegate only 0-20% of tasks. The gap is skill. There are entire production codebases where 90%+ of the code was written by agents. That didn't happen on day one.
+Many people use coding agents for a bit, get frustrated, and conclude "they're not good." That's like picking up a guitar, fumbling through a few chords, and concluding the instrument is broken. What you are actually building when you use these tools intensely is judgment: when to delegate, when to collaborate, and when to do the work yourself. Most teams report using AI in roughly 60% of their work but can fully delegate only 0-20% of tasks. The gap is skill. There are entire production codebases where 90%+ of the code was written by agents. That didn't happen on day one.
 
 Planning, execution, and verification are fundamentally different activities and they need to happen separately. People conflate them. They ask the agent to plan and build at the same time, and the result is worse plans AND worse code. Most coding agents have a planning or read-only mode that lets the agent analyze your codebase and propose a strategy without writing anything. Use it. If yours doesn't, just tell the agent: "analyze this codebase and propose a plan. Do not write any code." Separating planning from execution reduces token consumption by 40-60% on complex tasks. Everything below maps to one of these three phases.
 
@@ -58,16 +58,6 @@ One concern per session.
 Use the most intelligent models even if they're expensive. Don't optimize for token cost when the bottleneck is your time. A $0.50 prompt that gets it right in one shot is cheaper than five $0.05 prompts that each need fixing.
 
 More advanced: use a multi-model strategy. Smartest model for planning and complex reasoning. Faster model for well-defined execution. A different model entirely for QA, because cross-model verification catches errors that self-review misses.
-
-### Work in Agent-Friendly Languages
-
-Coding agents perform best in languages that satisfy three conditions simultaneously: a strong static type system, source-available package distribution, and large-scale popularity. Today that's TypeScript, Go, and Rust.
-
-Each condition matters on its own. Static types give the agent a compiler-driven feedback loop: free, instant verification at every edit that narrows the search space of valid programs. Without types, the agent relies on runtime testing or human review to know if its output is correct. Source-available packaging (npm packages, Go modules, Rust crates) means the model trained on the full dependency graph, and at inference time the agent can read actual library source on disk rather than speculating from documentation that's often incomplete or wrong. JVM and .NET ecosystems distribute compiled bytecode by default. There is nothing for the agent to open and read, so it hallucinates APIs more often. Popularity provides training data volume. An obscure language could be perfectly typed and fully source-distributed but still underserved due to sparse training signal.
-
-The three conditions compound, they don't just add. Types without source availability means the agent verifies its own code but guesses at library interfaces (Kotlin, C#). Source availability without types means the agent reads everything but gets weak correctness feedback (Python, Ruby). Popularity without the other two means lots of training data but high error rates (JavaScript without TypeScript). You need all three.
-
-This maps to observed reality. AI coding tools consistently produce their best results in TypeScript, Go, and Rust. Performance degrades noticeably in JVM languages despite their popularity and type systems, and in dynamic languages despite their popularity and source availability.
 
 ### Automate Your Repetition
 
@@ -131,9 +121,19 @@ Bail signals: the agent repeats itself, contradicts a decision it made earlier, 
 
 ### Commit Before Everything
 
-Every expert workflow assumes git discipline but nobody talks about it.
+Agents move fast and break things across many files at once. Without frequent commits, you have no way to isolate what the agent changed from what you changed, and no way to roll back a bad generation without losing your own work.
 
-Commit before every major agent operation. Feature branches. Small, focused commits. Checkpoints undo file changes within a session but git gives you durable rollback. `git diff` shows exactly what the agent changed. Small commits create natural context boundaries.
+Commit before every major agent operation. Use feature branches. Keep commits small and focused. `git diff` between commits is the fastest way to review what the agent actually did, and small commits let you revert a single bad step instead of an entire session.
+
+### Work in Agent-Friendly Languages
+
+Coding agents perform best in languages that satisfy three conditions simultaneously: a strong static type system, source-available package distribution, and large-scale popularity. Today that's TypeScript, Go, and Rust.
+
+Each condition matters on its own. Static types give the agent a compiler-driven feedback loop: free, instant verification at every edit that narrows the search space of valid programs. Without types, the agent relies on runtime testing or human review to know if its output is correct. Source-available packaging (npm packages, Go modules, Rust crates) means the model trained on the full dependency graph, and at inference time the agent can read actual library source on disk rather than speculating from documentation that's often incomplete or wrong. JVM and .NET ecosystems distribute compiled bytecode by default. There is nothing for the agent to open and read, so it hallucinates APIs more often. Popularity provides training data volume. An obscure language could be perfectly typed and fully source-distributed but still underserved due to sparse training signal.
+
+The three conditions compound, they don't just add. Types without source availability means the agent verifies its own code but guesses at library interfaces (Kotlin, C#). Source availability without types means the agent reads everything but gets weak correctness feedback (Python, Ruby). Popularity without the other two means lots of training data but high error rates (JavaScript without TypeScript). You need all three.
+
+This maps to observed reality. AI coding tools consistently produce their best results in TypeScript, Go, and Rust. Performance degrades noticeably in JVM languages despite their popularity and type systems, and in dynamic languages despite their popularity and source availability.
 
 ### Know What Good Code Looks Like
 
