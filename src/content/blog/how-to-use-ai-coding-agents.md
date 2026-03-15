@@ -7,7 +7,7 @@ draft: false
 
 Many people use coding agents for a bit, get frustrated, and conclude "they're not good." That's like picking up a guitar, fumbling through a few chords, and concluding the instrument is broken. What you are actually building when you use these tools intensely is judgment: when to delegate, when to collaborate, and when to do the work yourself. That judgment compounds. The people getting the most out of agents today aren't using better tools. They built the skill to use them well.
 
-Planning, execution, and verification are fundamentally different activities and they need to happen separately. People conflate them. They ask the agent to plan and build at the same time, and the result is worse plans AND worse code. Most coding agents have a planning or read-only mode that lets the agent analyze your codebase and propose a strategy without writing anything. Use it. If yours doesn't, just tell the agent: "analyze this codebase and propose a plan. Do not write any code." Separating planning from execution reduces token consumption by 40-60% on complex tasks. Everything below maps to one of these three phases.
+Planning, execution, and verification are fundamentally different activities and they need to happen separately. People conflate them. They ask the agent to plan and build at the same time, and the result is worse plans AND worse code. Most coding agents have a planning or read-only mode that lets the agent analyze your codebase and propose a strategy without writing anything. Use it. If yours doesn't, just tell the agent: "analyze this codebase and propose a plan. Do not write any code." Separating planning from execution reduces token consumption by 40-60% on complex tasks.
 
 ---
 
@@ -31,7 +31,7 @@ Front-load context. Before the agent writes anything, have it read the README, u
 
 ### Your Project Instructions File Is Infrastructure
 
-Every major coding agent has a project-level instructions file: `CLAUDE.md` for Claude Code, `.cursorrules` for Cursor, `.github/copilot-instructions.md` for GitHub Copilot, `AGENTS.md` for Codex, and similar patterns in others. Most teams underinvest in this. The file is read at the start of every conversation. It is your agent's persistent memory.
+Every major coding agent has a project-level instructions file: `CLAUDE.md` for Claude Code, `.cursorrules` for Cursor, `.github/copilot-instructions.md` for GitHub Copilot, `AGENTS.md` for Codex. Most teams underinvest in this. The file is read at the start of every conversation. It is your agent's persistent memory.
 
 What it should contain: project structure, how to build/test/lint, key architectural decisions, and how the agent should verify its own work.
 
@@ -87,7 +87,7 @@ Write/test/fix is the fundamental unit of AI-assisted development. Agents can mo
 
 Your coding agent is only as good as your feedback loop. You need to reproduce CI locally, run the service e2e locally, get quick feedback that is representative of production.
 
-If your CI only runs remotely and takes 20 minutes, you're flying blind for 20-minute stretches. Fast local feedback (lint, type check, unit tests, security scan) compounds when working with agents.
+If your CI only runs remotely and takes 20 minutes, you're flying blind for 20-minute stretches. Fast local feedback (lint, type check, unit tests, security scan) is what lets agents iterate without waiting on you.
 
 ### Security Is Not Optional
 
@@ -129,7 +129,7 @@ Each condition matters on its own. Static types give the agent a compiler-driven
 
 The three conditions compound, they don't just add. Types without source availability means the agent verifies its own code but guesses at library interfaces (Kotlin, C#). Source availability without types means the agent reads everything but gets weak correctness feedback (Python, Ruby). Popularity without the other two means lots of training data but high error rates (JavaScript without TypeScript). You need all three.
 
-This maps to observed reality. AI coding tools consistently produce their best results in TypeScript, Go, and Rust. Performance degrades noticeably in JVM languages despite their popularity and type systems, and in dynamic languages despite their popularity and source availability.
+AI coding tools consistently produce their best results in TypeScript, Go, and Rust. Performance degrades noticeably in JVM languages despite their popularity and type systems, and in dynamic languages despite their popularity and source availability.
 
 ### Know What Good Code Looks Like
 
