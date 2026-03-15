@@ -5,9 +5,9 @@ description: 'The gap between frustration and productivity with AI coding agents
 draft: false
 ---
 
-Many people use coding agents for a bit, get frustrated, and conclude "they're not good." That's like playing a piano for a week and saying pianos don't work. What you are actually building when you use these tools intensely is judgment: when to delegate, when to collaborate, and when to do the work yourself. At Anthropic, engineers use AI in roughly 60% of their work but can fully delegate only 0-20% of tasks. The gap is skill. 90% of the code for Claude Code is written by Claude Code. That didn't happen on day one.
+Many people use coding agents for a bit, get frustrated, and conclude "they're not good." That's like playing a piano for a week and saying pianos don't work. What you are actually building when you use these tools intensely is judgment: when to delegate, when to collaborate, and when to do the work yourself. Most teams report using AI in roughly 60% of their work but can fully delegate only 0-20% of tasks. The gap is skill. There are entire production codebases where 90%+ of the code was written by agents. That didn't happen on day one.
 
-Planning, execution, and verification are fundamentally different activities and they need to happen separately. People conflate them. They ask the agent to plan and build at the same time, and the result is worse plans AND worse code. Plan Mode in Claude Code (Shift+Tab) puts the agent in read-only mode where it can analyze your codebase and propose a strategy but won't write anything. This reduces token consumption by 40-60% on complex tasks. Everything below maps to one of these three phases.
+Planning, execution, and verification are fundamentally different activities and they need to happen separately. People conflate them. They ask the agent to plan and build at the same time, and the result is worse plans AND worse code. Most coding agents have a planning or read-only mode that lets the agent analyze your codebase and propose a strategy without writing anything. Use it. If yours doesn't, just tell the agent: "analyze this codebase and propose a plan. Do not write any code." Separating planning from execution reduces token consumption by 40-60% on complex tasks. Everything below maps to one of these three phases.
 
 ---
 
@@ -31,15 +31,15 @@ The anti-pattern is the monolithic prompt. Stuffing all requirements into one in
 
 Front-load context. Before the agent writes anything, have it read the README, understand the test framework, confirm it can reproduce the problem. What you tell the agent first shapes how it interprets everything after. Lead with constraints and context, not implementation details.
 
-### CLAUDE.md Is Infrastructure
+### Your Project Instructions File Is Infrastructure
 
-Most teams underinvest in this. The CLAUDE.md file is read at the start of every conversation. It is your agent's persistent memory.
+Every major coding agent has a project-level instructions file: `CLAUDE.md` for Claude Code, `.cursorrules` for Cursor, `.github/copilot-instructions.md` for GitHub Copilot, `AGENTS.md` for Codex, and similar patterns in others. Most teams underinvest in this. The file is read at the start of every conversation. It is your agent's persistent memory.
 
 What it should contain: project structure, how to build/test/lint, key architectural decisions, and how the agent should verify its own work.
 
-What it should NOT contain: detailed code style rules (that's a linter's job) or large amounts of text. Claude Code's system prompt already has ~50 instructions, nearly a third of what the agent can reliably follow. Your CLAUDE.md competes with those for attention. Keep it short.
+What it should NOT contain: detailed code style rules (that's a linter's job) or large amounts of text. Your agent is already following its own system prompt. Your instructions file competes with those for attention. Keep it short and high-signal.
 
-For monorepos: hierarchical CLAUDE.md files. Root for global rules, subdirectory for service-specific context.
+For monorepos: hierarchical instruction files. Root for global rules, subdirectory for service-specific context.
 
 ---
 
@@ -49,7 +49,7 @@ For monorepos: hierarchical CLAUDE.md files. Root for global rules, subdirectory
 
 Create multiple full clones of your repo, not worktrees. Full clones let you check out the same branch in multiple sessions simultaneously.
 
-Each session has its own context window. 3 parallel sessions give you 600k tokens of total budget. One session on auth refactoring, another writing tests, a third on docs. No cross-contamination, no quality degradation from overloading a single context.
+Each session has its own context window. Three parallel sessions triple your total context budget. One session on auth refactoring, another writing tests, a third on docs. No cross-contamination, no quality degradation from overloading a single context.
 
 One concern per session.
 
@@ -61,17 +61,19 @@ More advanced: use a multi-model strategy. Smartest model for planning and compl
 
 ### Automate Your Repetition
 
-If you find yourself typing something over and over, create a skill for it.
+If you find yourself typing something over and over, automate it.
 
-A skill is a SKILL.md file in `.claude/skills/` that teaches Claude how to approach a category of work. Not step-by-step scripts. Conventions, checklists, decision frameworks. The taxonomy: skills (knowledge), commands (slash commands for specific sequences), agents (specialists with their own context), hooks (lifecycle event handlers).
+Every serious coding agent supports some form of custom commands or reusable prompts: slash commands, saved prompts, custom actions, or instruction files scoped to specific tasks. The common taxonomy across tools: skills (domain knowledge), commands (repeatable sequences), agents (specialists with their own context), and hooks or rules (automated guardrails).
+
+Not step-by-step scripts. Conventions, checklists, decision frameworks.
 
 Example: "I kept typing 'run the linter, then the type checker, then the tests' so I created a `/verify` command that does all three and only shows me failures."
 
 ### Manage Your Context Window
 
-LLMs perform measurably worse as the context window fills. Monitor the context meter. Compact proactively at 50% to keep quality high. At 70%, compact or start fresh.
+LLMs perform measurably worse as the context window fills. Most agents show a context usage indicator. Compact or summarize proactively at 50% to keep quality high. At 70%, compact or start fresh.
 
-Start new sessions for new tasks. Don't reuse a debugging session for feature work. Use subagents for tasks that read many files. They get their own isolated context and return a summary, keeping your main session clean.
+Start new sessions for new tasks. Don't reuse a debugging session for feature work. If your agent supports sub-tasks or background agents, use them for tasks that read many files. They get their own isolated context and return a summary, keeping your main session clean.
 
 ---
 
@@ -97,13 +99,13 @@ Across 30 PRs from three coding agents, 87% contained at least one security vuln
 
 On BaxBench, a basic security reminder in the prompt improved secure code output from 56% to 66% for the top-performing model. Add security scanning to your verification loop. Static analysis on every PR.
 
-### Hooks Make Verification Automatic
+### Make Verification Automatic
 
-Hooks fire at specific lifecycle events in Claude Code and enforce rules without relying on the model's instruction-following.
+Don't rely on the model to remember your rules. Enforce them with automation.
 
-PreToolUse: block edits on main branch, run linter before accepting changes. PostToolUse: auto-format after every edit, run type checker. Stop: run full test suite before the agent declares itself done. PreCompact: save git diff before compaction.
+Most coding agents support some form of automated guardrails: hooks that fire at lifecycle events, rules that trigger on specific actions, or pre/post-processing steps. The specifics vary by tool, but the principle is the same: block edits on the main branch, run the linter before accepting changes, auto-format after every edit, run the full test suite before the agent declares itself done.
 
-An instruction in CLAUDE.md saying "never use rm -rf" can be forgotten under context pressure. A hook that blocks it cannot.
+An instruction in your project file saying "never use rm -rf" can be forgotten under context pressure. An automated rule that blocks it cannot.
 
 ---
 
@@ -127,8 +129,8 @@ Commit before every major agent operation. Feature branches. Small, focused comm
 
 The agent accelerates experts more than beginners. If you don't know what good code looks like in a given domain, the agent can produce convincing garbage and you won't catch it.
 
-From Anthropic's internal research: "I'm primarily using AI in cases where I know what the answer should be or should look like. I developed that ability by doing software engineering the hard way."
+As one senior engineer put it: "I'm primarily using AI in cases where I know what the answer should be or should look like. I developed that ability by doing software engineering the hard way."
 
 ### Watch Your Supply Chain
 
-MCP servers, plugins, and third-party skills are a real attack surface. Audit your MCP configurations in `.mcp.json`. Don't auto-approve all servers. Review plugin permissions. The attack vector for AI coding tools is text: prompt injection through tool outputs, malicious context in cloned repos, poisoned dependencies.
+Extensions, plugins, MCP servers, and third-party integrations are a real attack surface. Audit your tool configurations. Don't auto-approve all extensions. Review plugin permissions. The attack vector for AI coding tools is text: prompt injection through tool outputs, malicious context in cloned repos, poisoned dependencies.
