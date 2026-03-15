@@ -15,9 +15,7 @@ Planning, execution, and verification are fundamentally different activities and
 
 ### Write Specs Before Code
 
-Have the AI draft a spec. Review it. Correct it. Only then implement. The spec is what you go back to when things drift.
-
-Start every project with a spec.md that the AI drafts and you approve, then loop through write/test/fix against it. The spec should define what "done" looks like. Acceptance criteria, not feature descriptions. Version-control it alongside the code.
+Start every project with a spec.md that the AI drafts and you approve. Review it. Correct it. Only then implement. The spec should define what "done" looks like: acceptance criteria, not feature descriptions. Version-control it alongside the code. When implementation drifts, the spec is what you go back to.
 
 ### Plan Your Sessions
 
@@ -63,9 +61,7 @@ More advanced: use a multi-model strategy. Smartest model for planning and compl
 
 If you find yourself typing something over and over, automate it.
 
-Every serious coding agent supports some form of custom commands or reusable prompts: slash commands, saved prompts, custom actions, or instruction files scoped to specific tasks. The common taxonomy across tools: skills (domain knowledge), commands (repeatable sequences), agents (specialists with their own context), and hooks or rules (automated guardrails).
-
-Not step-by-step scripts. Conventions, checklists, decision frameworks.
+Every serious coding agent supports some form of custom commands or reusable prompts: slash commands, saved prompts, custom actions, or instruction files scoped to specific tasks. Encode your conventions, checklists, and decision frameworks into these so the agent applies them consistently without you repeating yourself.
 
 Example: "I kept typing 'run the linter, then the type checker, then the tests' so I created a `/verify` command that does all three and only shows me failures."
 
@@ -103,7 +99,7 @@ On BaxBench, a basic security reminder in the prompt improved secure code output
 
 Don't rely on the model to remember your rules. Enforce them with automation.
 
-Most coding agents support some form of automated guardrails: hooks that fire at lifecycle events, rules that trigger on specific actions, or pre/post-processing steps. The specifics vary by tool, but the principle is the same: block edits on the main branch, run the linter before accepting changes, auto-format after every edit, run the full test suite before the agent declares itself done.
+Most coding agents support automated guardrails: hooks that fire at lifecycle events, rules that trigger on specific actions, or pre/post-processing steps. Block edits on the main branch, run the linter before accepting changes, auto-format after every edit, run the full test suite before the agent declares itself done.
 
 An instruction in your project file saying "never use rm -rf" can be forgotten under context pressure. An automated rule that blocks it cannot.
 
