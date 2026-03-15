@@ -5,9 +5,9 @@ description: 'The gap between frustration and productivity with AI coding agents
 draft: false
 ---
 
-Many people use coding agents for a bit, get frustrated, and conclude "they're not good." That's like picking up a guitar, fumbling through a few chords, and concluding "guitars aren't there yet." What you are actually building when you use these tools intensely is judgment: when to delegate, when to collaborate, and when to do the work yourself. The people getting the most out of agents today aren't using better tools. They built the skill to use them well.
+Many people use coding agents for a bit, get frustrated, and conclude "they're not good." That's like picking up a guitar, fumbling through a few chords, and concluding "guitars just don't work for me." What you're actually building is judgment: when to delegate, when to collaborate, and when to do the work yourself. The people getting the most out of agents today aren't using better tools. They built the skill to use them well.
 
-Planning, execution, and verification are fundamentally different activities and they need to happen separately. People conflate them. They ask the agent to plan and build at the same time, and the result is worse plans AND worse code. Most coding agents have a planning or read-only mode that lets the agent analyze your codebase and propose a strategy without writing anything. Use it. If yours doesn't, just tell the agent: "analyze this codebase and propose a plan. Do not write any code."
+Planning, execution, and verification are fundamentally different activities and they need to happen separately. People conflate them. They ask the agent to plan and build at the same time, and the result is worse plans AND worse code. Most coding agents have a planning or read-only mode that analyzes your codebase and proposes a strategy without writing anything. Use it. If yours doesn't, just tell the agent: "analyze this codebase and propose a plan. Do not write any code."
 
 ---
 
@@ -85,7 +85,7 @@ Your coding agent is only as good as your feedback loop. You need to reproduce C
 
 If your CI only runs remotely and takes 20 minutes, you're flying blind for 20-minute stretches. Fast local feedback (lint, type check, unit tests, security scan) is what lets agents iterate without waiting on you.
 
-### Security Is Not Optional
+### Agents Write Insecure Code
 
 Across 30 PRs from three coding agents, 87% contained at least one security vulnerability. Every PR was functional. The code worked. It wasn't secure. Larger models did not perform significantly better on security. This is systemic.
 
@@ -125,13 +125,11 @@ Each condition matters on its own. Static types give the agent a compiler-driven
 
 You need all three together. Types without source availability means the agent verifies its own code but guesses at library interfaces (Kotlin, C#). Source availability without types means the agent reads everything but gets weak correctness feedback (Python, Ruby). Popularity without the other two means lots of training data but high error rates (JavaScript without TypeScript).
 
-AI coding tools consistently produce their best results in TypeScript, Go, and Rust. Performance degrades noticeably in JVM languages despite their popularity and type systems, and in dynamic languages despite their popularity and source availability.
-
 ### Know What Good Code Looks Like
 
 The agent accelerates experts more than beginners. If you don't know what good code looks like in a given domain, the agent can produce convincing garbage and you won't catch it.
 
-As one senior engineer put it: "I'm primarily using AI in cases where I know what the answer should be or should look like. I developed that ability by doing software engineering the hard way."
+You get the most out of agents in areas where you already know what the answer should look like. That ability comes from doing software engineering the hard way.
 
 ### Watch Your Supply Chain
 
