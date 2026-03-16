@@ -25,16 +25,6 @@ The anti-pattern is monolithic execution: stuffing all requirements into one pro
 
 Front-load context. Before the agent writes anything, have it read the README, understand the test framework, confirm it can reproduce the problem. Lead with constraints and context, not implementation details.
 
-### Invest in Your Project Instructions File
-
-Every major coding agent has a project-level instructions file: `CLAUDE.md` for Claude Code, `.cursorrules` for Cursor, `.github/copilot-instructions.md` for GitHub Copilot, `AGENTS.md` for Codex. Most teams underinvest in this. It gets read at the start of every conversation, so it's worth getting right.
-
-What it should contain: project structure, how to build/test/lint, key architectural decisions, and how the agent should verify its own work.
-
-What it should NOT contain: detailed code style rules (that's a linter's job) or large amounts of text. Your agent is already following its own system prompt. Your instructions file competes with those for attention. Keep it short and high-signal.
-
-For monorepos: hierarchical instruction files. Root for global rules, subdirectory for service-specific context.
-
 ---
 
 ## Execution
@@ -54,14 +44,6 @@ Smarter models are almost always better, for every task. This is counterintuitiv
 I only use the smartest models available at the highest reasoning effort. Even though they cost more per token, I end up spending less overall: less time, fewer tokens, fewer CI cycles, fewer sessions thrown away to context corruption.
 
 Don't optimize for token cost when the bottleneck is your time. A $0.50 prompt that gets it right in one shot is cheaper than five $0.05 prompts that each need fixing.
-
-### Automate Your Repetition
-
-If you find yourself typing something over and over, automate it.
-
-Every serious coding agent supports some form of custom commands or reusable prompts: slash commands, saved prompts, custom actions, or instruction files scoped to specific tasks. Encode your conventions, checklists, and decision frameworks into these so the agent applies them consistently without you repeating yourself.
-
-Example: "I kept typing 'run the linter, then the type checker, then the tests' so I created a `/verify` command that does all three and only shows me failures."
 
 ### Manage Your Context Window
 
@@ -146,7 +128,3 @@ This is why agents widen the gap between senior and junior engineers. The agent 
 Agents are bad at work that requires holding a large amount of subtle context over many steps. If the task requires understanding how six services interact under specific failure conditions, or tracing a race condition across threads, the agent will lose the thread before you do.
 
 They're also bad when the cost of a wrong answer is high and verification is hard. Agents are confident and fast. If you can't verify the output quickly, that confidence works against you. Security-sensitive code, complex migrations, anything where "it compiles and tests pass" is not sufficient, those are places to slow down and do the work yourself or treat the agent's output as a rough draft, not a result.
-
-### Watch Your Supply Chain
-
-Extensions, plugins, MCP servers, and third-party integrations are a real attack surface. Audit your tool configurations. Don't auto-approve all extensions. Review plugin permissions. The attack vector for AI coding tools is text: prompt injection through tool outputs, malicious context in cloned repos, poisoned dependencies.
