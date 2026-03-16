@@ -5,7 +5,7 @@ description: 'The gap between frustration and productivity with AI coding agents
 draft: false
 ---
 
-Many people use coding agents for a bit, get frustrated, and conclude "they're not good." That's like picking up a guitar, fumbling through a few chords, and concluding "guitars just don't work for me." What you're actually building is judgment: when to delegate, when to collaborate, and when to do the work yourself. The people getting the most out of agents today aren't using better tools. They built the skill to use them well.
+Many people use coding agents for a bit, get frustrated, and conclude "they're not good." That's like picking up a guitar, fumbling through a few chords, and concluding "guitars just don't work." What you're actually building is judgment: when to delegate, when to collaborate, and when to do the work yourself. The people getting the most out of agents today aren't using better tools. They built the skill to use them well.
 
 Planning, execution, and verification are fundamentally different activities and they need to happen separately. People conflate them. They ask the agent to plan and build at the same time, and the result is worse plans AND worse code. Most coding agents have a planning or read-only mode that analyzes your codebase and proposes a strategy without writing anything. Use it. If yours doesn't, just tell the agent: "analyze this codebase and propose a plan. Do not write any code."
 
@@ -83,7 +83,7 @@ Write/test/fix is the fundamental unit of AI-assisted development. Agents can mo
 
 Your coding agent is only as good as your feedback loop. You need to reproduce CI locally, run the service e2e locally, get quick feedback that is representative of production.
 
-If your CI only runs remotely and takes 20 minutes, you're flying blind for 20-minute stretches. Fast local feedback (lint, type check, unit tests, security scan) is what lets agents iterate without waiting on you.
+If your CI only runs remotely and takes 20 minutes, you're flying blind for 20-minute stretches. Fast local feedback (lint, type check, unit tests, e2e tests, evals, security scan) is what lets agents iterate without waiting on you.
 
 ### Agents Write Insecure Code
 
@@ -105,11 +105,11 @@ An instruction in your project file saying "never use rm -rf" can get ignored. A
 
 ### Know When to Bail
 
-Ctrl+C, decline PRs, move on. There is no coming back from corrupted context.
+Context corruption is irreversible. When the agent goes down a wrong path, the failed attempts and error messages stay in the context window. They don't just take up space. They actively confuse the model on every subsequent turn. You are not wasting time. You are making every future response in that session worse.
 
-Once the agent has gone down a wrong path, the failed attempts and error messages sit in the context actively confusing the model. You are not just wasting time. You are making every future response in that session worse.
+People try to correct course mid-session. It doesn't work. The bad context is already baked in, shaping every prediction. Start a clean session. It takes 30 seconds.
 
-Bail signals: the agent repeats itself, contradicts a decision it made earlier, or starts suggesting solutions you already rejected. When responses degrade, start a clean session. It takes 30 seconds and saves 10-15 minutes.
+Bail signals: the agent repeats itself, contradicts a decision it made earlier, or suggests fixes you already rejected.
 
 ### Commit Before Everything
 
