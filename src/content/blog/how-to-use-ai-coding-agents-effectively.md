@@ -83,7 +83,7 @@ Write/test/fix is the fundamental unit of AI-assisted development. Agents can mo
 
 Your coding agent is only as good as your feedback loop. You need to reproduce CI locally, run the service e2e locally, get quick feedback that is representative of production.
 
-If your CI only runs remotely and takes 20 minutes, you're flying blind for 20-minute stretches. Fast local feedback (lint, type check, unit tests, security scan) is what lets agents iterate without waiting on you.
+If your CI only runs remotely and takes 20 minutes, you're flying blind for 20-minute stretches. Fast local feedback (lint, type check, unit tests, e2e tests, evals, security scan) is what lets agents iterate without waiting on you.
 
 ### Agents Write Insecure Code
 
@@ -105,11 +105,11 @@ An instruction in your project file saying "never use rm -rf" can get ignored. A
 
 ### Know When to Bail
 
-Ctrl+C, decline PRs, move on. There is no coming back from corrupted context.
+Context corruption is irreversible. When the agent goes down a wrong path, the failed attempts and error messages stay in the context window. They don't just take up space. They actively confuse the model on every subsequent turn. You are not wasting time. You are making every future response in that session worse.
 
-Once the agent has gone down a wrong path, the failed attempts and error messages sit in the context actively confusing the model. You are not just wasting time. You are making every future response in that session worse.
+People try to correct course mid-session. It doesn't work. The bad context is already baked in, shaping every prediction. Start a clean session. It takes 30 seconds.
 
-Bail signals: the agent repeats itself, contradicts a decision it made earlier, or starts suggesting solutions you already rejected. When responses degrade, start a clean session. It takes 30 seconds and saves 10-15 minutes.
+Bail signals: the agent repeats itself, contradicts a decision it made earlier, or suggests fixes you already rejected.
 
 ### Commit Before Everything
 
