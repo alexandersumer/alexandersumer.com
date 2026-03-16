@@ -129,7 +129,15 @@ You need all three together. Types without source availability means the agent v
 
 The agent accelerates experts more than beginners. If you don't know what good code looks like in a given domain, the agent can produce convincing garbage and you won't catch it.
 
-You get the most out of agents in areas where you already know what the answer should look like. That ability comes from doing software engineering the hard way.
+Example: an agent refactors your database access layer and the code compiles, passes tests, and looks clean. A senior engineer glances at it and sees that it opens a new connection per query instead of using the pool. The agent wrote correct code. It wrote code that will fall over at a few hundred concurrent users. If you don't already know what connection handling should look like, you approve that PR.
+
+This is why agents widen the gap between senior and junior engineers. The agent does the typing. The human does the judgment. You get the most out of agents in areas where you already know what the answer should look like. That ability comes from doing software engineering the hard way.
+
+### Know When NOT to Use Agents
+
+Agents are bad at work that requires holding a large amount of subtle context over many steps. If the task requires understanding how six services interact under specific failure conditions, or tracing a race condition across threads, the agent will lose the thread before you do.
+
+They're also bad when the cost of a wrong answer is high and verification is hard. Agents are confident and fast. If you can't verify the output quickly, that confidence works against you. Security-sensitive code, complex migrations, anything where "it compiles and tests pass" is not sufficient, those are places to slow down and do the work yourself or treat the agent's output as a rough draft, not a result.
 
 ### Watch Your Supply Chain
 
