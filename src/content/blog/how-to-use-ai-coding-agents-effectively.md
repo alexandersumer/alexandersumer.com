@@ -5,7 +5,7 @@ description: 'The gap between frustration and productivity with AI coding agents
 draft: false
 ---
 
-Many people use coding agents for a bit, get frustrated, and conclude "they're not good." That's like picking up a guitar, fumbling through a few chords, and concluding "guitars just don't work." What you're actually building is judgment: when to delegate, when to collaborate, and when to do the work yourself. The people getting the most out of agents today aren't using better tools. They built the skill to use them well.
+Many people use coding agents for a bit, get frustrated, and conclude "they're not good." That's like picking up a guitar, fumbling through a few chords, and concluding "guitars just don't work." What you're actually building is judgement about AI itself: when to delegate, when to collaborate, and when to do the work yourself. The people getting the most out of agents today aren't using better tools. They built the skill to use them well.
 
 Planning, execution, and verification are fundamentally different activities and they need to happen separately. People conflate them. They ask the agent to plan and build at the same time, and the result is worse plans AND worse code. Most coding agents have a planning or read-only mode that analyzes your codebase and proposes a strategy without writing anything. Use it. If yours doesn't, just tell the agent: "analyze this codebase and propose a plan. Do not write any code."
 
@@ -80,6 +80,12 @@ Instead of just asking the agent to refactor something, tell it: "after refactor
 The verification must be automated and deterministic. Not "look at the code and tell me if it's right."
 
 Write/test/fix is the fundamental unit of AI-assisted development. Agents can move fast through a project with a good test suite. Without tests, the agent assumes everything is fine.
+
+### Validate Your Tests
+
+Agents default to writing implementation first, then backfilling tests. This makes the tests coupled to the implementation, not the specification. A test written to match existing code passes by construction. It asserts what the code does, not what it should do.
+
+Have the agent write the test first. Run it. Watch it fail. Then write the implementation. A test that has never failed is a test you cannot trust.
 
 ### Invest in Your Local Dev Loop
 
