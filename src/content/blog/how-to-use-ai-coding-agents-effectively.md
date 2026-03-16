@@ -47,11 +47,13 @@ Each session has its own context window. Three parallel sessions triple your tot
 
 One concern per session.
 
-### Use the Best Models
+### Use the Smartest Models
 
-Use the most intelligent models even if they're expensive. Don't optimize for token cost when the bottleneck is your time. A $0.50 prompt that gets it right in one shot is cheaper than five $0.05 prompts that each need fixing.
+Smarter models are almost always better, for every task. This is counterintuitive because people assume a "simple" task doesn't need a frontier model. But smarter models find more efficient solutions, make fewer wrong turns, and are less likely to spiral into an unrecoverable state. They use fewer tokens to get to the right answer because they don't waste cycles on bad approaches.
 
-More advanced: use a multi-model strategy. Smartest model for planning and complex reasoning. Faster model for well-defined execution. A different model entirely for QA, because cross-model verification catches errors that self-review misses.
+I only use the smartest models available at the highest reasoning effort. Even though they cost more per token, I end up spending less overall: less time, fewer tokens, fewer CI cycles, fewer sessions thrown away to context corruption.
+
+Don't optimize for token cost when the bottleneck is your time. A $0.50 prompt that gets it right in one shot is cheaper than five $0.05 prompts that each need fixing.
 
 ### Automate Your Repetition
 
