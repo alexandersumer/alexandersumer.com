@@ -67,7 +67,7 @@ Write/test/fix is the fundamental unit of AI-assisted development. Agents can mo
 
 Agents default to writing implementation first, then backfilling tests. This makes the tests coupled to the implementation, not the specification. A test written to match existing code passes by construction. It asserts what the code does, not what it should do.
 
-Have the agent write the test first. Run it. Watch it fail. Then write the implementation. A test that has never failed is a test you cannot trust.
+Have the agent write the test first. Run it. Watch it fail. Then write the implementation. A test that has never failed is a test you cannot trust. A smoke detector that has never been near smoke tells you nothing about whether it works.
 
 ### Invest in Your Local Dev Loop
 
