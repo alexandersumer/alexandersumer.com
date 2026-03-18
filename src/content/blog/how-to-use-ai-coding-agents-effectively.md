@@ -61,7 +61,7 @@ Instead of just asking the agent to refactor something, tell it: "after refactor
 
 The verification must be automated and deterministic. Not "look at the code and tell me if it's right."
 
-Write/test/fix is the fundamental unit of AI-assisted development. Agents can move fast through a project with a good test suite. Without tests, the agent assumes everything is fine.
+The fundamental loop is: write code, run tests, fix failures. Agents can move fast through a project with a good test suite. Without tests, the agent assumes everything is fine.
 
 ### Validate Your Tests
 
