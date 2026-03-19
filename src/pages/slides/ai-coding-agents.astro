@@ -86,9 +86,7 @@ import '@fontsource-variable/lora';
             <li>Break your task into a sequence of prompts, executed one by one</li>
             <li>Each chunk small enough that the agent handles it within context</li>
             <li>Anti-pattern: stuffing all requirements into one prompt</li>
-            <li>
-              <em>"The result feels like 10 devs worked on it without talking to each other"</em>
-            </li>
+            <li>The result feels like 10 devs worked on it without talking to each other</li>
           </ul>
         </div>
       </section>
@@ -125,10 +123,10 @@ import '@fontsource-variable/lora';
         <div class="slide__inner">
           <span class="label" data-reveal style="--d:0">Execution</span>
           <h2 class="heading" data-reveal style="--d:1">Smarter models are cheaper</h2>
-          <blockquote class="slide-quote" data-reveal style="--d:2">
-            "A $0.50 prompt that gets it right in one shot is cheaper than five $0.05 prompts that
-            each need fixing."
-          </blockquote>
+          <p class="hero-text" data-reveal style="--d:2">
+            A $0.50 prompt that gets it right is cheaper than five $0.05 prompts that each need
+            fixing.
+          </p>
           <p class="slide__note" data-reveal style="--d:3">
             Don't optimize for token cost when the bottleneck is your time.
           </p>
@@ -257,8 +255,8 @@ import '@fontsource-variable/lora';
             Tell the agent how to verify its own work
           </h2>
           <blockquote class="slide-quote" data-reveal style="--d:2">
-            "After refactoring, write a script to check that only test cases calling suspending
-            methods got runTest added and no annotations were removed."
+            After refactoring, write a script to check that only test cases calling suspending
+            methods got runTest added and no annotations were removed.
           </blockquote>
           <p class="slide__note" data-reveal style="--d:3">
             Automated and deterministic. Not "look at the code and tell me if it's right."
@@ -274,8 +272,8 @@ import '@fontsource-variable/lora';
             A test that has never failed is a test you cannot trust.
           </p>
           <p class="slide__sub" data-reveal style="--d:2">
-            "A smoke detector that has never been near smoke tells you nothing about whether it
-            works."
+            A smoke detector that has never been near smoke tells you nothing about whether it
+            works.
           </p>
           <p class="slide__note" data-reveal style="--d:3">
             Write the test first. Run it. Watch it fail. Then implement.
@@ -320,8 +318,8 @@ import '@fontsource-variable/lora';
             Don't rely on the model to remember your rules
           </h2>
           <blockquote class="slide-quote" data-reveal style="--d:2">
-            "An instruction in your project file saying 'never use rm -rf' can get ignored. An
-            automated rule that blocks it cannot."
+            An instruction in your project file saying "never use rm -rf" can get ignored. An
+            automated rule that blocks it cannot.
           </blockquote>
           <p class="slide__note" data-reveal style="--d:3">
             Hooks, pre-commit checks, automated guardrails. Enforce them with automation.
@@ -498,8 +496,8 @@ import '@fontsource-variable/lora';
             >
           </p>
           <p class="slide__sub" data-reveal style="--d:2">
-            "An agent refactors your database access layer. It compiles, passes tests, looks clean.
-            A senior engineer sees it opens a new connection per query instead of using the pool."
+            An agent refactors your database access layer. It compiles, passes tests, looks clean. A
+            senior engineer sees it opens a new connection per query instead of using the pool.
           </p>
         </div>
       </section>
