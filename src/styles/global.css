@@ -704,6 +704,14 @@ summary:hover {
 
   .site-header {
     padding: 24px 20px 0;
+    flex-wrap: wrap;
+  }
+  .site-header__left {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .site-header__nav {
+    gap: 16px;
   }
   .site-main {
     padding: 32px 20px 48px;
