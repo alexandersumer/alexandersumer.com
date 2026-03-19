@@ -10,6 +10,9 @@ const currentPath = Astro.url.pathname;
     <nav class="site-header__nav">
       <a href="/" aria-current={currentPath === '/' ? 'page' : undefined}>Home</a>
       <a href="/blog" aria-current={currentPath.startsWith('/blog') ? 'page' : undefined}>Blog</a>
+      <a href="/slides" aria-current={currentPath.startsWith('/slides') ? 'page' : undefined}
+        >Slides</a
+      >
     </nav>
   </div>
   <button class="theme-toggle" type="button" id="theme-toggle" aria-label="Toggle theme"> </button>
