@@ -85,8 +85,10 @@ import '@fontsource-variable/lora';
           <ul class="points" data-reveal style="--d:2">
             <li>Break your task into a sequence of prompts, executed one by one</li>
             <li>Each chunk small enough that the agent handles it within context</li>
-            <li>Anti-pattern: stuffing all requirements into one prompt</li>
-            <li>The result feels like 10 devs worked on it without talking to each other</li>
+            <li>
+              Anti-pattern: stuffing all requirements into one prompt. The result feels like 10 devs
+              worked on it without talking to each other.
+            </li>
           </ul>
         </div>
       </section>
@@ -254,13 +256,14 @@ import '@fontsource-variable/lora';
           <h2 class="heading" data-reveal style="--d:1">
             Tell the agent how to verify its own work
           </h2>
-          <blockquote class="slide-quote" data-reveal style="--d:2">
-            After refactoring, write a script to check that only test cases calling suspending
-            methods got runTest added and no annotations were removed.
-          </blockquote>
-          <p class="slide__note" data-reveal style="--d:3">
-            Automated and deterministic. Not "look at the code and tell me if it's right."
-          </p>
+          <ul class="points" data-reveal style="--d:2">
+            <li>
+              Example: after refactoring, write a script to check that only test cases calling
+              suspending methods got runTest added and no annotations were removed
+            </li>
+            <li>The verification must be automated and deterministic</li>
+            <li>Not "look at the code and tell me if it's right"</li>
+          </ul>
         </div>
       </section>
 
@@ -317,13 +320,13 @@ import '@fontsource-variable/lora';
           <h2 class="heading" data-reveal style="--d:1">
             Don't rely on the model to remember your rules
           </h2>
-          <blockquote class="slide-quote" data-reveal style="--d:2">
-            An instruction in your project file saying "never use rm -rf" can get ignored. An
-            automated rule that blocks it cannot.
-          </blockquote>
-          <p class="slide__note" data-reveal style="--d:3">
-            Hooks, pre-commit checks, automated guardrails. Enforce them with automation.
-          </p>
+          <ul class="points" data-reveal style="--d:2">
+            <li>
+              An instruction saying "never use rm -rf" can get ignored. An automated rule that
+              blocks it cannot.
+            </li>
+            <li>Hooks, pre-commit checks, automated guardrails</li>
+          </ul>
         </div>
       </section>
 
