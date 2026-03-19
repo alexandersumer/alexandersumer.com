@@ -5,7 +5,11 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://alexandersumer.com',
   output: 'static',
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      filter: (page) => !page.includes('/ai-coding-agents'),
+    }),
+  ],
   markdown: {
     shikiConfig: {
       themes: {
