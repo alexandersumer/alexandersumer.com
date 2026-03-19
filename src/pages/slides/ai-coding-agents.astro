@@ -1,6 +1,7 @@
 ---
 import '@fontsource-variable/inter';
 import '@fontsource-variable/lora';
+import ProgressBar from '../../components/ProgressBar.astro';
 ---
 
 <html lang="en">
@@ -23,7 +24,11 @@ import '@fontsource-variable/lora';
     </script>
   </head>
   <body>
-    <div id="progress"></div>
+    <ProgressBar
+      id="progress"
+      color="var(--accent)"
+      transition="transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)"
+    />
 
     <div id="deck">
       <!-- 1 · Title -->
@@ -648,20 +653,6 @@ import '@fontsource-variable/lora';
   }
 
   /* ═══════════════════════════════════════
-     PROGRESS BAR
-     ═══════════════════════════════════════ */
-  #progress {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 4px;
-    background: var(--accent);
-    z-index: 200;
-    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    width: 0%;
-  }
-
-  /* ═══════════════════════════════════════
      SLIDE LAYOUT
      ═══════════════════════════════════════ */
   ::selection {
@@ -1194,7 +1185,7 @@ import '@fontsource-variable/lora';
 
     // Progress
     const pct = total > 1 ? (current / (total - 1)) * 100 : 0;
-    progress.style.width = `${pct}%`;
+    progress.style.transform = `scaleX(${pct / 100})`;
 
     // Counter
     counter.textContent = `${current + 1}\u2009/\u2009${total}`;
