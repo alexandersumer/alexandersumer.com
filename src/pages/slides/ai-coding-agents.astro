@@ -332,33 +332,34 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
         class="diagram diagram--venn"
         data-reveal
         style="--d:2"
-        viewBox="0 0 460 330"
+        viewBox="0 0 520 380"
         xmlns="http://www.w3.org/2000/svg"
       >
         <circle
-          cx="230"
-          cy="120"
-          r="105"
-          fill="rgba(74,111,165,0.12)"
-          stroke="rgba(74,111,165,0.35)"
+          cx="260"
+          cy="130"
+          r="110"
+          fill="rgba(74,111,165,0.10)"
+          stroke="rgba(74,111,165,0.30)"
           stroke-width="1.5"></circle>
         <circle
-          cx="160"
-          cy="225"
-          r="105"
-          fill="rgba(26,122,58,0.12)"
-          stroke="rgba(26,122,58,0.35)"
+          cx="165"
+          cy="260"
+          r="110"
+          fill="rgba(26,122,58,0.10)"
+          stroke="rgba(26,122,58,0.30)"
           stroke-width="1.5"></circle>
         <circle
-          cx="300"
-          cy="225"
-          r="105"
-          fill="rgba(154,114,0,0.12)"
-          stroke="rgba(154,114,0,0.35)"
+          cx="355"
+          cy="260"
+          r="110"
+          fill="rgba(154,114,0,0.10)"
+          stroke="rgba(154,114,0,0.30)"
           stroke-width="1.5"></circle>
+        <!-- Labels outside circles -->
         <text
-          x="230"
-          y="55"
+          x="260"
+          y="30"
           text-anchor="middle"
           font-family="Inter Variable, sans-serif"
           font-size="13"
@@ -366,8 +367,8 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
           fill="currentColor">Static Types</text
         >
         <text
-          x="230"
-          y="71"
+          x="260"
+          y="46"
           text-anchor="middle"
           font-family="Inter Variable, sans-serif"
           font-size="10.5"
@@ -375,26 +376,17 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
           opacity="0.45">compiler feedback</text
         >
         <text
-          x="100"
-          y="280"
+          x="60"
+          y="340"
           text-anchor="middle"
           font-family="Inter Variable, sans-serif"
           font-size="13"
           font-weight="600"
-          fill="currentColor">Source-</text
+          fill="currentColor">Source-Available</text
         >
         <text
-          x="100"
-          y="296"
-          text-anchor="middle"
-          font-family="Inter Variable, sans-serif"
-          font-size="13"
-          font-weight="600"
-          fill="currentColor">Available</text
-        >
-        <text
-          x="100"
-          y="311"
+          x="60"
+          y="356"
           text-anchor="middle"
           font-family="Inter Variable, sans-serif"
           font-size="10.5"
@@ -402,8 +394,8 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
           opacity="0.45">reads actual code</text
         >
         <text
-          x="360"
-          y="286"
+          x="460"
+          y="340"
           text-anchor="middle"
           font-family="Inter Variable, sans-serif"
           font-size="13"
@@ -411,17 +403,18 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
           fill="currentColor">Popularity</text
         >
         <text
-          x="360"
-          y="302"
+          x="460"
+          y="356"
           text-anchor="middle"
           font-family="Inter Variable, sans-serif"
           font-size="10.5"
           fill="currentColor"
           opacity="0.45">training data</text
         >
+        <!-- Center intersection -->
         <text
-          x="230"
-          y="183"
+          x="260"
+          y="205"
           text-anchor="middle"
           font-family="Inter Variable, sans-serif"
           font-size="16"
@@ -429,17 +422,18 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
           fill="var(--accent)">TS</text
         >
         <text
-          x="230"
-          y="205"
+          x="260"
+          y="227"
           text-anchor="middle"
           font-family="Inter Variable, sans-serif"
           font-size="16"
           font-weight="700"
           fill="var(--accent)">Go</text
         >
+        <!-- Two-circle intersections -->
         <text
-          x="282"
-          y="148"
+          x="325"
+          y="165"
           text-anchor="middle"
           font-family="Inter Variable, sans-serif"
           font-size="11.5"
@@ -447,8 +441,8 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
           opacity="0.4">Kotlin, C#</text
         >
         <text
-          x="230"
-          y="263"
+          x="260"
+          y="290"
           text-anchor="middle"
           font-family="Inter Variable, sans-serif"
           font-size="11.5"
@@ -772,7 +766,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
   }
 
   .diagram--venn {
-    max-width: 500px;
+    max-width: 560px;
   }
 
   /* ═══════════════════════════════════════
