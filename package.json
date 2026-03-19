@@ -30,6 +30,6 @@
     "vitest": "^4.0.18"
   },
   "lint-staged": {
-    "*.{js,ts,astro,css,md,json,yml,yaml}": "prettier --write"
+    "**/*.{js,mjs,ts,astro,css,md,json,yml,yaml}": "prettier --write"
   }
 }
