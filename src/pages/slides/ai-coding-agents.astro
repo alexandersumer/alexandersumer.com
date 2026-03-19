@@ -140,12 +140,112 @@ import '@fontsource-variable/lora';
         <div class="slide__inner">
           <span class="label" data-reveal style="--d:0">Execution</span>
           <h2 class="heading" data-reveal style="--d:1">Manage your context window</h2>
-          <ul class="points" data-reveal style="--d:2">
-            <li>LLMs perform <strong>measurably worse</strong> as the context fills</li>
-            <li>Compact or summarize at 50%</li>
-            <li>At 70%, start fresh</li>
-            <li>New sessions for new tasks. Don't reuse a debugging session for feature work.</li>
-          </ul>
+          <svg
+            class="diagram"
+            data-reveal
+            style="--d:2"
+            viewBox="0 0 600 80"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <defs>
+              <clipPath id="bar">
+                <rect width="600" height="36" rx="6" y="20"></rect>
+              </clipPath>
+            </defs>
+            <g clip-path="url(#bar)">
+              <rect x="0" y="20" width="300" height="36" fill="#2a9d5c"></rect>
+              <rect x="300" y="20" width="120" height="36" fill="#c89b2b"></rect>
+              <rect x="420" y="20" width="180" height="36" fill="#c44e36"></rect>
+            </g>
+            <line
+              x1="300"
+              y1="20"
+              x2="300"
+              y2="56"
+              stroke="rgba(255,255,255,0.25)"
+              stroke-width="1.5"></line>
+            <line
+              x1="420"
+              y1="20"
+              x2="420"
+              y2="56"
+              stroke="rgba(255,255,255,0.25)"
+              stroke-width="1.5"></line>
+            <text
+              x="150"
+              y="43"
+              text-anchor="middle"
+              fill="white"
+              font-family="Inter Variable, sans-serif"
+              font-size="13"
+              font-weight="500">High quality</text
+            >
+            <text
+              x="360"
+              y="43"
+              text-anchor="middle"
+              fill="white"
+              font-family="Inter Variable, sans-serif"
+              font-size="13"
+              font-weight="500">Compact</text
+            >
+            <text
+              x="510"
+              y="43"
+              text-anchor="middle"
+              fill="white"
+              font-family="Inter Variable, sans-serif"
+              font-size="13"
+              font-weight="500">Start fresh</text
+            >
+            <text
+              x="0"
+              y="14"
+              fill="currentColor"
+              font-family="Inter Variable, sans-serif"
+              font-size="12"
+              opacity="0.45">0%</text
+            >
+            <text
+              x="300"
+              y="14"
+              text-anchor="middle"
+              fill="currentColor"
+              font-family="Inter Variable, sans-serif"
+              font-size="12"
+              opacity="0.45">50%</text
+            >
+            <text
+              x="420"
+              y="14"
+              text-anchor="middle"
+              fill="currentColor"
+              font-family="Inter Variable, sans-serif"
+              font-size="12"
+              opacity="0.45">70%</text
+            >
+            <text
+              x="600"
+              y="14"
+              text-anchor="end"
+              fill="currentColor"
+              font-family="Inter Variable, sans-serif"
+              font-size="12"
+              opacity="0.45">100%</text
+            >
+            <text
+              x="300"
+              y="74"
+              text-anchor="middle"
+              fill="currentColor"
+              font-family="Inter Variable, sans-serif"
+              font-size="11"
+              opacity="0.35">context window usage →</text
+            >
+          </svg>
+          <p class="slide__note" data-reveal style="--d:3">
+            New sessions for new tasks. Don't reuse a debugging session for feature work.
+          </p>
         </div>
       </section>
 
@@ -266,19 +366,125 @@ import '@fontsource-variable/lora';
         <div class="slide__inner">
           <span class="label" data-reveal style="--d:0">Meta-Skills</span>
           <h2 class="heading" data-reveal style="--d:1">Work in agent-friendly languages</h2>
-          <ul class="points" data-reveal style="--d:2">
-            <li>
-              <strong>Static types:</strong> compiler-driven feedback loop at every edit
-            </li>
-            <li>
-              <strong>Source-available packages:</strong> the agent reads actual library code, not docs
-            </li>
-            <li><strong>Popularity:</strong> training data volume</li>
-            <li>
-              You need all three together. Today that's <strong class="accent">TypeScript</strong> and
-              <strong class="accent">Go</strong>.
-            </li>
-          </ul>
+          <svg
+            class="diagram diagram--venn"
+            data-reveal
+            style="--d:2"
+            viewBox="0 0 520 400"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="260"
+              cy="148"
+              r="112"
+              fill="rgba(74,111,165,0.12)"
+              stroke="rgba(74,111,165,0.35)"
+              stroke-width="1.5"></circle>
+            <circle
+              cx="180"
+              cy="262"
+              r="112"
+              fill="rgba(26,122,58,0.12)"
+              stroke="rgba(26,122,58,0.35)"
+              stroke-width="1.5"></circle>
+            <circle
+              cx="340"
+              cy="262"
+              r="112"
+              fill="rgba(154,114,0,0.12)"
+              stroke="rgba(154,114,0,0.35)"
+              stroke-width="1.5"></circle>
+            <text
+              x="260"
+              y="50"
+              text-anchor="middle"
+              font-family="Inter Variable, sans-serif"
+              font-size="13"
+              font-weight="600"
+              fill="currentColor">Static Types</text
+            >
+            <text
+              x="260"
+              y="66"
+              text-anchor="middle"
+              font-family="Inter Variable, sans-serif"
+              font-size="10.5"
+              fill="currentColor"
+              opacity="0.45">compiler feedback</text
+            >
+            <text
+              x="62"
+              y="380"
+              text-anchor="middle"
+              font-family="Inter Variable, sans-serif"
+              font-size="13"
+              font-weight="600"
+              fill="currentColor">Source-Available</text
+            >
+            <text
+              x="62"
+              y="396"
+              text-anchor="middle"
+              font-family="Inter Variable, sans-serif"
+              font-size="10.5"
+              fill="currentColor"
+              opacity="0.45">reads actual code</text
+            >
+            <text
+              x="458"
+              y="380"
+              text-anchor="middle"
+              font-family="Inter Variable, sans-serif"
+              font-size="13"
+              font-weight="600"
+              fill="currentColor">Popularity</text
+            >
+            <text
+              x="458"
+              y="396"
+              text-anchor="middle"
+              font-family="Inter Variable, sans-serif"
+              font-size="10.5"
+              fill="currentColor"
+              opacity="0.45">training data</text
+            >
+            <text
+              x="260"
+              y="218"
+              text-anchor="middle"
+              font-family="Inter Variable, sans-serif"
+              font-size="16"
+              font-weight="700"
+              fill="var(--accent)">TypeScript</text
+            >
+            <text
+              x="260"
+              y="240"
+              text-anchor="middle"
+              font-family="Inter Variable, sans-serif"
+              font-size="16"
+              font-weight="700"
+              fill="var(--accent)">Go</text
+            >
+            <text
+              x="320"
+              y="182"
+              text-anchor="middle"
+              font-family="Inter Variable, sans-serif"
+              font-size="11.5"
+              fill="currentColor"
+              opacity="0.4">Kotlin, C#</text
+            >
+            <text
+              x="260"
+              y="312"
+              text-anchor="middle"
+              font-family="Inter Variable, sans-serif"
+              font-size="11.5"
+              fill="currentColor"
+              opacity="0.4">Python, JS</text
+            >
+          </svg>
         </div>
       </section>
 
@@ -770,6 +976,20 @@ import '@fontsource-variable/lora';
 
   .end-link:hover {
     border-bottom-color: var(--accent);
+  }
+
+  /* ═══════════════════════════════════════
+     DIAGRAMS
+     ═══════════════════════════════════════ */
+  .diagram {
+    display: block;
+    max-width: 600px;
+    width: 100%;
+    margin: 24px 0;
+  }
+
+  .diagram--venn {
+    max-width: 440px;
   }
 
   /* ═══════════════════════════════════════
