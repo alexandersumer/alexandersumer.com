@@ -77,7 +77,7 @@ If your CI only runs remotely and takes 20 minutes, you're flying blind for 20-m
 
 ### Agents Write Insecure Code
 
-Across 30 PRs from three coding agents, 87% contained at least one security vulnerability. Every PR was functional. The code worked. It wasn't secure. Larger models did not perform significantly better on security. This is systemic.
+In a study of 470 real GitHub PRs, AI-generated code contained 2.7x more security vulnerabilities than human-written code. Every PR was functional. The code worked. It wasn't secure. Larger models did not perform significantly better on security. This is systemic.
 
 On BaxBench, a basic security reminder in the prompt improved secure code output from 56% to 66% for Claude Opus 4.5. That was measured on single-pass generation and likely weakens in multi-turn agentic sessions where the security reminder gets buried under turns of conversation. Add security scanning to your verification loop. Static analysis on every PR.
 

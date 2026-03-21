@@ -60,11 +60,11 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
       <h2 class="heading" data-reveal style="--d:1">Plan your sessions</h2>
       <ul class="points" data-reveal style="--d:2">
         <li>Break your task into a sequence of prompts, executed one by one</li>
-        <li>Each chunk small enough that the agent handles it within context</li>
         <li>
-          Anti-pattern: stuffing all requirements into one prompt. The result feels like 10 devs
-          worked on it without talking to each other.
+          Use plan mode: the agent reads, reasons, and proposes without writing code. Throwaway
+          reads stay out of your real session.
         </li>
+        <li>Track state in markdown files so the agent picks up where the last session left off</li>
       </ul>
     </div>
   </section>
@@ -209,7 +209,8 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
         >
       </svg>
       <p class="slide__note" data-reveal style="--d:3">
-        New sessions for new tasks. Don't reuse a debugging session for feature work.
+        Compaction loses dead ends, file reads, and failed attempts that still shape every response.
+        Break problems down so you never need it.
       </p>
     </div>
   </section>
@@ -230,7 +231,21 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 11 · Test-first -->
+  <!-- 11 · Verifiability thesis -->
+  <section class="slide slide--center" data-section="verification">
+    <div class="slide__inner">
+      <span class="label" data-reveal style="--d:0">Verification</span>
+      <p class="hero-text" data-reveal style="--d:1">
+        Agents are only good at things that are <strong class="accent">easy to verify.</strong>
+      </p>
+      <p class="slide__sub" data-reveal style="--d:2">
+        Code compiles or it doesn't. Tests pass or they don't. Where verification is hard, agents
+        fail quietly.
+      </p>
+    </div>
+  </section>
+
+  <!-- 12 · Test-first -->
   <section class="slide slide--center" data-section="verification">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Verification</span>
@@ -246,7 +261,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 12 · Dev loop -->
+  <!-- 13 · Dev loop -->
   <section class="slide" data-section="verification">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Verification</span>
@@ -260,21 +275,21 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 13 · Security stat -->
+  <!-- 14 · Security stat -->
   <section class="slide slide--center" data-section="verification">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Verification</span>
-      <p class="stat" data-reveal style="--d:1">87%</p>
+      <p class="stat" data-reveal style="--d:1">2.7x</p>
       <h2 class="stat-heading" data-reveal style="--d:2">
-        of PRs from coding agents contained at least one security vulnerability.
+        more security vulnerabilities in AI-generated code vs. human-written code.
       </h2>
       <p class="slide__note" data-reveal style="--d:3">
-        Across 30 PRs from three agents. Every PR was functional. The code worked. It wasn't secure.
+        470 real PRs, human comparison group. The code works. It passes tests. It isn't secure.
       </p>
     </div>
   </section>
 
-  <!-- 14 · Automate rules -->
+  <!-- 15 · Automate rules -->
   <section class="slide" data-section="verification">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Verification</span>
@@ -286,12 +301,16 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
           An instruction saying "never use rm -rf" can get ignored. An automated rule that blocks it
           cannot.
         </li>
+        <li>
+          Keep rule files small and scoped. A monolithic rules file fills context and later rules
+          get ignored.
+        </li>
         <li>Hooks, pre-commit checks, automated guardrails</li>
       </ul>
     </div>
   </section>
 
-  <!-- 15 · Bail -->
+  <!-- 16 · Bail -->
   <section class="slide" data-section="meta">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Meta-Skills</span>
@@ -309,7 +328,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 16 · Commit -->
+  <!-- 17 · Commit -->
   <section class="slide" data-section="meta">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Meta-Skills</span>
@@ -323,7 +342,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 17 · Languages -->
+  <!-- 18 · Languages -->
   <section class="slide" data-section="meta">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Meta-Skills</span>
@@ -454,7 +473,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 18 · Expert amplifier -->
+  <!-- 19 · Expert amplifier -->
   <section class="slide slide--center" data-section="meta">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Meta-Skills</span>
@@ -468,14 +487,17 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 19 · Limits -->
+  <!-- 20 · Limits -->
   <section class="slide" data-section="meta">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Meta-Skills</span>
       <h2 class="heading" data-reveal style="--d:1">Know when NOT to use agents</h2>
       <ul class="points" data-reveal style="--d:2">
-        <li>Bad at work requiring large amounts of subtle context over many steps</li>
-        <li>Bad when the cost of a wrong answer is high and verification is hard</li>
+        <li>
+          Pricing logic across products, admin permissions, infrastructure teardown. Anywhere subtle
+          context spans many steps.
+        </li>
+        <li>High cost of failure + hard to verify = do it yourself</li>
         <li>
           Agents are confident and fast. If you can't verify quickly, that confidence works against
           you.
@@ -484,7 +506,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 20 · End -->
+  <!-- 21 · End -->
   <section class="slide slide--center slide--end">
     <div class="slide__inner">
       <p class="end-text" data-reveal style="--d:0">Read the full post</p>
