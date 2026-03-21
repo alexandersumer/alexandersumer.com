@@ -31,7 +31,7 @@ Front-load context. Before the agent writes anything, have it read the README, u
 
 ### Parallelize Your Agent Sessions
 
-Create multiple full clones of your repo, not worktrees. Full clones let you check out the same branch in multiple sessions simultaneously.
+Run each session in its own worktree or clone. Each gets an isolated working directory and its own context window.
 
 Each session has its own context window. Three parallel sessions triple your total context budget, and they don't interfere with each other.
 
