@@ -27,9 +27,9 @@ Front-load context. Before the agent writes anything, have it read the README, u
 
 ### Encode Repeatable Patterns
 
-Some work is the same operation applied to many targets. Migrate 15 clients to a new pool. Add feature flags to 8 services. Replace a deprecated API across 20 call sites. When you recognize that pattern, build two artifacts: a tracking table of targets with their status, and a skill that describes how to apply the operation to one target.
+Some work is the same operation applied to many targets. Migrate 15 clients to a new pool. Add feature flags to 8 services. Replace a deprecated API across 20 call sites. When you recognize that pattern, build two artifacts: a tracking table in Markdown of targets with their status, and a skill that describes how to apply the operation to one target.
 
-The tracking table is the source of truth for what needs doing and what's done. The skill is the source of truth for how. Any contributor, human or agent, picks up a target, follows the same steps, and produces a consistent result.
+The tracking table is the source of truth for what needs doing and what's done. The skill is the source of truth for how. Any contributor, human or agent, picks up a target, follows the same steps, and produces a consistent result. This saves a lot of time, and improves consistency on repeatable work.
 
 ---
 
