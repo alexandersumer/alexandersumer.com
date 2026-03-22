@@ -1,0 +1,12 @@
+<script is:inline>
+  (function () {
+    var s = localStorage.getItem('theme');
+    var t =
+      s === 'dark' || s === 'light'
+        ? s
+        : window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark'
+          : 'light';
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
