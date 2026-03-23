@@ -129,6 +129,8 @@ Example: an agent refactors your database access layer and the code compiles, pa
 
 This is why agents widen the gap between senior and junior engineers. The agent does the typing. The human does the judgment. You get the most out of agents in areas where you already know what the answer should look like. That ability comes from doing software engineering the hard way.
 
+That judgment doesn't require being a specialist in every area you touch. A curious generalist who has picked up how agent evals work, how OS concurrency works, and how security models fail can point an agent at the right problem when an incident hits and judge whether the fix is correct. Not because they memorized the answer, but because they know enough about the problem space to evaluate it. Agents supply depth on demand. The scarce skill is having seen enough systems to know where to point them.
+
 ### Know When NOT to Use Agents
 
 Agents are bad at work that requires holding a large amount of subtle context over many steps. If the task requires understanding how six services interact under specific failure conditions, or tracing a race condition across threads, the agent will lose the thread before you do.
