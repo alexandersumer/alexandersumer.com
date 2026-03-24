@@ -127,7 +127,11 @@ The agent accelerates experts more than beginners. If you don't know what good c
 
 Example: an agent refactors your database access layer and the code compiles, passes tests, and looks clean. A senior engineer glances at it and sees that it opens a new connection per query instead of using the pool. The agent wrote correct code. It wrote code that will fall over at a few hundred concurrent users. If you don't already know what connection handling should look like, you approve that PR.
 
-This is why agents widen the gap between senior and junior engineers. The agent does the typing. The human does the judgment. You get the most out of agents in areas where you already know what the answer should look like. That ability comes from doing software engineering the hard way.
+This is why agents widen the gap between senior and junior engineers. The agent does the typing. The human does the judgment.
+
+We saw this during a production incident where error rates spiked. A coding agent reviewed the logs and found sidecars returning 5xx errors. It concluded the sidecars were the root cause. They were a symptom. The real problem was that our cluster had a hard limit of 24 nodes. We had scaled to that ceiling. CPUs were maxed with no room to scale horizontally. The agent had zero context on the infrastructure. It found a plausible explanation in the logs and stopped there. The agent is only as good as the context you give it. When that context doesn't include the system, the human is the one who bridges the gap.
+
+You get the most out of agents in areas where you already know what the answer should look like. That ability comes from doing software engineering the hard way.
 
 That judgment doesn't require deep specialization. Agents supply depth on demand. The advantage belongs to the curious generalist who has picked up working knowledge across many domains. Knowing what problems to solve, what questions to ask, and whether the agent's output is right across many areas comes from curiosity, not specialization.
 
