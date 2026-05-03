@@ -216,6 +216,7 @@ body {
    ═══════════════════════════════════════ */
 p {
   margin: 0 0 32px;
+  text-wrap: pretty;
 }
 
 h1,
@@ -228,6 +229,7 @@ h4 {
   letter-spacing: var(--heading-ls);
   margin: 48px 0 14px;
   line-height: 1.25;
+  text-wrap: balance;
 }
 
 h1 {
@@ -260,6 +262,7 @@ a {
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.15em;
+  text-decoration-skip-ink: auto;
   text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
   transition: color 0.15s ease;
 }
