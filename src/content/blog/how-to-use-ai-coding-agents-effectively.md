@@ -19,9 +19,13 @@ Agents make code cheaper to produce, which raises the premium on knowing what co
 
 Take your time writing prompts. Think through the sequence: what goes first, what the agent needs to learn before it acts, what commands it will run and in what order.
 
-Break your task into a sequence of prompts, executed one by one. Each chunk small enough that the agent handles it within context.
+For non-trivial work, make the agent write the plan down before implementation. A short `plan.md` is enough: goal, files likely to change, step-by-step sequence, verification commands, risks, and rollback point. Written plans expose vague thinking.
 
-Example session: (1) agent reads relevant code and existing tests, (2) you review what it found, (3) implement step 1, (4) verify step 1, (5) implement step 2, and so on.
+Interrogate the plan before the agent touches code. Ask what can go wrong, what assumptions it is making, what branches it considered, what edge cases are missing, what can be done independently, and what must happen in order. Revise until the work can be executed one step at a time without hidden branches.
+
+Break the approved plan into a sequence of prompts, executed one by one. Each chunk small enough that the agent handles it within context.
+
+Example session: (1) agent reads relevant code and existing tests, (2) writes a plan, (3) you challenge and revise the plan, (4) implement step 1, (5) verify step 1, (6) implement step 2, and so on.
 
 The anti-pattern is monolithic execution: stuffing all requirements into one prompt and asking the agent to build everything at once. The result feels like "10 devs worked on it without talking to each other." Giving the agent all the context up front is fine, as long as it's reasoning about the plan, not executing it all in one shot.
 
@@ -41,7 +45,7 @@ Some work is the same operation applied to many targets. Migrate 15 clients to a
 
 The tracking table is the source of truth for what needs doing and what's done. The skill is the source of truth for how. Any contributor, human or agent, picks up a target, follows the same steps, and produces a consistent result. This saves a lot of time, and improves consistency on repeatable work.
 
-Skills make judgment reusable. They handle migrations, testing protocols, security checks, and design review. Whether your tool calls them skills, rules, playbooks, memories, or project instructions, the point is the same: durable engineering standards should live somewhere more stable than a chat window. A good skill can encode how you want the agent to apply old ideas that still matter: information hiding, cohesive domain language, deep modules, low change amplification, and conceptual integrity. Those principles survived every tooling wave. Code generation makes them the scarce part of the work.
+Skills make judgment reusable. They handle migrations, testing protocols, security checks, review checklists, and other repeated workflows. Whether your tool calls them skills, rules, playbooks, memories, or project instructions, the point is the same: durable operating procedures should live somewhere more stable than a chat window.
 
 ---
 
@@ -77,7 +81,7 @@ Start new sessions for new tasks. Don't reuse a debugging session for feature wo
 
 Instead of just asking the agent to refactor something, tell it: "after refactoring, write a script to check that only test cases calling suspending methods got `runTest` added and that no annotations were removed." The agent catches its own mistakes before you have to.
 
-The verification must be automated and deterministic. Not "look at the code and tell me if it's right."
+The verification must be automated and deterministic: a command, script, test, or check the agent can actually run.
 
 The fundamental loop is: write code, run tests, fix failures. Agents can move fast through a project with a good test suite. Without tests, the agent assumes everything is fine.
 
@@ -101,11 +105,13 @@ On BaxBench, a basic security reminder in the prompt improved secure code output
 
 ### Make Verification Automatic
 
-Don't rely on the model to remember your rules. Enforce them with automation.
+Project instructions guide behavior. Lint rules, type checks, tests, security scanners, pre-commit hooks, branch protection, and CI constrain behavior. An `AGENTS.md` file can ask the model to do the right thing. A failing check stops the wrong thing from landing.
+
+This matters more as agents get better. The model may understand your instruction, agree with it, and still violate it five turns later when the context is crowded or the local goal changes. Deterministic enforcement does not rely on attention.
 
 Most coding agents support automated guardrails: hooks that fire at lifecycle events, rules that trigger on specific actions, or pre/post-processing steps. Block edits on the main branch, run the linter before accepting changes, auto-format after every edit, run the full test suite before the agent declares itself done.
 
-An instruction in your project file saying "never use rm -rf" can get ignored. An automated rule that blocks it cannot.
+Use project instructions for judgment, taste, architecture, and workflow. Use automation for invariants. If a rule can be checked mechanically, move it out of prose and into the dev loop.
 
 ---
 
@@ -125,15 +131,17 @@ Agents move fast and break things across many files at once. Without frequent co
 
 Commit before every major agent operation. Use feature branches. Keep commits small and focused. `git diff` between commits is the fastest way to review what the agent actually did, and small commits let you revert a single bad step instead of an entire session.
 
-### Refactor With Skills
+### Refactor Continuously
 
-As the codebase grows, some of the highest-leverage agent work is regular design pressure. Code generation makes tactical changes cheap, and cheap tactical changes accumulate into complexity. The old books become more relevant here: _A Philosophy of Software Design_ for complexity, Parnas for information hiding, _Domain-Driven Design_ for preserving the language of the domain, Brooks for conceptual integrity.
+As the codebase grows, some of the highest-leverage agent work is regular design pressure. Code generation makes tactical changes cheap. Cheap tactical changes accumulate complexity. Continuous refactoring means reducing accidental complexity before the codebase starts to hurt.
 
-Have the agent review the codebase with a specific architectural skill before you ask it to edit. The review should look for shallow modules, information leakage, pass-through methods, conjoined methods, generic abstractions that erased domain meaning, and places where one conceptual change requires edits across too many files. Run this in read-only mode first. Ask for a ranked design review before any diff.
+The old books become more relevant here: _A Philosophy of Software Design_ for complexity, Parnas for information hiding, _Domain-Driven Design_ for preserving the language of the domain, Brooks for conceptual integrity. These principles survived every tooling wave. Code generation makes them more valuable.
+
+Run periodic design reviews in read-only mode. Look for shallow modules, information leakage, pass-through methods, conjoined methods, generic abstractions that erased domain meaning, and places where one conceptual change requires edits across too many files. Ask for a ranked design review before any diff.
 
 The prompt shape matters. "Refactor this" produces churn. Ask the agent to find the smallest change that reduces cognitive load or change amplification while preserving domain meaning. Ask for two designs. Ask what each design hides from callers. Ask what invariant owns the rule. Ask what future change gets easier.
 
-Do this periodically, not only when the code hurts. Agents can read more call sites than you want to, compare patterns across the codebase, and surface drift before it hardens. The agent becomes a tireless design reviewer whose taste is only as good as the principles you gave it.
+Agents can read more call sites than you want to, compare patterns across the codebase, and surface drift before it hardens. Their design judgment is only as good as the principles you gave them.
 
 Protect real domain complexity when the code gets smaller. A good refactor reduces accidental complexity while preserving the distinctions the system depends on. If the domain has three concepts, merging them into one generic abstraction destroys information.
 

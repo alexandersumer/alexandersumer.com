@@ -59,12 +59,10 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
       <span class="label" data-reveal style="--d:0">Planning</span>
       <h2 class="heading" data-reveal style="--d:1">Plan your sessions</h2>
       <ul class="points" data-reveal style="--d:2">
-        <li>Break your task into a sequence of prompts, executed one by one</li>
-        <li>
-          Use plan mode: the agent reads, reasons, and proposes without writing code. Throwaway
-          reads stay out of your real session.
-        </li>
-        <li>Track state in markdown files so the agent picks up where the last session left off</li>
+        <li>For non-trivial work, make the agent write a short <code>plan.md</code></li>
+        <li>Interrogate it: assumptions, branches, edge cases, risks, verification, rollback</li>
+        <li>Revise until there are no hidden branches</li>
+        <li>Then break the approved plan into prompts, executed one by one</li>
       </ul>
     </div>
   </section>
@@ -104,12 +102,12 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
       <ul class="points" data-reveal style="--d:2">
         <li>Some work is the same operation applied to many targets</li>
         <li>
-          Two artifacts: a tracking table for state and a skill for durable engineering standards
+          Two artifacts: a tracking table for state and a skill for durable operating procedure
         </li>
         <li>
-          Skills carry APOSD, DDD, information hiding, and conceptual integrity into each session
+          Use skills for migrations, testing protocols, security checks, and review checklists
         </li>
-        <li>Any contributor, human or agent, picks up a target and follows the same standard</li>
+        <li>Any contributor, human or agent, picks up a target and follows the same steps</li>
       </ul>
     </div>
   </section>
@@ -260,8 +258,8 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
           Example: after refactoring, write a script to check that only test cases calling
           suspending methods got runTest added and no annotations were removed
         </li>
-        <li>The verification must be automated and deterministic</li>
-        <li>Not "look at the code and tell me if it's right"</li>
+        <li>The verification must be automated, deterministic, and runnable</li>
+        <li>Ask for a check the agent can execute, then make it run the check</li>
       </ul>
     </div>
   </section>
@@ -324,23 +322,16 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 17 · Automate rules -->
+  <!-- 17 · Mechanize invariants -->
   <section class="slide" data-section="verification">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Verification</span>
-      <h2 class="heading" data-reveal style="--d:1">
-        Don't rely on the model to remember your rules
-      </h2>
+      <h2 class="heading" data-reveal style="--d:1">Mechanize your invariants</h2>
       <ul class="points" data-reveal style="--d:2">
-        <li>
-          An instruction saying "never use rm -rf" can get ignored. An automated rule that blocks it
-          cannot.
-        </li>
-        <li>
-          Keep rule files small and scoped. A monolithic rules file fills context and later rules
-          get ignored.
-        </li>
-        <li>Hooks, pre-commit checks, automated guardrails</li>
+        <li>AGENTS.md guides behavior. CI constrains behavior.</li>
+        <li>Lint rules, type checks, tests, security scans, branch protection</li>
+        <li>Instructions degrade as context fills. Checks do not rely on attention.</li>
+        <li>If a rule can be checked mechanically, put it in the dev loop.</li>
       </ul>
     </div>
   </section>
@@ -377,13 +368,26 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 20 · Design fundamentals -->
+  <!-- 20 · Continuous refactoring -->
+  <section class="slide" data-section="meta">
+    <div class="slide__inner">
+      <span class="label" data-reveal style="--d:0">Meta-Skills</span>
+      <h2 class="heading" data-reveal style="--d:1">Refactor continuously</h2>
+      <ul class="points" data-reveal style="--d:2">
+        <li>Code generation makes tactical changes cheap</li>
+        <li>Tactical changes accumulate complexity</li>
+        <li>Run periodic design reviews in read-only mode</li>
+        <li>Ask for the smallest change that reduces cognitive load or change amplification</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 21 · Design fundamentals -->
   <section class="slide" data-section="meta">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Meta-Skills</span>
       <h2 class="heading" data-reveal style="--d:1">The old books still matter</h2>
       <ul class="points" data-reveal style="--d:2">
-        <li>Code generation makes tactical changes cheap. Cheap changes accumulate complexity.</li>
         <li>APOSD: reduce cognitive load and change amplification</li>
         <li>DDD: preserve domain language and real business distinctions</li>
         <li>Parnas and Brooks: hide information, protect conceptual integrity</li>
@@ -391,7 +395,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 21 · Languages -->
+  <!-- 22 · Languages -->
   <section class="slide" data-section="meta">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Meta-Skills</span>
@@ -522,7 +526,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 22 · Expert amplifier -->
+  <!-- 23 · Expert amplifier -->
   <section class="slide slide--center" data-section="meta">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Meta-Skills</span>
@@ -536,7 +540,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 23 · Agent context limits -->
+  <!-- 24 · Agent context limits -->
   <section class="slide slide--center" data-section="meta">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Meta-Skills</span>
@@ -551,7 +555,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 24 · Curious generalist -->
+  <!-- 25 · Curious generalist -->
   <section class="slide slide--center" data-section="meta">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Meta-Skills</span>
@@ -566,7 +570,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 25 · Limits -->
+  <!-- 26 · Limits -->
   <section class="slide" data-section="meta">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Meta-Skills</span>
@@ -585,7 +589,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 26 · End -->
+  <!-- 27 · End -->
   <section class="slide slide--center slide--end">
     <div class="slide__inner">
       <p class="end-text" data-reveal style="--d:0">Read the full post</p>
