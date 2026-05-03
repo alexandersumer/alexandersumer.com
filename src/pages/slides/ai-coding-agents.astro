@@ -82,7 +82,21 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 7 · Encode repeatable patterns -->
+  <!-- 7 · Show it what good looks like -->
+  <section class="slide" data-section="planning">
+    <div class="slide__inner">
+      <span class="label" data-reveal style="--d:0">Planning</span>
+      <h2 class="heading" data-reveal style="--d:1">Show it what good looks like</h2>
+      <ul class="points" data-reveal style="--d:2">
+        <li>Clone high-quality OSS repos locally</li>
+        <li>Ask for one pattern: errors, tests, jobs, APIs, module boundaries</li>
+        <li>Extract before imitation: what transfers, what does not?</li>
+        <li>Treat the repo as a reference library</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 8 · Encode repeatable patterns -->
   <section class="slide" data-section="planning">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Planning</span>
@@ -90,16 +104,17 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
       <ul class="points" data-reveal style="--d:2">
         <li>Some work is the same operation applied to many targets</li>
         <li>
-          Two artifacts: a tracking table in Markdown (what needs doing, what's done) and a skill
-          (how to do one)
+          Two artifacts: a tracking table for state and a skill for durable engineering standards
         </li>
-        <li>Any contributor, human or agent, picks up a target and follows the same steps</li>
-        <li>Saves time and improves consistency on repeatable work</li>
+        <li>
+          Skills carry APOSD, DDD, information hiding, and conceptual integrity into each session
+        </li>
+        <li>Any contributor, human or agent, picks up a target and follows the same standard</li>
       </ul>
     </div>
   </section>
 
-  <!-- 8 · Parallelize -->
+  <!-- 9 · Parallelize -->
   <section class="slide" data-section="execution">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Execution</span>
@@ -116,7 +131,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 8 · Smartest models -->
+  <!-- 10 · Smartest models -->
   <section class="slide" data-section="execution">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Execution</span>
@@ -130,7 +145,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 9 · Context window -->
+  <!-- 11 · Context window -->
   <section class="slide" data-section="execution">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Execution</span>
@@ -235,7 +250,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 10 · Verification step -->
+  <!-- 12 · Verification step -->
   <section class="slide" data-section="verification">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Verification</span>
@@ -251,7 +266,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 11 · Verifiability thesis -->
+  <!-- 13 · Verifiability thesis -->
   <section class="slide slide--center" data-section="verification">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Verification</span>
@@ -265,7 +280,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 12 · Test-first -->
+  <!-- 14 · Test-first -->
   <section class="slide slide--center" data-section="verification">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Verification</span>
@@ -281,7 +296,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 13 · Dev loop -->
+  <!-- 15 · Dev loop -->
   <section class="slide" data-section="verification">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Verification</span>
@@ -295,7 +310,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 14 · Security stat -->
+  <!-- 16 · Security stat -->
   <section class="slide slide--center" data-section="verification">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Verification</span>
@@ -309,7 +324,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 15 · Automate rules -->
+  <!-- 17 · Automate rules -->
   <section class="slide" data-section="verification">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Verification</span>
@@ -330,7 +345,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 16 · Bail -->
+  <!-- 18 · Bail -->
   <section class="slide" data-section="meta">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Meta-Skills</span>
@@ -348,7 +363,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 17 · Commit -->
+  <!-- 19 · Commit -->
   <section class="slide" data-section="meta">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Meta-Skills</span>
@@ -362,7 +377,21 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 18 · Languages -->
+  <!-- 20 · Design fundamentals -->
+  <section class="slide" data-section="meta">
+    <div class="slide__inner">
+      <span class="label" data-reveal style="--d:0">Meta-Skills</span>
+      <h2 class="heading" data-reveal style="--d:1">The old books still matter</h2>
+      <ul class="points" data-reveal style="--d:2">
+        <li>Code generation makes tactical changes cheap. Cheap changes accumulate complexity.</li>
+        <li>APOSD: reduce cognitive load and change amplification</li>
+        <li>DDD: preserve domain language and real business distinctions</li>
+        <li>Parnas and Brooks: hide information, protect conceptual integrity</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 21 · Languages -->
   <section class="slide" data-section="meta">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Meta-Skills</span>
@@ -493,7 +522,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 19 · Expert amplifier -->
+  <!-- 22 · Expert amplifier -->
   <section class="slide slide--center" data-section="meta">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Meta-Skills</span>
@@ -507,7 +536,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 20 · Agent context limits -->
+  <!-- 23 · Agent context limits -->
   <section class="slide slide--center" data-section="meta">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Meta-Skills</span>
@@ -522,7 +551,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 21 · Curious generalist -->
+  <!-- 24 · Curious generalist -->
   <section class="slide slide--center" data-section="meta">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Meta-Skills</span>
@@ -537,7 +566,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 21 · Limits -->
+  <!-- 25 · Limits -->
   <section class="slide" data-section="meta">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Meta-Skills</span>
@@ -556,7 +585,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 22 · End -->
+  <!-- 26 · End -->
   <section class="slide slide--center slide--end">
     <div class="slide__inner">
       <p class="end-text" data-reveal style="--d:0">Read the full post</p>

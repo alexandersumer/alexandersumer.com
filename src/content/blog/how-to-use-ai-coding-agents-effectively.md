@@ -9,6 +9,8 @@ Many people use coding agents for a bit, get frustrated, and conclude "they're n
 
 Planning, execution, and verification are fundamentally different activities and they need to happen separately. People conflate them. They ask the agent to plan and build at the same time, and the result is worse plans AND worse code. Most coding agents have a planning or read-only mode that analyzes your codebase and proposes a strategy without writing anything. Use it. If yours doesn't, just tell the agent: "analyze this codebase and propose a plan. Do not write any code."
 
+Agents make code cheaper to produce, which raises the premium on knowing what code should exist. The old software engineering disciplines get more important under automation: Parnas on information hiding, Brooks on conceptual integrity, Evans on domain language, Ousterhout on complexity. Context gives the agent local facts. Exemplars give it concrete patterns. Skills carry design standards across sessions. Verification keeps the loop honest.
+
 ---
 
 ## Planning
@@ -25,11 +27,21 @@ The anti-pattern is monolithic execution: stuffing all requirements into one pro
 
 Front-load context. Before the agent writes anything, have it read the README, understand the test framework, confirm it can reproduce the problem. Lead with constraints and context, not implementation details.
 
+### Show It What Good Looks Like
+
+One of the highest-leverage moves is to clone high-quality open-source repositories locally and use them as pattern libraries. Ask for a narrow extraction: how this project structures background jobs, represents errors across module boundaries, tests CLI commands, separates API types from internal models, or keeps module interfaces stable.
+
+The agent adapts concrete patterns better than prose instructions. Real repos include the parts documentation and blog posts omit: call sites, tests, edge cases, naming conventions, backwards compatibility, and the boring glue around the abstraction. That is where most of the design actually lives.
+
+Use this before implementation. Have the agent summarize the pattern, identify the parts that transfer, identify the parts that belong to that repo's context, then compare it to your codebase. Keep the extraction narrow. Clone the repo locally so the agent can inspect the relevant files on demand. Treat the repo as a reference library.
+
 ### Encode Repeatable Patterns
 
 Some work is the same operation applied to many targets. Migrate 15 clients to a new pool. Add feature flags to 8 services. Replace a deprecated API across 20 call sites. When you recognize that pattern, build two artifacts: a tracking table in Markdown of targets with their status, and a skill that describes how to apply the operation to one target.
 
 The tracking table is the source of truth for what needs doing and what's done. The skill is the source of truth for how. Any contributor, human or agent, picks up a target, follows the same steps, and produces a consistent result. This saves a lot of time, and improves consistency on repeatable work.
+
+Skills make judgment reusable. They handle migrations, testing protocols, security checks, and design review. Whether your tool calls them skills, rules, playbooks, memories, or project instructions, the point is the same: durable engineering standards should live somewhere more stable than a chat window. A good skill can encode how you want the agent to apply old ideas that still matter: information hiding, cohesive domain language, deep modules, low change amplification, and conceptual integrity. Those principles survived every tooling wave. Code generation makes them the scarce part of the work.
 
 ---
 
@@ -112,6 +124,18 @@ Bail signals: the agent repeats itself, contradicts a decision it made earlier, 
 Agents move fast and break things across many files at once. Without frequent commits, you have no way to isolate what the agent changed from what you changed, and no way to roll back a bad generation without losing your own work.
 
 Commit before every major agent operation. Use feature branches. Keep commits small and focused. `git diff` between commits is the fastest way to review what the agent actually did, and small commits let you revert a single bad step instead of an entire session.
+
+### Refactor With Skills
+
+As the codebase grows, some of the highest-leverage agent work is regular design pressure. Code generation makes tactical changes cheap, and cheap tactical changes accumulate into complexity. The old books become more relevant here: _A Philosophy of Software Design_ for complexity, Parnas for information hiding, _Domain-Driven Design_ for preserving the language of the domain, Brooks for conceptual integrity.
+
+Have the agent review the codebase with a specific architectural skill before you ask it to edit. The review should look for shallow modules, information leakage, pass-through methods, conjoined methods, generic abstractions that erased domain meaning, and places where one conceptual change requires edits across too many files. Run this in read-only mode first. Ask for a ranked design review before any diff.
+
+The prompt shape matters. "Refactor this" produces churn. Ask the agent to find the smallest change that reduces cognitive load or change amplification while preserving domain meaning. Ask for two designs. Ask what each design hides from callers. Ask what invariant owns the rule. Ask what future change gets easier.
+
+Do this periodically, not only when the code hurts. Agents can read more call sites than you want to, compare patterns across the codebase, and surface drift before it hardens. The agent becomes a tireless design reviewer whose taste is only as good as the principles you gave it.
+
+Protect real domain complexity when the code gets smaller. A good refactor reduces accidental complexity while preserving the distinctions the system depends on. If the domain has three concepts, merging them into one generic abstraction destroys information.
 
 ### Work in Agent-Friendly Languages
 
