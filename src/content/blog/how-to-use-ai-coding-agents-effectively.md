@@ -15,21 +15,19 @@ Agents make code cheaper to produce, which raises the premium on knowing what co
 
 ## Planning
 
-### Plan Your Sessions
+### Plan the Work
 
-Take your time writing prompts. Think through the sequence: what goes first, what the agent needs to learn before it acts, what commands it will run and in what order.
+Take your time before the agent writes code. Think through what it needs to learn first, what order the work should happen in, what commands it should run, and where you will stop if the approach is wrong.
 
-For non-trivial work, make the agent write the plan down before implementation. Use whatever artifact your team will keep current: OpenSpec, proposal, design doc, task list, or Markdown file. Capture the goal, likely files, sequence, checks, risks, and rollback point. Written plans expose vague thinking.
+For non-trivial work, make the agent write the plan down before implementation. Use whatever artifact your team will keep current: OpenSpec, proposal, design doc, task list, or Markdown file. Capture the goal, scope, likely files, sequence, checks, risks, open questions, and rollback point. Written plans expose vague thinking.
 
-Interrogate the plan carefully before the agent touches code. Walk every branch of the plan: what can go wrong, what assumptions it is making, what alternatives it rejected, what edge cases are missing, what can be done independently, and what must happen in order. Revise until the work can be executed one step at a time without hidden branches.
+The plan is a handoff. A fresh session, subagent, or teammate should be able to read it and know what to do next, what has already been decided, and what would prove each step worked. Keep the plan current as reality changes.
 
-Break the approved plan into a sequence of prompts, executed one by one. Each chunk small enough that the agent handles it within context.
+Interrogate the plan carefully before execution. Walk every branch: what can go wrong, what assumptions it is making, what alternatives it rejected, what edge cases are missing, what can be done independently, and what must happen in order. Revise until the work can be executed one reviewable step at a time without hidden branches.
 
-Example session: (1) agent reads relevant code and existing tests, (2) writes a plan, (3) you challenge and revise the plan, (4) implement step 1, (5) verify step 1, (6) implement step 2, and so on.
+Break the approved plan into a sequence of prompts. Do one chunk at a time. Verify that chunk through a real path before starting the next one. If the work changes, update the plan instead of letting the chat become the only record.
 
-The anti-pattern is monolithic execution: stuffing all requirements into one prompt and asking the agent to build everything at once. The result feels like "10 devs worked on it without talking to each other." Giving the agent all the context up front is fine, as long as it's reasoning about the plan, not executing it all in one shot.
-
-Front-load context. Before the agent writes anything, have it read the README, understand the test framework, confirm it can reproduce the problem. Lead with constraints and context, not implementation details.
+Front-load concrete context. Before the agent writes anything, have it read the README, nearby code, existing tests, sibling implementations, and any relevant repo examples. Confirm it can reproduce the problem locally. Lead with constraints and context, not implementation details.
 
 ### Show It What Good Looks Like
 
