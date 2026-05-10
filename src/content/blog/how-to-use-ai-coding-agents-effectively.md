@@ -19,9 +19,9 @@ Agents make code cheaper to produce, which raises the premium on knowing what co
 
 Take your time writing prompts. Think through the sequence: what goes first, what the agent needs to learn before it acts, what commands it will run and in what order.
 
-For non-trivial work, make the agent write the plan down before implementation. Use whatever artifact your team will keep current: proposal, design doc, task list, spec, ticket, or Markdown file. Capture the goal, likely files, sequence, checks, risks, and rollback point. Written plans expose vague thinking.
+For non-trivial work, make the agent write the plan down before implementation. Use whatever artifact your team will keep current: OpenSpec, proposal, design doc, task list, spec, or Markdown file. Capture the goal, likely files, sequence, checks, risks, and rollback point. Written plans expose vague thinking.
 
-Interrogate the plan before the agent touches code. Ask what can go wrong, what assumptions it is making, what branches it considered, what edge cases are missing, what can be done independently, and what must happen in order. Revise until the work can be executed one step at a time without hidden branches.
+Interrogate the plan carefully before the agent touches code. Walk every branch of the plan: what can go wrong, what assumptions it is making, what alternatives it rejected, what edge cases are missing, what can be done independently, and what must happen in order. Revise until the work can be executed one step at a time without hidden branches.
 
 Break the approved plan into a sequence of prompts, executed one by one. Each chunk small enough that the agent handles it within context.
 
