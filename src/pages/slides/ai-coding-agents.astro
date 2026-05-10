@@ -45,234 +45,186 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
         <span class="framework__dot" data-reveal style="--d:1">&middot;</span>
         <span class="framework__word" data-reveal style="--d:2">Execute</span>
         <span class="framework__dot" data-reveal style="--d:3">&middot;</span>
-        <span class="framework__word" data-reveal style="--d:4">Verify</span>
+        <span class="framework__word" data-reveal style="--d:4">Review</span>
+        <span class="framework__dot" data-reveal style="--d:5">&middot;</span>
+        <span class="framework__word" data-reveal style="--d:6">Verify</span>
       </div>
-      <p class="slide__sub" data-reveal style="--d:5">
-        Three fundamentally different activities. Keep them separate.
+      <p class="slide__sub" data-reveal style="--d:7">
+        Different jobs. Different contexts. Different artifacts.
       </p>
     </div>
   </section>
 
-  <!-- 5 · Plan your sessions -->
+  <!-- 5 · Write the plan down -->
   <section class="slide" data-section="planning">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Planning</span>
-      <h2 class="heading" data-reveal style="--d:1">Plan your sessions</h2>
+      <h2 class="heading" data-reveal style="--d:1">Write the plan down</h2>
       <ul class="points" data-reveal style="--d:2">
-        <li>For non-trivial work, make the agent write a short <code>plan.md</code></li>
-        <li>Interrogate it: assumptions, branches, edge cases, risks, verification, rollback</li>
-        <li>Revise until there are no hidden branches</li>
-        <li>Then break the approved plan into prompts, executed one by one</li>
+        <li>For non-trivial work, create a short <code>plan.md</code> before code</li>
+        <li>Goal, files, sequence, checks, risks, rollback point</li>
+        <li>Make vague thinking visible before the agent edits anything</li>
       </ul>
     </div>
   </section>
 
-  <!-- 6 · Front-load context -->
+  <!-- 6 · The plan is the handoff -->
   <section class="slide" data-section="planning">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Planning</span>
-      <h2 class="heading" data-reveal style="--d:1">Context before code</h2>
+      <h2 class="heading" data-reveal style="--d:1">The plan is the handoff</h2>
       <ul class="points" data-reveal style="--d:2">
-        <li>First: read the README, understand the test framework, reproduce the problem</li>
-        <li>Lead with constraints and context, not implementation details</li>
-        <li>All context up front is fine if it's reasoning about the plan, not executing</li>
+        <li>A fresh session should know what to do next</li>
+        <li>What changes, what is decided, what is out of scope</li>
+        <li>What proves each step worked</li>
+        <li>Update the plan as reality changes</li>
       </ul>
     </div>
   </section>
 
-  <!-- 7 · Show it what good looks like -->
+  <!-- 7 · Interrogate the plan -->
   <section class="slide" data-section="planning">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Planning</span>
-      <h2 class="heading" data-reveal style="--d:1">Show it what good looks like</h2>
+      <h2 class="heading" data-reveal style="--d:1">Interrogate the plan</h2>
       <ul class="points" data-reveal style="--d:2">
-        <li>Clone high-quality OSS repos locally</li>
-        <li>Ask for one pattern: errors, tests, jobs, APIs, module boundaries</li>
-        <li>Extract before imitation: what transfers, what does not?</li>
-        <li>Treat the repo as a reference library</li>
+        <li>What assumptions are you making?</li>
+        <li>What edge cases are missing?</li>
+        <li>What can run independently?</li>
+        <li>What proves each step worked?</li>
       </ul>
     </div>
   </section>
 
-  <!-- 8 · Encode repeatable patterns -->
+  <!-- 8 · Chunk from the plan -->
+  <section class="slide" data-section="planning">
+    <div class="slide__inner">
+      <span class="label" data-reveal style="--d:0">Planning</span>
+      <h2 class="heading" data-reveal style="--d:1">Chunk from the plan</h2>
+      <ul class="points" data-reveal style="--d:2">
+        <li>Do one reviewable chunk at a time</li>
+        <li>Ship behavior through a real path</li>
+        <li>Verify the chunk before starting the next one</li>
+        <li>Keep the plan current</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 9 · Give concrete context -->
+  <section class="slide" data-section="planning">
+    <div class="slide__inner">
+      <span class="label" data-reveal style="--d:0">Planning</span>
+      <h2 class="heading" data-reveal style="--d:1">Give concrete context</h2>
+      <ul class="points" data-reveal style="--d:2">
+        <li>README, tests, nearby code</li>
+        <li>The problem reproduced locally</li>
+        <li>Sibling implementations</li>
+        <li>Good repo examples when a pattern matters</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 10 · Encode repeatable patterns -->
   <section class="slide" data-section="planning">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Planning</span>
       <h2 class="heading" data-reveal style="--d:1">Encode repeatable patterns</h2>
       <ul class="points" data-reveal style="--d:2">
-        <li>Some work is the same operation applied to many targets</li>
-        <li>
-          Two artifacts: a tracking table for state and a skill for durable operating procedure
-        </li>
-        <li>
-          Use skills for migrations, testing protocols, security checks, and review checklists
-        </li>
-        <li>Any contributor, human or agent, picks up a target and follows the same steps</li>
+        <li>Some work repeats across many targets</li>
+        <li>Tracking table: what is done</li>
+        <li>Skill: how to do one target</li>
+        <li>The table tracks state. The skill preserves judgment.</li>
       </ul>
     </div>
   </section>
 
-  <!-- 9 · Parallelize -->
+  <!-- 11 · Separate sessions by job -->
   <section class="slide" data-section="execution">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Execution</span>
-      <h2 class="heading" data-reveal style="--d:1">Parallelize your sessions</h2>
+      <h2 class="heading" data-reveal style="--d:1">Separate sessions by job</h2>
       <ul class="points" data-reveal style="--d:2">
-        <li>Separate writing, reviewing, and fixing</li>
-        <li>Use clean review sessions for important changes</li>
-        <li>Give each reviewer one job: correctness, security, tests, design</li>
+        <li>Write in one session</li>
+        <li>Review in a clean session</li>
+        <li>Fix in a focused session</li>
         <li>One concern per session</li>
       </ul>
     </div>
   </section>
 
-  <!-- 10 · Smartest models -->
+  <!-- 12 · Smarter models -->
   <section class="slide" data-section="execution">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Execution</span>
-      <h2 class="heading" data-reveal style="--d:1">Smarter models are cheaper</h2>
+      <h2 class="heading" data-reveal style="--d:1">Use the smartest model</h2>
       <p class="hero-text" data-reveal style="--d:2">
         A $0.50 prompt that gets it right is cheaper than five $0.05 prompts that each need fixing.
       </p>
       <p class="slide__note" data-reveal style="--d:3">
-        Don't optimize for token cost when the bottleneck is your time.
+        Your time, bad diffs, CI cycles, and restarts cost more than tokens.
       </p>
     </div>
   </section>
 
-  <!-- 11 · Context window -->
+  <!-- 13 · Do not fight polluted context -->
   <section class="slide" data-section="execution">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Execution</span>
-      <h2 class="heading" data-reveal style="--d:1">Manage your context window</h2>
-      <svg
-        class="diagram"
-        data-reveal
-        style="--d:2"
-        viewBox="0 0 600 80"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <defs>
-          <clipPath id="bar">
-            <rect width="600" height="36" rx="6" y="20"></rect>
-          </clipPath>
-        </defs>
-        <g clip-path="url(#bar)">
-          <rect x="0" y="20" width="300" height="36" fill="#2a9d5c"></rect>
-          <rect x="300" y="20" width="120" height="36" fill="#c89b2b"></rect>
-          <rect x="420" y="20" width="180" height="36" fill="#c44e36"></rect>
-        </g>
-        <line x1="300" y1="20" x2="300" y2="56" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"
-        ></line>
-        <line x1="420" y1="20" x2="420" y2="56" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"
-        ></line>
-        <text
-          x="150"
-          y="43"
-          text-anchor="middle"
-          fill="white"
-          font-family="Inter Variable, sans-serif"
-          font-size="13"
-          font-weight="500">High quality</text
-        >
-        <text
-          x="360"
-          y="43"
-          text-anchor="middle"
-          fill="white"
-          font-family="Inter Variable, sans-serif"
-          font-size="13"
-          font-weight="500">Compact</text
-        >
-        <text
-          x="510"
-          y="43"
-          text-anchor="middle"
-          fill="white"
-          font-family="Inter Variable, sans-serif"
-          font-size="13"
-          font-weight="500">Start fresh</text
-        >
-        <text
-          x="0"
-          y="14"
-          fill="currentColor"
-          font-family="Inter Variable, sans-serif"
-          font-size="12"
-          opacity="0.45">0%</text
-        >
-        <text
-          x="300"
-          y="14"
-          text-anchor="middle"
-          fill="currentColor"
-          font-family="Inter Variable, sans-serif"
-          font-size="12"
-          opacity="0.45">50%</text
-        >
-        <text
-          x="420"
-          y="14"
-          text-anchor="middle"
-          fill="currentColor"
-          font-family="Inter Variable, sans-serif"
-          font-size="12"
-          opacity="0.45">70%</text
-        >
-        <text
-          x="600"
-          y="14"
-          text-anchor="end"
-          fill="currentColor"
-          font-family="Inter Variable, sans-serif"
-          font-size="12"
-          opacity="0.45">100%</text
-        >
-        <text
-          x="300"
-          y="74"
-          text-anchor="middle"
-          fill="currentColor"
-          font-family="Inter Variable, sans-serif"
-          font-size="11"
-          opacity="0.35">context window usage →</text
-        >
-      </svg>
-      <p class="slide__note" data-reveal style="--d:3">
-        Compaction loses dead ends, file reads, and failed attempts that still shape every response.
-        Break problems down so you never need it.
-      </p>
-    </div>
-  </section>
-
-  <!-- 12 · Verification step -->
-  <section class="slide" data-section="verification">
-    <div class="slide__inner">
-      <span class="label" data-reveal style="--d:0">Verification</span>
-      <h2 class="heading" data-reveal style="--d:1">Tell the agent how to verify its own work</h2>
+      <h2 class="heading" data-reveal style="--d:1">Do not fight polluted context</h2>
       <ul class="points" data-reveal style="--d:2">
-        <li>The verification must be automated, deterministic, and runnable</li>
-        <li>Ask for a check the agent can execute, then make it run the check</li>
-        <li>Review findings need evidence: file, line, contract, and failing path</li>
+        <li>Compact around 50%</li>
+        <li>Start fresh around 70%</li>
+        <li>Start a new session when the task changes</li>
+        <li>Bail when the agent repeats itself or contradicts earlier decisions</li>
       </ul>
     </div>
   </section>
 
-  <!-- 13 · Verifiability thesis -->
-  <section class="slide slide--center" data-section="verification">
+  <!-- 14 · Tell it how to verify -->
+  <section class="slide" data-section="verification">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Verification</span>
-      <p class="hero-text" data-reveal style="--d:1">
-        Agents are only good at things that are <strong class="accent">easy to verify.</strong>
-      </p>
-      <p class="slide__sub" data-reveal style="--d:2">
-        Code compiles or it doesn't. Tests pass or they don't. Where verification is hard, agents
-        fail quietly.
-      </p>
+      <h2 class="heading" data-reveal style="--d:1">Tell it how to verify</h2>
+      <ul class="points" data-reveal style="--d:2">
+        <li>Do not just say "refactor this"</li>
+        <li>Ask for a check the agent can run</li>
+        <li>Make it run the check</li>
+        <li>Verification must be automated, deterministic, and runnable</li>
+      </ul>
     </div>
   </section>
 
-  <!-- 14 · Test-first -->
+  <!-- 15 · Separate writing from review -->
+  <section class="slide" data-section="verification">
+    <div class="slide__inner">
+      <span class="label" data-reveal style="--d:0">Verification</span>
+      <h2 class="heading" data-reveal style="--d:1">Separate writing from review</h2>
+      <ul class="points" data-reveal style="--d:2">
+        <li>Do not make the writing session the only reviewer</li>
+        <li>Start a clean review session</li>
+        <li>Give it the diff, relevant files, and conventions</li>
+        <li>Ask for file, line, contract, and failing path</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 16 · Split review by job -->
+  <section class="slide" data-section="verification">
+    <div class="slide__inner">
+      <span class="label" data-reveal style="--d:0">Verification</span>
+      <h2 class="heading" data-reveal style="--d:1">Split review by job</h2>
+      <ul class="points" data-reveal style="--d:2">
+        <li>Correctness</li>
+        <li>Failure modes</li>
+        <li>Security</li>
+        <li>Tests</li>
+        <li>Design</li>
+      </ul>
+      <p class="slide__note" data-reveal style="--d:3">One reviewer, one lens.</p>
+    </div>
+  </section>
+
+  <!-- 17 · Test-first -->
   <section class="slide slide--center" data-section="verification">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Verification</span>
@@ -282,245 +234,24 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
       <p class="slide__sub" data-reveal style="--d:2">
         A smoke detector that has never been near smoke tells you nothing about whether it works.
       </p>
-      <p class="slide__note" data-reveal style="--d:3">
-        Have the agent introduce a regression and confirm the test actually catches it.
-      </p>
     </div>
   </section>
 
-  <!-- 15 · Dev loop -->
+  <!-- 18 · Mechanize invariants -->
   <section class="slide" data-section="verification">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Verification</span>
-      <h2 class="heading" data-reveal style="--d:1">Invest in your local dev loop</h2>
+      <h2 class="heading" data-reveal style="--d:1">Mechanize invariants</h2>
       <ul class="points" data-reveal style="--d:2">
-        <li>Your agent is only as good as your feedback loop</li>
-        <li>Reproduce CI locally, run the service e2e locally</li>
-        <li>Fast local feedback: lint, type check, unit tests, e2e, security scan</li>
-        <li>If CI takes 20 minutes remotely, you're flying blind for 20 minutes</li>
+        <li>Instructions guide behavior</li>
+        <li>Checks constrain behavior</li>
+        <li>Lint, type checks, tests, security scans, branch protection</li>
+        <li>If a rule can be checked mechanically, put it in the dev loop</li>
       </ul>
     </div>
   </section>
 
-  <!-- 16 · Security stat -->
-  <section class="slide slide--center" data-section="verification">
-    <div class="slide__inner">
-      <span class="label" data-reveal style="--d:0">Verification</span>
-      <p class="stat" data-reveal style="--d:1">2.7x</p>
-      <h2 class="stat-heading" data-reveal style="--d:2">
-        more security vulnerabilities in AI-generated code vs. human-written code.
-      </h2>
-      <p class="slide__note" data-reveal style="--d:3">
-        470 real PRs, human comparison group. The code works. It passes tests. It isn't secure.
-      </p>
-    </div>
-  </section>
-
-  <!-- 17 · Mechanize invariants -->
-  <section class="slide" data-section="verification">
-    <div class="slide__inner">
-      <span class="label" data-reveal style="--d:0">Verification</span>
-      <h2 class="heading" data-reveal style="--d:1">Mechanize your invariants</h2>
-      <ul class="points" data-reveal style="--d:2">
-        <li>AGENTS.md guides behavior. CI constrains behavior.</li>
-        <li>Lint rules, type checks, tests, security scans, branch protection</li>
-        <li>Instructions degrade as context fills. Checks do not rely on attention.</li>
-        <li>If a rule can be checked mechanically, put it in the dev loop.</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- 18 · Bail -->
-  <section class="slide" data-section="meta">
-    <div class="slide__inner">
-      <span class="label" data-reveal style="--d:0">Meta-Skills</span>
-      <h2 class="heading" data-reveal style="--d:1">Know when to bail</h2>
-      <ul class="points" data-reveal style="--d:2">
-        <li>
-          <strong>Context corruption is irreversible.</strong> Failed attempts confuse every subsequent
-          turn.
-        </li>
-        <li>Start a clean session. It takes 30 seconds.</li>
-        <li>
-          Bail signals: repeats itself, contradicts earlier decisions, suggests rejected fixes
-        </li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- 19 · Commit -->
-  <section class="slide" data-section="meta">
-    <div class="slide__inner">
-      <span class="label" data-reveal style="--d:0">Meta-Skills</span>
-      <h2 class="heading" data-reveal style="--d:1">Commit before everything</h2>
-      <ul class="points" data-reveal style="--d:2">
-        <li>Agents move fast and break things across many files at once</li>
-        <li>Commit before every major agent operation</li>
-        <li><code>git diff</code> between commits is the fastest way to review</li>
-        <li>Small commits let you revert a single bad step instead of an entire session</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- 20 · Continuous refactoring -->
-  <section class="slide" data-section="meta">
-    <div class="slide__inner">
-      <span class="label" data-reveal style="--d:0">Meta-Skills</span>
-      <h2 class="heading" data-reveal style="--d:1">Refactor continuously</h2>
-      <ul class="points" data-reveal style="--d:2">
-        <li>Code generation makes tactical changes cheap</li>
-        <li>Tactical changes accumulate complexity</li>
-        <li>Run periodic design reviews in read-only mode</li>
-        <li>Ask for the smallest change that reduces cognitive load or change amplification</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- 21 · Design fundamentals -->
-  <section class="slide" data-section="meta">
-    <div class="slide__inner">
-      <span class="label" data-reveal style="--d:0">Meta-Skills</span>
-      <h2 class="heading" data-reveal style="--d:1">The old books still matter</h2>
-      <ul class="points" data-reveal style="--d:2">
-        <li>APOSD: reduce cognitive load and change amplification</li>
-        <li>DDD: preserve domain language and real business distinctions</li>
-        <li>Parnas and Brooks: hide information, protect conceptual integrity</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- 22 · Languages -->
-  <section class="slide" data-section="meta">
-    <div class="slide__inner">
-      <span class="label" data-reveal style="--d:0">Meta-Skills</span>
-      <h2 class="heading" data-reveal style="--d:1">Work in agent-friendly languages</h2>
-      <svg
-        class="diagram diagram--venn"
-        data-reveal
-        style="--d:2"
-        viewBox="0 0 500 350"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <!-- Equilateral layout: side=150, r=100, ~50px overlap per pair -->
-        <circle
-          cx="250"
-          cy="105"
-          r="100"
-          fill="rgba(74,111,165,0.12)"
-          stroke="rgba(74,111,165,0.30)"
-          stroke-width="1.5"></circle>
-        <circle
-          cx="175"
-          cy="235"
-          r="100"
-          fill="rgba(26,122,58,0.12)"
-          stroke="rgba(26,122,58,0.30)"
-          stroke-width="1.5"></circle>
-        <circle
-          cx="325"
-          cy="235"
-          r="100"
-          fill="rgba(154,114,0,0.12)"
-          stroke="rgba(154,114,0,0.30)"
-          stroke-width="1.5"></circle>
-        <!-- Labels outside circles -->
-        <text
-          x="250"
-          y="14"
-          text-anchor="middle"
-          font-family="Inter Variable, sans-serif"
-          font-size="13"
-          font-weight="600"
-          fill="currentColor">Type Safety</text
-        >
-        <text
-          x="250"
-          y="30"
-          text-anchor="middle"
-          font-family="Inter Variable, sans-serif"
-          font-size="10.5"
-          fill="currentColor"
-          opacity="0.45">compiler catches errors</text
-        >
-        <text
-          x="72"
-          y="330"
-          text-anchor="middle"
-          font-family="Inter Variable, sans-serif"
-          font-size="13"
-          font-weight="600"
-          fill="currentColor">Source-Available</text
-        >
-        <text
-          x="72"
-          y="346"
-          text-anchor="middle"
-          font-family="Inter Variable, sans-serif"
-          font-size="10.5"
-          fill="currentColor"
-          opacity="0.45">reads actual code</text
-        >
-        <text
-          x="428"
-          y="330"
-          text-anchor="middle"
-          font-family="Inter Variable, sans-serif"
-          font-size="13"
-          font-weight="600"
-          fill="currentColor">Popularity</text
-        >
-        <text
-          x="428"
-          y="346"
-          text-anchor="middle"
-          font-family="Inter Variable, sans-serif"
-          font-size="10.5"
-          fill="currentColor"
-          opacity="0.45">training data</text
-        >
-        <!-- Center intersection -->
-        <text
-          x="250"
-          y="196"
-          text-anchor="middle"
-          font-family="Inter Variable, sans-serif"
-          font-size="16"
-          font-weight="700"
-          fill="var(--accent)">TS, Go</text
-        >
-        <!-- Two-circle intersections -->
-        <text
-          x="212"
-          y="170"
-          text-anchor="middle"
-          font-family="Inter Variable, sans-serif"
-          font-size="11.5"
-          fill="currentColor"
-          opacity="0.4">Rust, Zig</text
-        >
-        <text
-          x="288"
-          y="170"
-          text-anchor="middle"
-          font-family="Inter Variable, sans-serif"
-          font-size="11.5"
-          fill="currentColor"
-          opacity="0.4">Kotlin, C#</text
-        >
-        <text
-          x="250"
-          y="248"
-          text-anchor="middle"
-          font-family="Inter Variable, sans-serif"
-          font-size="11.5"
-          fill="currentColor"
-          opacity="0.4">Python, JS</text
-        >
-      </svg>
-    </div>
-  </section>
-
-  <!-- 23 · Expert amplifier -->
+  <!-- 19 · Human judgment -->
   <section class="slide slide--center" data-section="meta">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Meta-Skills</span>
@@ -528,62 +259,40 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
         The agent does the typing.<br />The human does the <strong class="accent">judgment.</strong>
       </p>
       <p class="slide__sub" data-reveal style="--d:2">
-        An agent refactors your database access layer. It compiles, passes tests, looks clean. A
-        senior engineer sees it opens a new connection per query instead of using the pool.
+        You decide what context matters, what question to ask, and whether the answer makes sense.
       </p>
     </div>
   </section>
 
-  <!-- 24 · Agent context limits -->
-  <section class="slide slide--center" data-section="meta">
+  <!-- 20 · Design judgment -->
+  <section class="slide" data-section="meta">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Meta-Skills</span>
-      <p class="hero-text" data-reveal style="--d:1">
-        The agent is only as good as the <strong class="accent">context you give it.</strong>
-      </p>
-      <p class="slide__sub" data-reveal style="--d:2">
-        Production error rates spike. The agent reviews logs, finds sidecars returning 5xx, and
-        calls it the root cause. The real cause: a hard limit of 24 nodes, CPUs maxed, no room to
-        scale. The agent had zero infrastructure context. It found a symptom, not the cause.
-      </p>
+      <h2 class="heading" data-reveal style="--d:1">Cheap code makes design more important</h2>
+      <ul class="points" data-reveal style="--d:2">
+        <li>Reduce cognitive load</li>
+        <li>Hide decisions behind stable boundaries</li>
+        <li>Preserve domain language</li>
+        <li>Avoid generic abstractions that erase meaning</li>
+      </ul>
     </div>
   </section>
 
-  <!-- 25 · Curious generalist -->
-  <section class="slide slide--center" data-section="meta">
-    <div class="slide__inner">
-      <span class="label" data-reveal style="--d:0">Meta-Skills</span>
-      <p class="hero-text" data-reveal style="--d:1">
-        Agents supply depth on demand.<br />The <strong class="accent">curious generalist</strong> directs
-        it.
-      </p>
-      <p class="slide__sub" data-reveal style="--d:2">
-        Knowing what problems to solve, what questions to ask, and whether the answer is right.
-        Across many domains, not just one.
-      </p>
-    </div>
-  </section>
-
-  <!-- 26 · Limits -->
+  <!-- 21 · Limits -->
   <section class="slide" data-section="meta">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Meta-Skills</span>
       <h2 class="heading" data-reveal style="--d:1">Know when NOT to use agents</h2>
       <ul class="points" data-reveal style="--d:2">
-        <li>
-          Pricing logic across products, admin permissions, infrastructure teardown. Anywhere subtle
-          context spans many steps.
-        </li>
-        <li>High cost of failure + hard to verify = do it yourself</li>
-        <li>
-          Agents are confident and fast. If you can't verify quickly, that confidence works against
-          you.
-        </li>
+        <li>High cost of failure + hard to verify = slow down</li>
+        <li>Use agents as drafts when context spans many systems</li>
+        <li>Slow down when correctness is subtle</li>
+        <li>Slow down when verification is weak</li>
       </ul>
     </div>
   </section>
 
-  <!-- 27 · End -->
+  <!-- 22 · End -->
   <section class="slide slide--center slide--end">
     <div class="slide__inner">
       <p class="end-text" data-reveal style="--d:0">Read the full post</p>
