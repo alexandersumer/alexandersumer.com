@@ -57,15 +57,15 @@ Use parallel sessions when the work can be separated. Put each one in its own wo
 
 ### Use the Smartest Models
 
-Smarter models are almost always better, for every task. This is counterintuitive because people assume a "simple" task doesn't need a frontier model. But smarter models find more efficient solutions, make fewer wrong turns, and are less likely to spiral into an unrecoverable state. They use fewer tokens to get to the right answer because they don't waste cycles on bad approaches.
+For non-trivial engineering work, smarter models are usually worth it. This is counterintuitive because people assume a "simple" task doesn't need a frontier model. But stronger models find more efficient solutions, make fewer wrong turns, and are less likely to spiral into an unrecoverable state.
 
-I only use the smartest models available at the highest reasoning effort. Even though they cost more per token, I end up spending less overall: less time, fewer tokens, fewer CI cycles, fewer sessions thrown away to context corruption.
+I use the smartest models available for work where mistakes are expensive. Even though they cost more per token, I often spend less overall: less time, fewer tokens, fewer CI cycles, fewer sessions thrown away to polluted context.
 
 Don't optimize for token cost when the bottleneck is your time. A $0.50 prompt that gets it right in one shot is cheaper than five $0.05 prompts that each need fixing.
 
 ### Manage Your Context Window
 
-LLMs perform measurably worse as the context window fills. Most agents show a context usage indicator. Compact or summarize proactively at 50% to keep quality high. At 70%, compact or start fresh.
+As sessions accumulate code, failed attempts, logs, and side discussions, output quality often degrades. Most agents show a context usage indicator. Treat it as a risk indicator: compact before quality drops, and start fresh when the session becomes hard to reason about.
 
 Start new sessions for new tasks. Don't reuse a debugging session for feature work. If your agent supports sub-tasks or background agents, use them for tasks that read many files. They get their own isolated context and return a summary, keeping your main session clean.
 
@@ -123,9 +123,9 @@ Use project instructions for judgment, taste, architecture, and workflow. Use au
 
 ### Know When to Bail
 
-Context corruption is irreversible. When the agent goes down a wrong path, the failed attempts and error messages stay in the context window. They don't just take up space. They actively confuse the model on every subsequent turn. You are not wasting time. You are making every future response in that session worse.
+Context pollution is usually not worth repairing. When the agent goes down a wrong path, the failed attempts and error messages stay in the context window. They don't just take up space. They can confuse the model on every subsequent turn.
 
-People try to correct course mid-session. It doesn't work. The bad context is already baked in, shaping every prediction. Start a clean session. It takes 30 seconds.
+People try to correct course mid-session. Sometimes it works, but once the agent is repeating itself, defending a bad direction, or mixing rejected fixes back in, starting fresh is usually faster. It takes 30 seconds.
 
 Bail signals: the agent repeats itself, contradicts a decision it made earlier, or suggests fixes you already rejected.
 
@@ -151,11 +151,11 @@ Protect real domain complexity when the code gets smaller. A good refactor reduc
 
 ### Work in Agent-Friendly Languages
 
-Coding agents perform best in languages that satisfy three conditions simultaneously: type safety, source-available package distribution, and large-scale popularity. Today that's TypeScript and Go.
+Coding agents tend to do best when the language and ecosystem give them three things at once: strong static feedback, inspectable dependencies, and abundant examples. TypeScript and Go are especially agent-friendly by this standard.
 
-Each condition matters on its own. Type safety gives the agent a compiler-driven feedback loop: free, instant verification at every edit that narrows the search space of valid programs. Without it, the agent relies on runtime testing or human review to know if its output is correct. Source-available packaging (npm packages, Go modules) means the model trained on the full dependency graph, and at inference time the agent can read actual library source on disk rather than speculating from documentation that's often incomplete or wrong. JVM and .NET ecosystems distribute compiled bytecode by default. There is nothing for the agent to open and read, so it hallucinates APIs more often. Popularity provides training data volume. An obscure language could be perfectly typed and fully source-distributed but still underserved due to sparse training signal.
+Each condition matters on its own. Type safety gives the agent a compiler-driven feedback loop: fast verification at every edit that narrows the search space of valid programs. Inspectable dependencies let the agent read actual library source on disk instead of guessing from incomplete docs or remembered APIs. Popular ecosystems give it more examples and conventions to imitate.
 
-You need all three together. Type safety without source availability means the agent verifies its own code but guesses at library interfaces (Kotlin, C#). Type safety without popularity means the compiler catches mistakes but sparse training data limits the model (Rust, Zig). Source availability without type safety means the agent reads everything but gets weak correctness feedback (Python, Ruby). Popularity without the other two means lots of training data but high error rates (JavaScript without TypeScript).
+The broader lesson is not "use one language." Prefer environments where mistakes become visible quickly. Strong types, good compiler errors, source-available dependencies, fast tests, and clear examples all make agents more useful.
 
 ### Know What Good Code Looks Like
 
@@ -163,16 +163,16 @@ The agent accelerates experts more than beginners. If you don't know what good c
 
 Example: an agent refactors your database access layer and the code compiles, passes tests, and looks clean. A senior engineer glances at it and sees that it opens a new connection per query instead of using the pool. The agent wrote correct code. It wrote code that will fall over at a few hundred concurrent users. If you don't already know what connection handling should look like, you approve that PR.
 
-This is why agents widen the gap between senior and junior engineers. The agent does the typing. The human does the judgment.
+Agents amplify existing judgment. The agent does the typing. The human does the judgment.
 
 We saw this during a production incident where error rates spiked. A coding agent reviewed the logs and found sidecars returning 5xx errors. It concluded the sidecars were the root cause. They were a symptom. The real problem was that our cluster had a hard limit of 24 nodes. We had scaled to that ceiling. CPUs were maxed with no room to scale horizontally. The agent had zero context on the infrastructure. It found a plausible explanation in the logs and stopped there. The agent is only as good as the context you give it. When that context doesn't include the system, the human is the one who bridges the gap.
 
 You get the most out of agents in areas where you already know what the answer should look like. That ability comes from doing software engineering the hard way.
 
-That judgment doesn't require deep specialization. Agents supply depth on demand. The advantage belongs to the curious generalist who has picked up working knowledge across many domains. Knowing what problems to solve, what questions to ask, and whether the agent's output is right across many areas comes from curiosity, not specialization.
+That judgment doesn't require deep specialization. Agents can help you explore depth quickly, but breadth still matters. The advantage belongs to the curious generalist who has picked up working knowledge across many domains. Knowing what problems to solve, what questions to ask, and whether the agent's output is right across many areas comes from curiosity, not specialization.
 
 ### Know When NOT to Use Agents
 
-Agents are bad at work that requires holding a large amount of subtle context over many steps. If the task requires understanding how six services interact under specific failure conditions, or tracing a race condition across threads, the agent will lose the thread before you do.
+Agents struggle when important context is subtle, distributed across systems, and not captured in files or runnable checks. If the task requires understanding how six services interact under specific failure conditions, or tracing a race condition across threads, the agent may lose the thread before you do.
 
 They're also bad when the cost of a wrong answer is high and verification is hard. Agents are confident and fast. If you can't verify the output quickly, that confidence works against you. Security-sensitive code, complex migrations, anything where "it compiles and tests pass" is not sufficient, those are places to slow down and do the work yourself or treat the agent's output as a rough draft, not a result.

@@ -157,12 +157,12 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
   <section class="slide" data-section="execution">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Execution</span>
-      <h2 class="heading" data-reveal style="--d:1">Use the smartest model</h2>
+      <h2 class="heading" data-reveal style="--d:1">Do not optimize for token cost</h2>
       <p class="hero-text" data-reveal style="--d:2">
         A $0.50 prompt that gets it right is cheaper than five $0.05 prompts that each need fixing.
       </p>
       <p class="slide__note" data-reveal style="--d:3">
-        Your time, bad diffs, CI cycles, and restarts cost more than tokens.
+        Use strong models when mistakes are expensive.
       </p>
     </div>
   </section>
@@ -173,10 +173,10 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
       <span class="label" data-reveal style="--d:0">Execution</span>
       <h2 class="heading" data-reveal style="--d:1">Do not fight polluted context</h2>
       <ul class="points" data-reveal style="--d:2">
-        <li>Compact around 50%</li>
-        <li>Start fresh around 70%</li>
-        <li>Start a new session when the task changes</li>
-        <li>Bail when the agent repeats itself or contradicts earlier decisions</li>
+        <li>Compact before quality drops</li>
+        <li>Start fresh when the task changes</li>
+        <li>Bail when the agent repeats itself</li>
+        <li>Preserve clean context for judgment</li>
       </ul>
     </div>
   </section>
@@ -225,7 +225,21 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 17 · Test-first -->
+  <!-- 17 · Functional is not secure -->
+  <section class="slide" data-section="review">
+    <div class="slide__inner">
+      <span class="label" data-reveal style="--d:0">Review</span>
+      <h2 class="heading" data-reveal style="--d:1">Functional is not secure</h2>
+      <ul class="points" data-reveal style="--d:2">
+        <li>AI code can pass tests and still create attack surface</li>
+        <li>Add security as a separate review lens</li>
+        <li>Scan every PR</li>
+        <li>Treat auth, data access, and input handling as high-risk</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 18 · Test-first -->
   <section class="slide slide--center" data-section="verification">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Verification</span>
@@ -238,7 +252,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 18 · Mechanize invariants -->
+  <!-- 19 · Mechanize invariants -->
   <section class="slide" data-section="verification">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Verification</span>
@@ -252,7 +266,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 19 · Human judgment -->
+  <!-- 20 · Human judgment -->
   <section class="slide" data-section="meta">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Judgment</span>
@@ -266,7 +280,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 20 · Limits -->
+  <!-- 21 · Limits -->
   <section class="slide" data-section="meta">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Judgment</span>
@@ -280,7 +294,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 21 · End -->
+  <!-- 22 · End -->
   <section class="slide slide--center slide--end">
     <div class="slide__inner">
       <p class="end-text" data-reveal style="--d:0">Read the full post</p>
@@ -378,6 +392,9 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
   }
   [data-section='verification'] .label {
     --lc: var(--c-verification);
+  }
+  [data-section='review'] .label {
+    --lc: var(--c-review);
   }
   [data-section='meta'] .label {
     --lc: var(--c-meta);
