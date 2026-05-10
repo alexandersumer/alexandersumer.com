@@ -53,7 +53,7 @@ Skills make judgment reusable. They handle migrations, testing protocols, securi
 
 ### Parallelize Your Agent Sessions
 
-Use parallel sessions when the work can be separated. Put each one in its own worktree or clone so files and context do not collide. Use separate sessions for writing, reviewing, and fixing. One concern per session.
+Isolate context when the work can be separated. Use subagents, background agents, or separate sessions so files and context do not collide. Keep writing, reviewing, and fixing in separate fresh contexts. One concern per context.
 
 ### Use the Smartest Models
 
@@ -67,7 +67,7 @@ Don't optimize for token cost when the bottleneck is your time. A $0.50 prompt t
 
 As sessions accumulate code, failed attempts, logs, and side discussions, output quality often degrades. Most agents show a context usage indicator. Treat it as a risk indicator: compact before quality drops, and start fresh when the session becomes hard to reason about.
 
-Start new sessions for new tasks. Don't reuse a debugging session for feature work. If your agent supports sub-tasks or background agents, use them for tasks that read many files. They get their own isolated context and return a summary, keeping your main session clean.
+Start with fresh context for new tasks. Don't reuse a polluted debugging context for feature work. If your agent supports subagents or background tasks, use them for narrow jobs that read many files. They get their own isolated context and return a summary, keeping your main session clean.
 
 ---
 
@@ -85,7 +85,7 @@ The fundamental loop is: write code, run tests, fix failures. Agents can move fa
 
 Review finds risks. Verification proves behavior. Do not ask the same session that wrote the code to be the only reviewer. It has the plan, failed attempts, and your framing in context. That makes it more likely to miss the same blind spot.
 
-For important changes, start clean review sessions. Give each reviewer only the diff, relevant files, and local conventions. Give each one a narrow job: correctness, failure modes, security, tests, or design.
+For important changes, review from fresh context. Give each reviewer or subagent only the diff, relevant files, and local conventions. Give each one a narrow job: correctness, failure modes, security, tests, or design.
 
 Require evidence. A useful finding names the file, line, broken contract, and the input or change path that exposes it. Drop anything that is a nitpick, generic advice, or not tied to code you can inspect.
 
