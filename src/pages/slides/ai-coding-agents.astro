@@ -40,16 +40,8 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
   <!-- 4 · The framework -->
   <section class="slide slide--center">
     <div class="slide__inner">
-      <div class="framework">
-        <span class="framework__word" data-reveal style="--d:0">Plan</span>
-        <span class="framework__dot" data-reveal style="--d:1">&middot;</span>
-        <span class="framework__word" data-reveal style="--d:2">Execute</span>
-        <span class="framework__dot" data-reveal style="--d:3">&middot;</span>
-        <span class="framework__word" data-reveal style="--d:4">Review</span>
-        <span class="framework__dot" data-reveal style="--d:5">&middot;</span>
-        <span class="framework__word" data-reveal style="--d:6">Verify</span>
-      </div>
-      <p class="slide__sub" data-reveal style="--d:7">
+      <div class="framework" data-reveal style="--d:0">Plan, execute, review, and verify.</div>
+      <p class="slide__sub" data-reveal style="--d:1">
         Different jobs. Different contexts. Different artifacts.
       </p>
     </div>
@@ -342,28 +334,13 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
      FRAMEWORK
      ═══════════════════════════════════════ */
   .framework {
-    display: flex;
-    align-items: baseline;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 32px;
-    flex-wrap: wrap;
-  }
-
-  .framework__word {
     font-family: var(--font-ui);
-    font-size: clamp(40px, 7vw, 72px);
+    font-size: clamp(36px, 6vw, 64px);
     font-weight: 800;
     letter-spacing: -0.04em;
+    line-height: 1.08;
     color: var(--heading);
-    line-height: 1;
-  }
-
-  .framework__dot {
-    font-size: clamp(32px, 5vw, 56px);
-    color: var(--accent);
-    line-height: 1;
-    font-weight: 300;
+    margin-bottom: 32px;
   }
 
   /* ═══════════════════════════════════════
@@ -603,10 +580,6 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     .label {
       font-size: 11px;
       padding: 4px 12px;
-    }
-
-    .framework {
-      gap: 12px;
     }
 
     .end-link {
