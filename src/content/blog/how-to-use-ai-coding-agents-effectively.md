@@ -1,13 +1,13 @@
 ---
 title: 'How to Use AI Coding Agents Effectively'
 date: 2026-03-15
-description: 'The gap between frustration and productivity with AI coding agents is judgment. Plan, execute, and verify separately, and invest in fast feedback loops.'
+description: 'The gap between frustration and productivity with AI coding agents is judgment. Plan, execute, review, and verify separately, and invest in fast feedback loops.'
 draft: false
 ---
 
 Many people use coding agents for a bit, get frustrated, and conclude "they're not good." That's like picking up a guitar, fumbling through a few chords, and concluding "guitars just don't work." What you're actually building is judgment about AI itself: when to delegate, when to collaborate, and when to do the work yourself. The people getting the most out of agents today aren't using better tools. They built the skill to use them well.
 
-Planning, execution, and verification are fundamentally different activities and they need to happen separately. People conflate them. They ask the agent to plan and build at the same time, and the result is worse plans AND worse code. Most coding agents have a planning or read-only mode that analyzes your codebase and proposes a strategy without writing anything. Use it. If yours doesn't, just tell the agent: "analyze this codebase and propose a plan. Do not write any code."
+Planning, execution, review, and verification are different activities. They need to happen separately. People conflate them. They ask the agent to plan and build at the same time, and the result is worse plans AND worse code. Most coding agents have a planning or read-only mode that analyzes your codebase and proposes a strategy without writing anything. Use it. If yours doesn't, just tell the agent: "analyze this codebase and propose a plan. Do not write any code."
 
 Agents make code cheaper to produce, which raises the premium on knowing what code should exist. The old software engineering disciplines get more important under automation: Parnas on information hiding, Brooks on conceptual integrity, Evans on domain language, Ousterhout on complexity. Context gives the agent local facts. Exemplars give it concrete patterns. Skills carry design standards across sessions. Verification keeps the loop honest.
 
@@ -19,7 +19,7 @@ Agents make code cheaper to produce, which raises the premium on knowing what co
 
 Take your time writing prompts. Think through the sequence: what goes first, what the agent needs to learn before it acts, what commands it will run and in what order.
 
-For non-trivial work, make the agent write the plan down before implementation. A short `plan.md` is enough: goal, files likely to change, step-by-step sequence, verification commands, risks, and rollback point. Written plans expose vague thinking.
+For non-trivial work, make the agent write the plan down before implementation. Use whatever artifact your team will keep current: proposal, design doc, task list, spec, ticket, or Markdown file. Capture the goal, likely files, sequence, checks, risks, and rollback point. Written plans expose vague thinking.
 
 Interrogate the plan before the agent touches code. Ask what can go wrong, what assumptions it is making, what branches it considered, what edge cases are missing, what can be done independently, and what must happen in order. Revise until the work can be executed one step at a time without hidden branches.
 
@@ -83,7 +83,7 @@ The fundamental loop is: write code, run tests, fix failures. Agents can move fa
 
 ### Separate Writing From Review
 
-Do not ask the same session that wrote the code to be the only reviewer. It has the plan, failed attempts, and your framing in context. That makes it more likely to miss the same blind spot.
+Review finds risks. Verification proves behavior. Do not ask the same session that wrote the code to be the only reviewer. It has the plan, failed attempts, and your framing in context. That makes it more likely to miss the same blind spot.
 
 For important changes, start clean review sessions. Give each reviewer only the diff, relevant files, and local conventions. Give each one a narrow job: correctness, failure modes, security, tests, or design.
 
