@@ -118,12 +118,9 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
       <span class="label" data-reveal style="--d:0">Execution</span>
       <h2 class="heading" data-reveal style="--d:1">Parallelize your sessions</h2>
       <ul class="points" data-reveal style="--d:2">
-        <li>
-          Run each session in its own worktree or clone. Isolated working directories, isolated
-          context windows.
-        </li>
-        <li>Each session has its own context window</li>
-        <li>Three parallel sessions = triple your total context budget</li>
+        <li>Separate writing, reviewing, and fixing</li>
+        <li>Use clean review sessions for important changes</li>
+        <li>Give each reviewer one job: correctness, security, tests, design</li>
         <li>One concern per session</li>
       </ul>
     </div>
@@ -254,12 +251,9 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
       <span class="label" data-reveal style="--d:0">Verification</span>
       <h2 class="heading" data-reveal style="--d:1">Tell the agent how to verify its own work</h2>
       <ul class="points" data-reveal style="--d:2">
-        <li>
-          Example: after refactoring, write a script to check that only test cases calling
-          suspending methods got runTest added and no annotations were removed
-        </li>
         <li>The verification must be automated, deterministic, and runnable</li>
         <li>Ask for a check the agent can execute, then make it run the check</li>
+        <li>Review findings need evidence: file, line, contract, and failing path</li>
       </ul>
     </div>
   </section>

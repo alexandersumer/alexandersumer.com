@@ -53,11 +53,7 @@ Skills make judgment reusable. They handle migrations, testing protocols, securi
 
 ### Parallelize Your Agent Sessions
 
-Run each session in its own worktree or clone. Each gets an isolated working directory and its own context window.
-
-Each session has its own context window. Three parallel sessions triple your total context budget, and they don't interfere with each other.
-
-One concern per session.
+Use parallel sessions when the work can be separated. Put each one in its own worktree or clone so files and context do not collide. Use separate sessions for writing, reviewing, and fixing. One concern per session.
 
 ### Use the Smartest Models
 
@@ -84,6 +80,14 @@ Instead of just asking the agent to refactor something, tell it: "after refactor
 The verification must be automated and deterministic: a command, script, test, or check the agent can actually run.
 
 The fundamental loop is: write code, run tests, fix failures. Agents can move fast through a project with a good test suite. Without tests, the agent assumes everything is fine.
+
+### Separate Writing From Review
+
+Do not ask the same session that wrote the code to be the only reviewer. It has the plan, failed attempts, and your framing in context. That makes it more likely to miss the same blind spot.
+
+For important changes, start clean review sessions. Give each reviewer only the diff, relevant files, and local conventions. Give each one a narrow job: correctness, failure modes, security, tests, or design.
+
+Require evidence. A useful finding names the file, line, broken contract, and the input or change path that exposes it. Drop anything that is a nitpick, generic advice, or not tied to code you can inspect.
 
 ### Validate Your Tests
 
