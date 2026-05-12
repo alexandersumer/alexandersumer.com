@@ -10,7 +10,76 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 2 · The problem -->
+  <!-- 2 · The stack -->
+  <section class="slide slide--center" data-section="fundamentals">
+    <div class="slide__inner">
+      <span class="label" data-reveal style="--d:0">101</span>
+      <div class="stack" data-reveal style="--d:1">
+        <span>Model</span>
+        <span>Agent</span>
+        <span>Tools</span>
+        <span>Workspace</span>
+        <span>Checks</span>
+      </div>
+      <p class="slide__sub" data-reveal style="--d:2">
+        Know which layer you are changing before you blame the agent.
+      </p>
+    </div>
+  </section>
+
+  <!-- 3 · Models -->
+  <section class="slide" data-section="fundamentals">
+    <div class="slide__inner">
+      <span class="label" data-reveal style="--d:0">Models</span>
+      <h2 class="heading" data-reveal style="--d:1">Choose models by risk</h2>
+      <ul class="points" data-reveal style="--d:2">
+        <li>Use stronger reasoning for ambiguous, unfamiliar, expensive work</li>
+        <li>Use faster models for cheap, reversible, mechanical work</li>
+        <li>Switch when the task changes</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4 · Agent surfaces -->
+  <section class="slide" data-section="fundamentals">
+    <div class="slide__inner">
+      <span class="label" data-reveal style="--d:0">Surfaces</span>
+      <h2 class="heading" data-reveal style="--d:1">Choose the right surface</h2>
+      <ul class="points" data-reveal style="--d:2">
+        <li><strong>IDE:</strong> direct edits with tight human steering</li>
+        <li><strong>CLI:</strong> repo, shell, and Atlassian context</li>
+        <li><strong>Chat:</strong> explanation without a real feedback loop</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 5 · Tools and context -->
+  <section class="slide" data-section="fundamentals">
+    <div class="slide__inner">
+      <span class="label" data-reveal style="--d:0">Context</span>
+      <h2 class="heading" data-reveal style="--d:1">Give the agent safe reach</h2>
+      <ul class="points" data-reveal style="--d:2">
+        <li><strong>MCP:</strong> tools and data without copy-paste</li>
+        <li><strong>Skills and memory:</strong> instructions that survive the chat</li>
+        <li><strong>AI Gateway:</strong> model access for internal AI features</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 6 · Workspace -->
+  <section class="slide" data-section="fundamentals">
+    <div class="slide__inner">
+      <span class="label" data-reveal style="--d:0">Workspace</span>
+      <h2 class="heading" data-reveal style="--d:1">Run where checks are real</h2>
+      <ul class="points" data-reveal style="--d:2">
+        <li><strong>Local:</strong> fastest when setup already works</li>
+        <li><strong>Volt:</strong> useful when environment setup is the hard part</li>
+        <li><strong>Worktrees:</strong> isolate parallel attempts</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 7 · The problem -->
   <section class="slide slide--center">
     <div class="slide__inner">
       <blockquote class="big-quote" data-reveal style="--d:0">
@@ -23,7 +92,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 3 · The insight -->
+  <!-- 8 · The insight -->
   <section class="slide slide--center">
     <div class="slide__inner">
       <p class="hero-text" data-reveal style="--d:0">
@@ -37,7 +106,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 4 · The framework -->
+  <!-- 9 · The framework -->
   <section class="slide slide--center">
     <div class="slide__inner">
       <div class="framework">
@@ -55,7 +124,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 5 · Create a planning artifact -->
+  <!-- 10 · Create a planning artifact -->
   <section class="slide" data-section="planning">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Planning</span>
@@ -69,7 +138,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 6 · The plan is the handoff -->
+  <!-- 11 · The plan is the handoff -->
   <section class="slide" data-section="planning">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Planning</span>
@@ -83,7 +152,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 7 · Interrogate the plan -->
+  <!-- 12 · Interrogate the plan -->
   <section class="slide" data-section="planning">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Planning</span>
@@ -97,7 +166,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 8 · Chunk from the plan -->
+  <!-- 13 · Chunk from the plan -->
   <section class="slide" data-section="planning">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Planning</span>
@@ -111,7 +180,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 9 · Give concrete context -->
+  <!-- 14 · Give concrete context -->
   <section class="slide" data-section="planning">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Planning</span>
@@ -125,7 +194,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 10 · Encode repeatable patterns -->
+  <!-- 15 · Encode repeatable patterns -->
   <section class="slide" data-section="planning">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Planning</span>
@@ -139,7 +208,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 11 · Separate context by job -->
+  <!-- 16 · Separate context by job -->
   <section class="slide" data-section="execution">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Execution</span>
@@ -153,7 +222,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 12 · Smarter models -->
+  <!-- 17 · Smarter models -->
   <section class="slide" data-section="execution">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Execution</span>
@@ -167,7 +236,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 13 · Do not fight polluted context -->
+  <!-- 18 · Do not fight polluted context -->
   <section class="slide" data-section="execution">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Execution</span>
@@ -181,7 +250,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 14 · Tell it how to verify -->
+  <!-- 19 · Tell it how to verify -->
   <section class="slide" data-section="verification">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Verification</span>
@@ -195,7 +264,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 15 · Separate writing from review -->
+  <!-- 20 · Separate writing from review -->
   <section class="slide" data-section="review">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Review</span>
@@ -209,7 +278,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 16 · Split review by job -->
+  <!-- 21 · Split review by job -->
   <section class="slide" data-section="review">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Review</span>
@@ -225,7 +294,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 17 · Functional is not secure -->
+  <!-- 22 · Functional is not secure -->
   <section class="slide" data-section="review">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Review</span>
@@ -239,7 +308,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 18 · Test-first -->
+  <!-- 23 · Test-first -->
   <section class="slide slide--center" data-section="verification">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Verification</span>
@@ -252,7 +321,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 19 · Mechanize invariants -->
+  <!-- 24 · Mechanize invariants -->
   <section class="slide" data-section="verification">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Verification</span>
@@ -266,7 +335,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 20 · Human judgment -->
+  <!-- 25 · Human judgment -->
   <section class="slide" data-section="meta">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Judgment</span>
@@ -280,7 +349,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 21 · Limits -->
+  <!-- 26 · Limits -->
   <section class="slide" data-section="meta">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Judgment</span>
@@ -294,7 +363,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 22 · End -->
+  <!-- 27 · End -->
   <section class="slide slide--center slide--end">
     <div class="slide__inner">
       <p class="end-text" data-reveal style="--d:0">Read the full post</p>
@@ -319,6 +388,29 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     line-height: 1.1;
     letter-spacing: -0.035em;
     color: var(--heading);
+  }
+
+  /* ═══════════════════════════════════════
+     STACK
+     ═══════════════════════════════════════ */
+  .stack {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+
+  .stack span {
+    font-family: var(--font-ui);
+    font-size: clamp(18px, 2.4vw, 26px);
+    font-weight: 650;
+    color: var(--heading);
+    border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+    background: color-mix(in srgb, var(--accent) 7%, transparent);
+    border-radius: 999px;
+    padding: 10px 18px;
   }
 
   /* ═══════════════════════════════════════
@@ -384,6 +476,9 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     margin-bottom: 20px;
   }
 
+  [data-section='fundamentals'] .label {
+    --lc: var(--c-fundamentals);
+  }
   [data-section='planning'] .label {
     --lc: var(--c-planning);
   }
