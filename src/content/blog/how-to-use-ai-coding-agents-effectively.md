@@ -9,7 +9,7 @@ Many people use coding agents for a bit, get frustrated, and conclude "they're n
 
 Planning, execution, review, and verification are different activities. They need to happen separately. People conflate them. They ask the agent to plan and build at the same time, and the result is worse plans AND worse code. Most coding agents have a planning or read-only mode that analyzes your codebase and proposes a strategy without writing anything. Use it. If yours doesn't, just tell the agent: "analyze this codebase and propose a plan. Do not write any code."
 
-Agents make code cheaper to produce, which raises the premium on knowing what code should exist. The old software engineering disciplines get more important under automation: Parnas on information hiding, Brooks on conceptual integrity, Evans on domain language, Ousterhout on complexity. Context gives the agent local facts. Exemplars give it concrete patterns. Skills carry design standards across sessions. Verification keeps the loop honest.
+Agents make code cheaper to produce, which raises the premium on knowing what code should exist. The old software engineering disciplines get more important under automation: Parnas on information hiding, Brooks on conceptual integrity, Evans on domain language, Ousterhout on complexity. Context gives the agent local facts. Exemplars give it concrete patterns. Skills carry design standards across sessions. Verification keeps the loop honest. The best unit of agent work is usually not a layer. It is one thin, integrated path through the system that can be reviewed and verified.
 
 ---
 
@@ -28,6 +28,18 @@ Interrogate the plan carefully before execution. Walk every branch: what can go 
 Break the approved plan into a sequence of prompts. Do one chunk at a time. Verify that chunk through a real path before starting the next one. If the work changes, update the plan instead of letting the chat become the only record.
 
 Front-load concrete context. Before the agent writes anything, have it read the README, nearby code, existing tests, sibling implementations, and any relevant repo examples. Confirm it can reproduce the problem locally. Lead with constraints and context, not implementation details.
+
+### Plan Steel Threads, Not Layers
+
+When you break work into agent-sized chunks, do not split by technical layer. "Build the database," then "build the API," then "build the UI," then "wire it together" creates the integration cliff agents are bad at crossing.
+
+Prefer steel threads: the thinnest useful slice of behavior that crosses the real system. It is small, but integrated. It touches the boundaries the real behavior depends on: caller, service, storage, permissions, observability, deployment, or whatever else matters.
+
+For a migration, move one API operation to the new service for one narrow class of requests. Keep every other request on the old path. If risk is high, run both paths, compare outputs, and keep rollback behind a flag. For greenfield work, let one test user post a message to one room, persist it, and see it after refresh. That is not the full product. It is a working skeleton.
+
+This is especially valuable with agents. Agents can produce disconnected code that looks complete but has never crossed a real boundary. Steel threads force integration early, expose unknowns while the change is still small, and give you one concrete path to review and verify.
+
+The planning question is: what is the narrowest path that would teach us whether this design works? Once that thread is live and verified, widen it. Add the next use case. Then the next. Avoid the giant cutover where all the unknowns arrive at once.
 
 ### Show It What Good Looks Like
 
@@ -75,7 +87,7 @@ Start with fresh context for new tasks. Don't reuse a polluted debugging context
 
 Instead of just asking the agent to refactor something, tell it: "after refactoring, write a script to check that only test cases calling suspending methods got `runTest` added and that no annotations were removed." The agent catches its own mistakes before you have to.
 
-The verification must be automated and deterministic: a command, script, test, or check the agent can actually run.
+The verification must be automated and deterministic: a command, script, test, or check the agent can actually run. Steel threads make this easier because the target is concrete: one real path through the system, not an abstract pile of completed layers.
 
 The fundamental loop is: write code, run tests, fix failures. Agents can move fast through a project with a good test suite. Without tests, the agent assumes everything is fine.
 
@@ -95,7 +107,7 @@ Have the agent write the test first. Run it. Watch it fail. Then write the imple
 
 ### Invest in Your Local Dev Loop
 
-Your coding agent is only as good as your feedback loop. You need to reproduce CI locally, run the service e2e locally, get quick feedback that is representative of production.
+Your coding agent is only as good as your feedback loop. You need to reproduce CI locally, run the service e2e locally, get quick feedback that is representative of production. The better your local loop, the thinner your steel threads can be.
 
 If your CI only runs remotely and takes 20 minutes, you're flying blind for 20-minute stretches. Fast local feedback (lint, type check, unit tests, e2e tests, evals, security scan) is what lets agents iterate without waiting on you.
 
@@ -173,4 +185,4 @@ That judgment doesn't require deep specialization. Agents can help you explore d
 
 Agents struggle when important context is subtle, distributed across systems, and not captured in files or runnable checks. If the task requires understanding how six services interact under specific failure conditions, or tracing a race condition across threads, the agent may lose the thread before you do.
 
-They're also bad when the cost of a wrong answer is high and verification is hard. Agents are confident and fast. If you can't verify the output quickly, that confidence works against you. Security-sensitive code, complex migrations, anything where "it compiles and tests pass" is not sufficient, those are places to slow down and do the work yourself or treat the agent's output as a rough draft, not a result.
+They're also bad when the cost of a wrong answer is high and verification is hard. Agents are confident and fast. If you can't verify the output quickly, that confidence works against you. Security-sensitive code, complex migrations, anything where "it compiles and tests pass" is not sufficient, those are places to slow down and do the work yourself or treat the agent's output as a rough draft, not a result. If you cannot define a narrow steel thread and cannot verify it, the work is not yet agent-shaped.

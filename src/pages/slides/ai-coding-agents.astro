@@ -96,9 +96,8 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
   <section class="slide slide--center">
     <div class="slide__inner">
       <p class="hero-text" data-reveal style="--d:0">
-        The people getting the most out of agents <strong class="accent"
-          >aren't using better tools.</strong
-        >
+        The people getting the most out of agents
+        <strong class="accent">aren't using better tools.</strong>
       </p>
       <p class="hero-text" data-reveal style="--d:1">
         They built the <strong class="accent">skill</strong> to use them well.
@@ -166,21 +165,35 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 13 · Chunk from the plan -->
+  <!-- 13 · Steel threads -->
   <section class="slide" data-section="planning">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Planning</span>
-      <h2 class="heading" data-reveal style="--d:1">Chunk from the plan</h2>
+      <h2 class="heading" data-reveal style="--d:1">Chunk by steel thread</h2>
       <ul class="points" data-reveal style="--d:2">
-        <li>Do one reviewable chunk at a time</li>
-        <li>Ship behavior through a real path</li>
-        <li>Verify the chunk before starting the next one</li>
-        <li>Keep the plan current</li>
+        <li>Don't chunk by layer</li>
+        <li>Database → API → UI creates an integration cliff</li>
+        <li>Pick one thin path through the real system</li>
+        <li>Verify it before widening it</li>
       </ul>
     </div>
   </section>
 
-  <!-- 14 · Give concrete context -->
+  <!-- 14 · Steel thread examples -->
+  <section class="slide" data-section="planning">
+    <div class="slide__inner">
+      <span class="label" data-reveal style="--d:0">Planning</span>
+      <h2 class="heading" data-reveal style="--d:1">A steel thread is agent-shaped</h2>
+      <ul class="points" data-reveal style="--d:2">
+        <li><strong>Migration:</strong> move one operation, leave the rest alone</li>
+        <li><strong>Greenfield:</strong> one narrow happy path that persists</li>
+        <li><strong>Review:</strong> one behavior, one diff, one risk surface</li>
+        <li><strong>Verify:</strong> one real path the agent can run</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 15 · Give concrete context -->
   <section class="slide" data-section="planning">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Planning</span>
@@ -194,7 +207,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 15 · Encode repeatable patterns -->
+  <!-- 16 · Encode repeatable patterns -->
   <section class="slide" data-section="planning">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Planning</span>
@@ -208,7 +221,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 16 · Separate context by job -->
+  <!-- 17 · Separate context by job -->
   <section class="slide" data-section="execution">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Execution</span>
@@ -222,7 +235,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 17 · Smarter models -->
+  <!-- 18 · Smarter models -->
   <section class="slide" data-section="execution">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Execution</span>
@@ -236,7 +249,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 18 · Do not fight polluted context -->
+  <!-- 19 · Do not fight polluted context -->
   <section class="slide" data-section="execution">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Execution</span>
@@ -250,7 +263,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 19 · Tell it how to verify -->
+  <!-- 20 · Tell it how to verify -->
   <section class="slide" data-section="verification">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Verification</span>
@@ -264,7 +277,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 20 · Separate writing from review -->
+  <!-- 21 · Separate writing from review -->
   <section class="slide" data-section="review">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Review</span>
@@ -278,7 +291,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 21 · Split review by job -->
+  <!-- 22 · Split review by job -->
   <section class="slide" data-section="review">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Review</span>
@@ -294,7 +307,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 22 · Functional is not secure -->
+  <!-- 23 · Functional is not secure -->
   <section class="slide" data-section="review">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Review</span>
@@ -308,7 +321,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 23 · Test-first -->
+  <!-- 24 · Test-first -->
   <section class="slide slide--center" data-section="verification">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Verification</span>
@@ -321,7 +334,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 24 · Mechanize invariants -->
+  <!-- 25 · Mechanize invariants -->
   <section class="slide" data-section="verification">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Verification</span>
@@ -335,7 +348,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 25 · Human judgment -->
+  <!-- 26 · Human judgment -->
   <section class="slide" data-section="meta">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Judgment</span>
@@ -349,7 +362,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 26 · Limits -->
+  <!-- 27 · Limits -->
   <section class="slide" data-section="meta">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Judgment</span>
@@ -363,7 +376,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 27 · End -->
+  <!-- 28 · End -->
   <section class="slide slide--center slide--end">
     <div class="slide__inner">
       <p class="end-text" data-reveal style="--d:0">Read the full post</p>
