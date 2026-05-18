@@ -10,76 +10,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 2 · The stack -->
-  <section class="slide slide--center" data-section="fundamentals">
-    <div class="slide__inner">
-      <span class="label" data-reveal style="--d:0">101</span>
-      <div class="stack" data-reveal style="--d:1">
-        <span>Model</span>
-        <span>Agent</span>
-        <span>Tools</span>
-        <span>Workspace</span>
-        <span>Checks</span>
-      </div>
-      <p class="slide__sub" data-reveal style="--d:2">
-        Know which layer you are changing before you blame the agent.
-      </p>
-    </div>
-  </section>
-
-  <!-- 3 · Models -->
-  <section class="slide" data-section="fundamentals">
-    <div class="slide__inner">
-      <span class="label" data-reveal style="--d:0">Models</span>
-      <h2 class="heading" data-reveal style="--d:1">Choose models by risk</h2>
-      <ul class="points" data-reveal style="--d:2">
-        <li>Use stronger reasoning for ambiguous, unfamiliar, expensive work</li>
-        <li>Use faster models for cheap, reversible, mechanical work</li>
-        <li>Switch when the task changes</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- 4 · Agent surfaces -->
-  <section class="slide" data-section="fundamentals">
-    <div class="slide__inner">
-      <span class="label" data-reveal style="--d:0">Surfaces</span>
-      <h2 class="heading" data-reveal style="--d:1">Choose the right surface</h2>
-      <ul class="points" data-reveal style="--d:2">
-        <li><strong>IDE:</strong> direct edits with tight human steering</li>
-        <li><strong>CLI:</strong> repo, shell, and Atlassian context</li>
-        <li><strong>Chat:</strong> explanation without a real feedback loop</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- 5 · Tools and context -->
-  <section class="slide" data-section="fundamentals">
-    <div class="slide__inner">
-      <span class="label" data-reveal style="--d:0">Context</span>
-      <h2 class="heading" data-reveal style="--d:1">Give the agent safe reach</h2>
-      <ul class="points" data-reveal style="--d:2">
-        <li><strong>MCP:</strong> tools and data without copy-paste</li>
-        <li><strong>Skills and memory:</strong> instructions that survive the chat</li>
-        <li><strong>AI Gateway:</strong> model access for internal AI features</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- 6 · Workspace -->
-  <section class="slide" data-section="fundamentals">
-    <div class="slide__inner">
-      <span class="label" data-reveal style="--d:0">Workspace</span>
-      <h2 class="heading" data-reveal style="--d:1">Run where checks are real</h2>
-      <ul class="points" data-reveal style="--d:2">
-        <li><strong>Local:</strong> fastest when setup already works</li>
-        <li><strong>Volt:</strong> useful when environment setup is the hard part</li>
-        <li><strong>Worktrees:</strong> isolate parallel attempts</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- 7 · The problem -->
+  <!-- 2 · The problem -->
   <section class="slide slide--center">
     <div class="slide__inner">
       <blockquote class="big-quote" data-reveal style="--d:0">
@@ -92,7 +23,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 8 · The insight -->
+  <!-- 3 · The insight -->
   <section class="slide slide--center">
     <div class="slide__inner">
       <p class="hero-text" data-reveal style="--d:0">
@@ -105,7 +36,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 9 · The framework -->
+  <!-- 4 · The framework -->
   <section class="slide slide--center">
     <div class="slide__inner">
       <div class="framework">
@@ -123,39 +54,94 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 10 · Create a planning artifact -->
+  <!-- 5 · The stack -->
+  <section class="slide slide--center" data-section="fundamentals">
+    <div class="slide__inner">
+      <span class="label" data-reveal style="--d:0">101</span>
+      <div class="stack" data-reveal style="--d:1">
+        <span>Model</span>
+        <span>Agent</span>
+        <span>Tools</span>
+        <span>Workspace</span>
+        <span>Checks</span>
+      </div>
+      <p class="slide__sub" data-reveal style="--d:2">
+        Know which layer you are changing before you blame the agent.
+      </p>
+    </div>
+  </section>
+
+  <!-- 6 · Models -->
+  <section class="slide" data-section="fundamentals">
+    <div class="slide__inner">
+      <span class="label" data-reveal style="--d:0">Models</span>
+      <h2 class="heading" data-reveal style="--d:1">Choose models by risk</h2>
+      <ul class="points" data-reveal style="--d:2">
+        <li>Use stronger reasoning for ambiguous, unfamiliar, expensive work</li>
+        <li>Use faster models for cheap, reversible, mechanical work</li>
+        <li>Switch when the task changes</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 7 · Agent surfaces -->
+  <section class="slide" data-section="fundamentals">
+    <div class="slide__inner">
+      <span class="label" data-reveal style="--d:0">Surfaces</span>
+      <h2 class="heading" data-reveal style="--d:1">Choose the right surface</h2>
+      <ul class="points" data-reveal style="--d:2">
+        <li><strong>IDE:</strong> direct edits with tight human steering</li>
+        <li><strong>CLI:</strong> repo, shell, and Atlassian context</li>
+        <li><strong>Chat:</strong> explanation without a real feedback loop</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 8 · Tools and context -->
+  <section class="slide" data-section="fundamentals">
+    <div class="slide__inner">
+      <span class="label" data-reveal style="--d:0">Context</span>
+      <h2 class="heading" data-reveal style="--d:1">Give the agent safe reach</h2>
+      <ul class="points" data-reveal style="--d:2">
+        <li><strong>MCP:</strong> tools and data without copy-paste</li>
+        <li><strong>Skills and memory:</strong> instructions that survive the chat</li>
+        <li><strong>AI Gateway:</strong> model access for internal AI features</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 9 · Workspace -->
+  <section class="slide" data-section="fundamentals">
+    <div class="slide__inner">
+      <span class="label" data-reveal style="--d:0">Workspace</span>
+      <h2 class="heading" data-reveal style="--d:1">Run where checks are real</h2>
+      <ul class="points" data-reveal style="--d:2">
+        <li><strong>Local:</strong> fastest when setup already works</li>
+        <li><strong>Volt:</strong> useful when environment setup is the hard part</li>
+        <li><strong>Worktrees:</strong> isolate parallel attempts</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 10 · Planning artifact -->
   <section class="slide" data-section="planning">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Planning</span>
       <h2 class="heading" data-reveal style="--d:1">Create a planning artifact</h2>
       <ul class="points" data-reveal style="--d:2">
         <li>For non-trivial work, write the plan before code</li>
-        <li>Use your team's format: OpenSpec, proposal, design doc, task list</li>
         <li>Capture goal, scope, sequence, checks, risks, rollback point</li>
-        <li>Make vague thinking visible before the agent edits anything</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- 11 · The plan is the handoff -->
-  <section class="slide" data-section="planning">
-    <div class="slide__inner">
-      <span class="label" data-reveal style="--d:0">Planning</span>
-      <h2 class="heading" data-reveal style="--d:1">The plan is the handoff</h2>
-      <ul class="points" data-reveal style="--d:2">
-        <li>A fresh session should know what to do next</li>
-        <li>Record decisions, scope, and open questions</li>
         <li>Record what proves each step worked</li>
-        <li>Keep the artifact current as reality changes</li>
+        <li>Make it readable by a fresh session or teammate</li>
       </ul>
     </div>
   </section>
 
-  <!-- 12 · Interrogate the plan -->
+  <!-- 11 · Interrogate the plan -->
   <section class="slide" data-section="planning">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Planning</span>
-      <h2 class="heading" data-reveal style="--d:1">Interrogate the plan</h2>
+      <h2 class="heading" data-reveal style="--d:1">Red-team the plan</h2>
       <ul class="points" data-reveal style="--d:2">
         <li>Walk every branch before execution</li>
         <li>What assumptions are you making?</li>
@@ -165,7 +151,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 13 · Steel threads -->
+  <!-- 12 · Steel threads -->
   <section class="slide" data-section="planning">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Planning</span>
@@ -179,7 +165,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 14 · Steel thread examples -->
+  <!-- 13 · Steel thread examples -->
   <section class="slide" data-section="planning">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Planning</span>
@@ -193,7 +179,7 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 15 · Give concrete context -->
+  <!-- 14 · Give concrete context -->
   <section class="slide" data-section="planning">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Planning</span>
@@ -203,6 +189,20 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
         <li>The problem reproduced locally</li>
         <li>Sibling implementations</li>
         <li>Good repo examples when a pattern matters</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 15 · Worked example -->
+  <section class="slide" data-section="planning">
+    <div class="slide__inner">
+      <span class="label" data-reveal style="--d:0">Example</span>
+      <h2 class="heading" data-reveal style="--d:1">Turn a vague ask into a steel thread</h2>
+      <ul class="points" data-reveal style="--d:2">
+        <li><strong>Bad:</strong> "Refactor auth"</li>
+        <li><strong>Plan:</strong> inspect one route, policy check, and test seam</li>
+        <li><strong>Build:</strong> change one behavior behind one reviewed diff</li>
+        <li><strong>Prove:</strong> run the failing test, auth test, lint, and fresh review</li>
       </ul>
     </div>
   </section>
@@ -270,8 +270,8 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
       <h2 class="heading" data-reveal style="--d:1">Tell it how to verify</h2>
       <ul class="points" data-reveal style="--d:2">
         <li>Do not just say "refactor this"</li>
-        <li>Ask for a check the agent can run</li>
-        <li>Make it run the check</li>
+        <li>Name the exact check the agent should run</li>
+        <li>Make it show the result</li>
         <li>Verification must be automated, deterministic, and runnable</li>
       </ul>
     </div>
@@ -311,9 +311,9 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
   <section class="slide" data-section="review">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Review</span>
-      <h2 class="heading" data-reveal style="--d:1">Functional is not secure</h2>
+      <h2 class="heading" data-reveal style="--d:1">Passing tests does not prove secure</h2>
       <ul class="points" data-reveal style="--d:2">
-        <li>AI code can pass tests and still create attack surface</li>
+        <li>Working code can still create attack surface</li>
         <li>Add security as a separate review lens</li>
         <li>Scan every PR</li>
         <li>Treat auth, data access, and input handling as high-risk</li>
@@ -340,8 +340,8 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
       <span class="label" data-reveal style="--d:0">Verification</span>
       <h2 class="heading" data-reveal style="--d:1">Mechanize invariants</h2>
       <ul class="points" data-reveal style="--d:2">
-        <li>Instructions guide behavior</li>
-        <li>Checks constrain behavior</li>
+        <li>Instructions guide judgment</li>
+        <li>Checks enforce invariants</li>
         <li>Lint, type checks, tests, security scans, branch protection</li>
         <li>If a rule can be checked mechanically, put it in the dev loop</li>
       </ul>
@@ -379,12 +379,15 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
   <!-- 28 · End -->
   <section class="slide slide--center slide--end">
     <div class="slide__inner">
-      <p class="end-text" data-reveal style="--d:0">Read the full post</p>
+      <p class="hero-text" data-reveal style="--d:0">
+        The agent does the typing. The human owns judgment.
+      </p>
+      <p class="end-text" data-reveal style="--d:1">Verification keeps both honest.</p>
       <a
         class="end-link"
         href="/blog/how-to-use-ai-coding-agents-effectively"
         data-reveal
-        style="--d:1">alexandersumer.com/blog/how-to-use-ai-coding-agents-effectively</a
+        style="--d:2">alexandersumer.com/blog/how-to-use-ai-coding-agents-effectively</a
       >
     </div>
   </section>
