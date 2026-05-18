@@ -104,8 +104,8 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
       <h2 class="heading" data-reveal style="--d:1">Give the agent safe reach</h2>
       <ul class="points" data-reveal style="--d:2">
         <li><strong>MCP:</strong> tools and data without copy-paste</li>
+        <li><strong>Search quality:</strong> prefer trusted pages over noisy meeting notes</li>
         <li><strong>Skills and memory:</strong> instructions that survive the chat</li>
-        <li><strong>AI Gateway:</strong> model access for internal AI features</li>
       </ul>
     </div>
   </section>
@@ -114,11 +114,11 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
   <section class="slide" data-section="fundamentals">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Workspace</span>
-      <h2 class="heading" data-reveal style="--d:1">Run where checks are real</h2>
+      <h2 class="heading" data-reveal style="--d:1">Build real feedback loops</h2>
       <ul class="points" data-reveal style="--d:2">
-        <li><strong>Local:</strong> fastest when setup already works</li>
-        <li><strong>Volt:</strong> useful when environment setup is the hard part</li>
-        <li><strong>Worktrees:</strong> isolate parallel attempts</li>
+        <li><strong>Local:</strong> spin up the real path and reproduce quickly</li>
+        <li><strong>CI:</strong> verify the same checks before integration</li>
+        <li><strong>Prod:</strong> use logs, metrics, and traces to confirm reality</li>
       </ul>
     </div>
   </section>
@@ -183,12 +183,12 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
   <section class="slide" data-section="planning">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Planning</span>
-      <h2 class="heading" data-reveal style="--d:1">Give concrete context</h2>
+      <h2 class="heading" data-reveal style="--d:1">Give context the agent can use</h2>
       <ul class="points" data-reveal style="--d:2">
-        <li>README, tests, nearby code</li>
-        <li>The problem reproduced locally</li>
-        <li>Sibling implementations</li>
-        <li>Good repo examples when a pattern matters</li>
+        <li><strong>Symptom:</strong> failing command, error, screenshot, or log</li>
+        <li><strong>Path:</strong> entry point, caller, state, and test seam</li>
+        <li><strong>Pattern:</strong> one or two nearby implementations to copy</li>
+        <li><strong>Bounds:</strong> what must not change, and what proves success</li>
       </ul>
     </div>
   </section>
