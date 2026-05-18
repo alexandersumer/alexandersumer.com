@@ -221,16 +221,16 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 17 · Separate context by job -->
+  <!-- 17 · Delegate narrow investigations -->
   <section class="slide" data-section="execution">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Execution</span>
-      <h2 class="heading" data-reveal style="--d:1">Separate context by job</h2>
+      <h2 class="heading" data-reveal style="--d:1">Delegate narrow investigations</h2>
       <ul class="points" data-reveal style="--d:2">
-        <li>Keep the main session clean</li>
-        <li>Use subagents for narrow jobs</li>
-        <li>Review from fresh context</li>
-        <li>One concern per context</li>
+        <li>Use subagents for read-only reconnaissance</li>
+        <li>Ask for files, flows, seams, and risks</li>
+        <li>Keep implementation decisions in the main session</li>
+        <li>Treat agent output as evidence, not authority</li>
       </ul>
     </div>
   </section>
@@ -239,12 +239,12 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
   <section class="slide" data-section="execution">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Execution</span>
-      <h2 class="heading" data-reveal style="--d:1">Do not optimize for token cost</h2>
+      <h2 class="heading" data-reveal style="--d:1">Optimize for engineer time</h2>
       <p class="hero-text" data-reveal style="--d:2">
-        A $0.50 prompt that gets it right is cheaper than five $0.05 prompts that each need fixing.
+        The expensive part is not tokens. It is debugging, review, rework, and waiting.
       </p>
       <p class="slide__note" data-reveal style="--d:3">
-        Use strong models when mistakes are expensive.
+        Weak models can “solve” problems by deleting code you needed.
       </p>
     </div>
   </section>
@@ -263,16 +263,16 @@ import SlideLayout from '../../layouts/SlideLayout.astro';
     </div>
   </section>
 
-  <!-- 20 · Tell it how to verify -->
+  <!-- 20 · Define done as evidence -->
   <section class="slide" data-section="verification">
     <div class="slide__inner">
       <span class="label" data-reveal style="--d:0">Verification</span>
-      <h2 class="heading" data-reveal style="--d:1">Tell it how to verify</h2>
+      <h2 class="heading" data-reveal style="--d:1">Define done as evidence</h2>
       <ul class="points" data-reveal style="--d:2">
-        <li>Do not just say "refactor this"</li>
-        <li>Name the exact check the agent should run</li>
-        <li>Make it show the result</li>
-        <li>Verification must be automated, deterministic, and runnable</li>
+        <li>Name the command, scenario, or dashboard</li>
+        <li>Require the observed result, not "it should work"</li>
+        <li>Prefer checks the agent can rerun</li>
+        <li>Escalate when proof is manual or indirect</li>
       </ul>
     </div>
   </section>
