@@ -8,28 +8,34 @@
     "preview": "astro preview",
     "lint": "prettier --write .",
     "lint:check": "prettier --check .",
+    "check": "astro check",
     "test": "vitest run",
     "test:watch": "vitest",
     "prepare": "husky"
   },
   "dependencies": {
-    "@astrojs/sitemap": "^3.7.0",
+    "@astrojs/sitemap": "^3.7.3",
     "@fontsource-variable/inter": "^5.2.8",
     "@fontsource-variable/lora": "^5.2.8",
-    "astro": "^5.17.1"
+    "astro": "^6.4.8"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.6",
+    "@astrojs/check": "^0.9.9",
     "cheerio": "^1.2.0",
-    "gray-matter": "^4.0.3",
     "husky": "^9.1.7",
-    "lint-staged": "^16.3.2",
-    "prettier": "^3.8.1",
+    "lint-staged": "^17.0.8",
+    "prettier": "^3.8.4",
     "prettier-plugin-astro": "^0.14.1",
-    "typescript": "^5.9.3",
-    "vitest": "^4.0.18"
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.9",
+    "yaml": "^2.9.0"
   },
   "lint-staged": {
     "**/*.{js,mjs,ts,astro,css,md,json,yml,yaml}": "prettier --write"
+  },
+  "overrides": {
+    "yaml-language-server": {
+      "yaml": "2.9.0"
+    }
   }
 }

@@ -25,6 +25,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run lint:check
+      - run: npm run check
       - name: Fetch resume
         run: |
           mkdir -p public/resume

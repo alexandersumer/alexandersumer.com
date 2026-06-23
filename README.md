@@ -20,6 +20,7 @@ Resume at `/resume/` is pulled from [alexandersumer/resume](https://github.com/a
 ```sh
 npm install
 npm run dev      # localhost:4321
+npm run check    # Astro type/content validation
 npm test         # vitest
 npm run build    # dist/
 ```

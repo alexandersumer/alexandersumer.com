@@ -12,7 +12,8 @@ import ProgressBar from './ProgressBar.astro';
     controller = new AbortController();
 
     const bar = document.getElementById('reading-progress');
-    if (!bar) return;
+    if (!(bar instanceof HTMLElement)) return;
+    const progressBar = bar;
 
     let ticking = false;
 
@@ -20,7 +21,7 @@ import ProgressBar from './ProgressBar.astro';
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-      bar.style.transform = `scaleX(${Math.min(progress, 100) / 100})`;
+      progressBar.style.transform = `scaleX(${Math.min(progress, 100) / 100})`;
     }
 
     window.addEventListener(
