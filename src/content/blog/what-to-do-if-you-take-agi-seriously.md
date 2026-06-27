@@ -11,7 +11,7 @@ The model I ended up with is simple: progress is fastest where correctness is ch
 
 <details class="writing-process">
   <summary>About the writing process</summary>
-  <p>I used AI tools to find and cross-reference sources, stress-test arguments, proofread the essay, and help with later updates. The central ideas came from my own reading and thinking. I have thoroughly reviewed every word in the essay myself.</p>
+  <p>I used AI tools to find and cross-reference sources, stress-test arguments, proofread the essay, and help with later updates. The central ideas came from my own reading and thinking.</p>
 </details>
 
 ## Definitions
