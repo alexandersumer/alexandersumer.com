@@ -4,12 +4,15 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
     "preview": "astro preview",
     "lint": "prettier --write .",
     "lint:check": "prettier --check .",
     "check": "astro check",
-    "test": "vitest run",
+    "test": "npm run build && vitest run",
+    "test:unit": "vitest run",
+    "test:browser": "npm run build && playwright test",
+    "verify": "npm run check && npm test && npm run test:browser",
     "test:watch": "vitest",
     "prepare": "husky"
   },
@@ -21,6 +24,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
+    "@playwright/test": "^1.61.1",
     "cheerio": "^1.2.0",
     "husky": "^9.1.7",
     "lint-staged": "^17.0.8",

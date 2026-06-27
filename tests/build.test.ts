@@ -1,14 +1,64 @@
 /**
- * Build output tests. Require a pre-built dist/ — run after `npm run build`.
- * Skipped automatically if dist/ doesn't exist (e.g. fresh checkout).
+ * Build output tests. `npm test` runs `npm run build` first, so missing dist/
+ * is a real regression instead of a skipped suite.
  */
-import { describe, it, expect, beforeAll } from 'vitest';
-import { existsSync, readFileSync } from 'node:fs';
+import { beforeAll, describe, expect, it } from 'vitest';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { load, type CheerioAPI } from 'cheerio';
+import { parse } from 'yaml';
+import { blogSchema } from '../src/content/schema';
+import { isoDate } from '../src/utils/format';
 
 const DIST = new URL('../dist', import.meta.url).pathname;
-const hasDist = existsSync(DIST);
+const CONTENT_DIR = new URL('../src/content/blog', import.meta.url).pathname;
+
+interface SourcePost {
+  slug: string;
+  title: string;
+  date: Date;
+  updated?: Date;
+  description: string;
+}
+
+function parseFrontmatter(raw: string, filename: string): Record<string, unknown> {
+  const match = /^---\r?\n([\s\S]*?)\r?\n---(?=\r?\n|$)/.exec(raw);
+
+  if (!match) {
+    throw new Error(`${filename} must start with a YAML frontmatter block`);
+  }
+
+  const data = parse(match[1]);
+
+  if (!data || typeof data !== 'object' || Array.isArray(data)) {
+    throw new Error(`${filename} frontmatter must be a YAML object`);
+  }
+
+  return data as Record<string, unknown>;
+}
+
+function readSourcePosts(): SourcePost[] {
+  return readdirSync(CONTENT_DIR)
+    .filter((filename) => filename.endsWith('.md'))
+    .map((filename) => {
+      const data = blogSchema.parse(
+        parseFrontmatter(readFileSync(join(CONTENT_DIR, filename), 'utf-8'), filename)
+      );
+
+      return {
+        slug: filename.replace(/\.md$/, ''),
+        title: data.title,
+        date: data.date,
+        updated: data.updated,
+        description: data.description,
+        draft: data.draft,
+      };
+    })
+    .filter((post) => !post.draft)
+    .sort((a, b) => b.date.valueOf() - a.date.valueOf());
+}
+
+const sourcePosts = readSourcePosts();
 
 function readHtml(relPath: string): CheerioAPI {
   const abs = join(DIST, relPath);
@@ -16,7 +66,29 @@ function readHtml(relPath: string): CheerioAPI {
   return load(readFileSync(abs, 'utf-8'));
 }
 
-describe.skipIf(!hasDist)('Build output', () => {
+function jsonLdObjects($: CheerioAPI): Record<string, unknown>[] {
+  const objects: Record<string, unknown>[] = [];
+
+  $('script[type="application/ld+json"]').each((_, el) => {
+    const raw = $(el).html();
+    if (!raw) return;
+    objects.push(JSON.parse(raw) as Record<string, unknown>);
+  });
+
+  return objects;
+}
+
+function postPath(slug: string): string {
+  return `blog/${slug}/index.html`;
+}
+
+describe('Build output', () => {
+  beforeAll(() => {
+    expect(existsSync(DIST), 'Expected dist/ to exist. Run npm run build before vitest.').toBe(
+      true
+    );
+  });
+
   describe('dist/index.html (homepage)', () => {
     let $: CheerioAPI;
     beforeAll(() => {
@@ -44,6 +116,14 @@ describe.skipIf(!hasDist)('Build output', () => {
       expect($('.home-bio').text()).toContain("Hi, I'm Alexander");
     });
 
+    it('loads the profile image eagerly at a stable size', () => {
+      const image = $('img.home-photo');
+      expect(image.length).toBe(1);
+      expect(image.attr('loading')).toBe('eager');
+      expect(image.attr('width')).toBe('264');
+      expect(image.attr('height')).toBe('264');
+    });
+
     it('resume link points to /resume/', () => {
       const resumeLink = $('.home-links a').filter((_, el) => $(el).text().trim() === 'Resume');
       expect(resumeLink.attr('href')).toBe('/resume/');
@@ -59,9 +139,12 @@ describe.skipIf(!hasDist)('Build output', () => {
       expect($('.blog-posts li').length).toBeGreaterThan(0);
     });
 
-    it('blog post link goes to /blog/...', () => {
-      const href = $('.blog-posts a').first().attr('href');
-      expect(href).toMatch(/^\/blog\//);
+    it('lists published blog posts in reverse chronological order', () => {
+      const hrefs = $('.blog-posts a')
+        .map((_, el) => $(el).attr('href'))
+        .get();
+
+      expect(hrefs).toEqual(sourcePosts.map((post) => `/blog/${post.slug}`));
     });
 
     it('has <time datetime> on each post', () => {
@@ -88,12 +171,25 @@ describe.skipIf(!hasDist)('Build output', () => {
     it('lists at least one blog post', () => {
       expect($('.blog-posts li').length).toBeGreaterThan(0);
     });
+
+    it('matches the source content order and count', () => {
+      const hrefs = $('.blog-posts a')
+        .map((_, el) => $(el).attr('href'))
+        .get();
+
+      expect(hrefs).toEqual(sourcePosts.map((post) => `/blog/${post.slug}`));
+    });
   });
 
   describe('dist/blog/what-to-do-if-you-take-agi-seriously/index.html (blog post)', () => {
+    const post = sourcePosts.find((entry) => entry.slug === 'what-to-do-if-you-take-agi-seriously');
     let $: CheerioAPI;
     beforeAll(() => {
       $ = readHtml('blog/what-to-do-if-you-take-agi-seriously/index.html');
+    });
+
+    it('has a matching source fixture', () => {
+      expect(post).toBeDefined();
     });
 
     it('has correct <title>', () => {
@@ -110,10 +206,32 @@ describe.skipIf(!hasDist)('Build output', () => {
       expect($('h1.post-title').text()).toContain('What to Do If You Take AGI Seriously');
     });
 
-    it('has .post-meta with <time>', () => {
+    it('has .post-meta with published and updated dates', () => {
+      expect(post).toBeDefined();
       const time = $('.post-meta time');
-      expect(time.length).toBe(1);
-      expect(time.attr('datetime')).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      expect(time.length).toBe(2);
+      expect(time.eq(0).attr('datetime')).toBe(isoDate(post!.date));
+      expect(time.eq(1).attr('datetime')).toBe(isoDate(post!.updated!));
+      expect($('.post-meta').text()).toContain('Updated');
+    });
+
+    it('has article metadata for publication and modification dates', () => {
+      expect(post).toBeDefined();
+      expect($('meta[property="article:published_time"]').attr('content')).toBe(
+        post!.date.toISOString()
+      );
+      expect($('meta[property="article:modified_time"]').attr('content')).toBe(
+        post!.updated!.toISOString()
+      );
+    });
+
+    it('has BlogPosting JSON-LD with modified date', () => {
+      expect(post).toBeDefined();
+      const blogPosting = jsonLdObjects($).find((entry) => entry['@type'] === 'BlogPosting');
+
+      expect(blogPosting).toBeDefined();
+      expect(blogPosting?.datePublished).toBe(isoDate(post!.date));
+      expect(blogPosting?.dateModified).toBe(isoDate(post!.updated!));
     });
 
     it('has reading progress bar', () => {
@@ -130,7 +248,9 @@ describe.skipIf(!hasDist)('Build output', () => {
 
     it('TOC entries link to heading anchors', () => {
       $('#toc-sidebar a').each((_, el) => {
-        expect($(el).attr('href')).toMatch(/^#/);
+        const href = $(el).attr('href');
+        expect(href).toMatch(/^#/);
+        expect($(`article [id="${href!.slice(1)}"]`).length).toBe(1);
       });
     });
 
@@ -149,6 +269,35 @@ describe.skipIf(!hasDist)('Build output', () => {
         .map((_, el) => $(el).html())
         .get();
       expect(headScripts.some((s) => s?.includes('localStorage.getItem'))).toBe(true);
+    });
+
+    it('links to the older adjacent post and not to a nonexistent newer post', () => {
+      expect($('.post-navigation a[rel="prev"]').length).toBe(0);
+      expect($('.post-navigation a[rel="next"]').attr('href')).toBe(
+        '/blog/how-to-use-ai-coding-agents-effectively'
+      );
+      expect($('.post-navigation a[rel="next"] .post-navigation__title').text()).toContain(
+        'How to Use AI Coding Agents Effectively'
+      );
+    });
+  });
+
+  describe('built blog post pages', () => {
+    it('generates every published source post', () => {
+      for (const post of sourcePosts) {
+        expect(existsSync(join(DIST, postPath(post.slug))), post.slug).toBe(true);
+      }
+    });
+
+    it('renders previous and next links for middle posts', () => {
+      const $post = readHtml(postPath('how-to-use-ai-coding-agents-effectively'));
+
+      expect($post('.post-navigation a[rel="prev"]').attr('href')).toBe(
+        '/blog/what-to-do-if-you-take-agi-seriously'
+      );
+      expect($post('.post-navigation a[rel="next"]').attr('href')).toBe(
+        '/blog/the-verification-bottleneck'
+      );
     });
   });
 

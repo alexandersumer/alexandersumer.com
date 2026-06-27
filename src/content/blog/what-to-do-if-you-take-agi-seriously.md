@@ -1,6 +1,7 @@
 ---
 title: 'What to Do If You Take AGI Seriously'
 date: 2026-05-03
+updated: 2026-06-10
 description: 'A map of where AI is heading and a framework for making good decisions under deep uncertainty without needing to predict the timeline.'
 draft: false
 ---

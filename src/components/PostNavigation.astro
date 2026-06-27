@@ -1,0 +1,40 @@
+---
+interface PostLink {
+  title: string;
+  href: string;
+}
+
+interface Props {
+  newerPost?: PostLink;
+  olderPost?: PostLink;
+}
+
+const { newerPost, olderPost } = Astro.props;
+---
+
+{
+  (newerPost || olderPost) && (
+    <nav class="post-navigation" aria-label="Post navigation">
+      {newerPost ? (
+        <a class="post-navigation__link" href={newerPost.href} rel="prev">
+          <span class="post-navigation__label">Newer</span>
+          <span class="post-navigation__title">{newerPost.title}</span>
+        </a>
+      ) : (
+        <span />
+      )}
+      {olderPost ? (
+        <a
+          class="post-navigation__link post-navigation__link--older"
+          href={olderPost.href}
+          rel="next"
+        >
+          <span class="post-navigation__label">Older</span>
+          <span class="post-navigation__title">{olderPost.title}</span>
+        </a>
+      ) : (
+        <span />
+      )}
+    </nav>
+  )
+}

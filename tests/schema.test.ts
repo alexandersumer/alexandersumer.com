@@ -24,6 +24,15 @@ describe('blogSchema', () => {
     expect(result.date.getDate()).toBe(13);
   });
 
+  it('accepts an updated date on or after the published date', () => {
+    const result = blogSchema.parse({ ...valid, updated: '2026-02-14' });
+
+    expect(result.updated).toBeInstanceOf(Date);
+    expect(result.updated!.getFullYear()).toBe(2026);
+    expect(result.updated!.getMonth()).toBe(1);
+    expect(result.updated!.getDate()).toBe(14);
+  });
+
   it('defaults draft to false', () => {
     const { draft: _, ...withoutDraft } = valid;
     const result = blogSchema.parse(withoutDraft);
@@ -60,5 +69,11 @@ describe('blogSchema', () => {
 
   it('rejects invalid date string', () => {
     expect(() => blogSchema.parse({ ...valid, date: 'not-a-date' })).toThrow();
+  });
+
+  it('rejects an updated date before the published date', () => {
+    expect(() => blogSchema.parse({ ...valid, updated: '2026-02-12' })).toThrow(
+      /updated must be on or after date/
+    );
   });
 });
