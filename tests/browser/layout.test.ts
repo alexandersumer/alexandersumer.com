@@ -80,6 +80,29 @@ test.describe('built site browser conformance', () => {
     expect(metadataFits).toBe(true);
   });
 
+  test('resume keeps its Letter dimensions and prints on one page', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto('/resume/');
+    const loadedLatoFaces = await page.evaluate(async () => {
+      await document.fonts.ready;
+      return (await document.fonts.load('9.5pt Lato')).length;
+    });
+    expect(loadedLatoFaces).toBeGreaterThan(0);
+
+    const sheet = await page.locator('.resume-page').boundingBox();
+    expect(sheet).not.toBeNull();
+    expect(sheet?.width).toBeCloseTo(816, 0);
+
+    const pdf = await page.pdf({
+      preferCSSPageSize: true,
+      printBackground: true,
+    });
+    const pdfSource = pdf.toString('latin1');
+
+    expect(pdfSource.match(/\/Type\s*\/Page\b/g)).toHaveLength(1);
+    expect(pdfSource).toMatch(/\/MediaBox\s*\[\s*0\s+0\s+612\s+792\s*\]/);
+  });
+
   test('article layout keeps the reading column readable', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto('/blog/what-to-do-if-you-take-agi-seriously/');
