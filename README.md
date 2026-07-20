@@ -9,11 +9,11 @@ src/
   components/        # Header, Footer, PostList, ReadingProgress, TableOfContents
   content/blog/      # Markdown posts (Zod-validated frontmatter)
   layouts/           # BaseLayout, PostLayout
-  pages/             # index, blog/index, blog/[...slug]
+  pages/             # Home, blog, résumé, slides, and 404 routes
   styles/global.css  # Design tokens, dark/light themes
 ```
 
-Resume at `/resume/` is pulled from [alexandersumer/resume](https://github.com/alexandersumer/resume) during CI.
+The résumé at `/resume/` is a native Astro page owned and deployed by this repository.
 
 ## Dev
 

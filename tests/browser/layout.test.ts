@@ -4,6 +4,7 @@ const routes = [
   '/',
   '/blog/',
   '/blog/what-to-do-if-you-take-agi-seriously/',
+  '/resume/',
   '/slides/',
   '/slides/ai-coding-agents/',
 ];
@@ -59,6 +60,24 @@ test.describe('built site browser conformance', () => {
     );
 
     expect(linksFit).toBe(true);
+  });
+
+  test('resume keeps its content and metadata readable on narrow mobile', async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 700 });
+    await page.goto('/resume/');
+
+    await expect(page.locator('.h-name')).toHaveText('Alexander Sumer');
+    await expect(page.getByText('Merged 1,903 PRs in FY26', { exact: false })).toBeVisible();
+    await expect(page.getByText('Skills & Interests')).toBeVisible();
+
+    const metadataFits = await page.locator('.e-row').evaluateAll((rows) =>
+      rows.every((row) => {
+        const rect = row.getBoundingClientRect();
+        return rect.left >= 0 && rect.right <= document.documentElement.clientWidth;
+      })
+    );
+
+    expect(metadataFits).toBe(true);
   });
 
   test('article layout keeps the reading column readable', async ({ page }) => {

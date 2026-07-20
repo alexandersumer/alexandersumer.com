@@ -25,10 +25,6 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run lint:check
-      - name: Fetch resume
-        run: |
-          mkdir -p public/resume
-          curl -fsSL https://raw.githubusercontent.com/alexandersumer/resume/main/index.html -o public/resume/index.html
       - run: npx playwright install --with-deps chromium
       - run: npm run verify
       - uses: actions/upload-pages-artifact@v3

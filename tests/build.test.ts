@@ -154,6 +154,54 @@ describe('Build output', () => {
     });
   });
 
+  describe('dist/resume/index.html', () => {
+    let $: CheerioAPI;
+
+    beforeAll(() => {
+      $ = readHtml('resume/index.html');
+    });
+
+    it('has the correct metadata and canonical URL', () => {
+      expect($('title').text()).toBe('Alexander Sumer - Resume');
+      expect($('meta[name="description"]').attr('content')).toContain(
+        'reliable agent runtimes and secure execution'
+      );
+      expect($('link[rel="canonical"]').attr('href')).toBe('https://alexandersumer.com/resume/');
+      expect($('meta[property="og:url"]').attr('content')).toBe(
+        'https://alexandersumer.com/resume/'
+      );
+    });
+
+    it('contains the current experience, education, skills, and interests', () => {
+      const text = $('body').text().replace(/\s+/g, ' ');
+
+      expect($('.h-name').text().trim()).toBe('Alexander Sumer');
+      expect(text).toContain('Merged 1,903 PRs in FY26');
+      expect(text).toContain('Received 5 Big Kudos');
+      expect(text).toContain('Agent Platform:');
+      expect(text).toContain('University of New South Wales');
+      expect(text).toContain('painting and the arts');
+    });
+
+    it('omits superseded résumé claims', () => {
+      const text = $('body').text().replace(/\s+/g, ' ');
+
+      expect(text).not.toContain('operating at Principal level');
+      expect(text).not.toMatch(/20\s*GB persistent/i);
+      expect(text).not.toContain('Alta');
+    });
+
+    it('has the expected profile links', () => {
+      expect($('a[href="https://github.com/alexandersumer"]').length).toBe(1);
+      expect($('a[href="https://www.linkedin.com/in/alexandersumer"]').length).toBe(1);
+    });
+
+    it('is included in the sitemap', () => {
+      const sitemap = readFileSync(join(DIST, 'sitemap-0.xml'), 'utf-8');
+      expect(sitemap).toContain('<loc>https://alexandersumer.com/resume/</loc>');
+    });
+  });
+
   describe('dist/blog/index.html (blog list)', () => {
     let $: CheerioAPI;
     beforeAll(() => {
