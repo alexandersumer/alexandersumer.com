@@ -188,7 +188,9 @@ describe('Build output', () => {
       expect($('.sk-l').first().text().trim()).toBe('Technical focus');
       expect(text).toContain('Agent platforms and runtimes');
       expect(text).toContain('multi-agent orchestration, MCP/ACP');
-      expect(text).toContain('Painting and the arts, fitness, volleyball');
+      expect(text).toContain(
+        'Painting and the arts, writing, comedy, fitness, volleyball, road trips'
+      );
     });
 
     it('omits superseded résumé claims', () => {
