@@ -185,6 +185,9 @@ describe('Build output', () => {
       expect(text).toContain('Received 5 Big Kudos');
       expect(text).toContain('Agent Platform:');
       expect(text).toContain('University of New South Wales');
+      expect($('.sk-l').first().text().trim()).toBe('Technical focus');
+      expect(text).toContain('Agent platforms and runtimes');
+      expect(text).toContain('multi-agent orchestration, MCP/ACP');
       expect(text).toContain('Painting and the arts, fitness, volleyball');
     });
 

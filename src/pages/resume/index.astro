@@ -75,11 +75,11 @@ const canonicalUrl = new URL('/resume/', Astro.site);
           <li class="proj">
             <strong>Agent Sandbox:</strong> Owned the shared sandbox runtime used by three AI products.
             Integrated persistent workspaces and session hibernation, and hardened authorization and readiness
-            checks. Replaced a legacy service with no filesystem and linear namespace scans, so agents
-            could create files and resume work across sessions.
+            checks. Replaced a legacy runtime that lacked persistent workspaces and relied on linear namespace
+            scans, enabling agents to create files and resume work across sessions.
           </li>
           <li class="proj">
-            <strong>AI Platform Reliability:</strong> Led 5 engineers improving reliability across Atlassian's
+            <strong>AI Platform Reliability:</strong> Led reliability improvements across Atlassian's
             AI products. Reduced average incident recovery time from 10 hours to 1 hour, moved a synchronous
             Kotlin service to Coroutines, and cut redundant network calls by 90% with shared HTTP clients
             and two-tier caching.
@@ -146,10 +146,10 @@ const canonicalUrl = new URL('/resume/', Astro.site);
     <section class="s">
       <h2 class="s-title">Skills &amp; Interests</h2>
       <div class="sk">
-        <span class="sk-l">Technologies</span>
+        <span class="sk-l">Technical focus</span>
         <span class="sk-v"
-          >Kubernetes, AWS, Kafka, gRPC, Gemini, Playwright, Kotlin, Java, TypeScript, Python, Rust,
-          Go</span
+          >Agent platforms and runtimes, coding-agent workflows, multi-agent orchestration, MCP/ACP,
+          durable sessions, secure sandboxing, distributed systems</span
         >
         <span class="sk-l">Interests</span>
         <span class="sk-v">Painting and the arts, fitness, volleyball</span>
