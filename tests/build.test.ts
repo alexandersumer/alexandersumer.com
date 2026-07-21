@@ -176,11 +176,16 @@ describe('Build output', () => {
       const text = $('body').text().replace(/\s+/g, ' ');
 
       expect($('.h-name').text().trim()).toBe('Alexander Sumer');
+      expect($('.s .e').first().find('.e-role')).toHaveLength(3);
+      expect($('.s .e').first().find('.e-summary')).toHaveLength(1);
+      expect(text).toContain('Senior Machine Learning Systems Engineer, AI Platform');
+      expect(text).toContain('Senior Engineer, Jira Platform');
+      expect(text).toContain('Earlier Jira Platform roles: Engineer, Graduate & Intern');
       expect(text).toContain('Merged 1,903 PRs in FY26');
       expect(text).toContain('Received 5 Big Kudos');
       expect(text).toContain('Agent Platform:');
       expect(text).toContain('University of New South Wales');
-      expect(text).toContain('painting and the arts');
+      expect(text).toContain('Painting and the arts, fitness, volleyball');
     });
 
     it('omits superseded résumé claims', () => {
@@ -189,6 +194,10 @@ describe('Build output', () => {
       expect(text).not.toContain('operating at Principal level');
       expect(text).not.toMatch(/20\s*GB persistent/i);
       expect(text).not.toContain('Alta');
+      expect(text).not.toContain('Promoted to Senior within two years');
+      expect(text).not.toContain('Technical lead for 9 engineers');
+      expect(text).not.toContain('Coding-Agent Development:');
+      expect(text).not.toContain('Talks & Recognition:');
     });
 
     it('has the expected profile links', () => {

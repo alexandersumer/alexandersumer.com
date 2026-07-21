@@ -48,20 +48,24 @@ const canonicalUrl = new URL('/resume/', Astro.site);
           <span class="e-loc">Sydney, Australia</span>
         </div>
         <div class="e-row">
-          <span class="e-role">Senior Software Engineer, AI Platform</span>
-          <span class="e-date">Nov 2019 – Present</span>
+          <span class="e-role">Senior Machine Learning Systems Engineer, AI Platform</span>
+          <span class="e-date">Jul 2025 – Present</span>
         </div>
+        <div class="e-row">
+          <span class="e-role">Senior Engineer, Jira Platform</span>
+          <span class="e-date">Mar 2024 – Jun 2025</span>
+        </div>
+        <div class="e-row">
+          <span class="e-role">Earlier Jira Platform roles: Engineer, Graduate &amp; Intern</span>
+          <span class="e-date">Nov 2019 – Feb 2024</span>
+        </div>
+        <p class="e-summary">
+          Merged 1,903 PRs in FY26, the most at Atlassian, by directing and reviewing coding agents.
+          Delivered 3 cross-team talks and workshops on effective coding-agent use. Received 5 Big
+          Kudos, including one for each talk and 2 Fix-of-the-Week awards from Atlassian's CTO of AI
+          and Teamwork.
+        </p>
         <ul class="b">
-          <li>
-            Promoted to Senior within two years. Technical lead for 9 engineers across three AI
-            platform projects. Merged 1,903 PRs in FY26, the most at Atlassian, by directing and
-            reviewing coding agents.
-          </li>
-          <li>
-            Delivered 3 cross-team talks and workshops on effective coding-agent use. Received 5 Big
-            Kudos, including one for each talk and 2 Fix-of-the-Week awards from Atlassian's CTO of
-            AI and Teamwork.
-          </li>
           <li class="proj">
             <strong>Agent Platform:</strong> On a small tiger team, built a platform for teams to define,
             publish, and run managed agents. Led the runtime and persistence work, including durable sessions,
@@ -148,9 +152,7 @@ const canonicalUrl = new URL('/resume/', Astro.site);
           Go</span
         >
         <span class="sk-l">Interests</span>
-        <span class="sk-v"
-          >AI, painting and the arts, volleyball, cooking, fitness, good conversations</span
-        >
+        <span class="sk-v">Painting and the arts, fitness, volleyball</span>
       </div>
     </section>
   </body>
@@ -315,6 +317,10 @@ const canonicalUrl = new URL('/resume/', Astro.site);
     font-size: 8.5pt;
     font-weight: 400;
     white-space: nowrap;
+  }
+
+  .e-summary {
+    margin-top: 1mm;
   }
 
   ul.b {
