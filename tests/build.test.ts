@@ -189,7 +189,7 @@ describe('Build output', () => {
       expect(text).toContain('Agent platforms and runtimes');
       expect(text).toContain('multi-agent orchestration, MCP/ACP');
       expect(text).toContain(
-        'Painting and the arts, writing, comedy, fitness, volleyball, road trips'
+        'Painting and the arts, reading and writing, fitness, volleyball, road trips'
       );
     });
 
