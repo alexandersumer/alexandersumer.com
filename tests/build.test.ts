@@ -186,8 +186,8 @@ describe('Build output', () => {
       expect(text).toContain('Agent Platform:');
       expect(text).toContain('University of New South Wales');
       expect($('.sk-l').first().text().trim()).toBe('Technical focus');
-      expect(text).toContain('Agent platforms and runtimes');
-      expect(text).toContain('multi-agent orchestration, MCP/ACP');
+      expect(text).toContain('Agent platforms, coding agents, multi-agent orchestration');
+      expect(text).not.toContain('MCP/ACP');
       expect(text).toContain(
         'Painting and the arts, reading and writing, fitness, volleyball, road trips'
       );

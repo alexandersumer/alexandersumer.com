@@ -93,6 +93,18 @@ test.describe('built site browser conformance', () => {
     expect(sheet).not.toBeNull();
     expect(sheet?.width).toBeCloseTo(816, 0);
 
+    const technicalFocus = await page
+      .locator('.sk-v')
+      .first()
+      .evaluate((element) => {
+        const style = getComputedStyle(element);
+        return {
+          height: element.getBoundingClientRect().height,
+          lineHeight: Number.parseFloat(style.lineHeight),
+        };
+      });
+    expect(technicalFocus.height).toBeLessThanOrEqual(technicalFocus.lineHeight + 1);
+
     const pdf = await page.pdf({
       preferCSSPageSize: true,
       printBackground: true,
