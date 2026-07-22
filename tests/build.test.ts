@@ -164,7 +164,7 @@ describe('Build output', () => {
     it('has the correct metadata and canonical URL', () => {
       expect($('title').text()).toBe('Alexander Sumer - Resume');
       expect($('meta[name="description"]').attr('content')).toContain(
-        'reliable agent runtimes and secure execution'
+        'building agent systems and helping product teams adopt them'
       );
       expect($('link[rel="canonical"]').attr('href')).toBe('https://alexandersumer.com/resume/');
       expect($('meta[property="og:url"]').attr('content')).toBe(
