@@ -184,6 +184,7 @@ describe('Build output', () => {
       expect(text).toContain('Merged 1,903 PRs in FY26');
       expect(text).toContain('Received 5 Big Kudos');
       expect(text).toContain('Agent Platform:');
+      expect(text).toContain('browser agent for Internal Audit');
       expect(text).toContain('University of New South Wales');
       expect($('.sk-l').first().text().trim()).toBe('Technical focus');
       expect(text).toContain('Agent platforms, coding agents, multi-agent orchestration');
