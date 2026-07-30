@@ -113,7 +113,9 @@ describe('Build output', () => {
     });
 
     it('has bio text', () => {
-      expect($('.home-bio').text()).toContain("Hi, I'm Alexander");
+      expect($('.home-bio').text()).toContain(
+        'Hi, I’m Alexander. I like good questions and good conversations.'
+      );
     });
 
     it('loads the profile image eagerly at a stable size', () => {
