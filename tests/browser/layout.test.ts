@@ -65,10 +65,20 @@ test.describe('built site browser conformance', () => {
   });
 
   test('art gallery opens the artwork from its thumbnail', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto('/art/');
 
     const card = page.getByRole('link', { name: /Untitled \(Figures in an Interior\)/ });
-    await expect(card.locator('img')).toBeVisible();
+    const frame = card.locator('.art-card__frame');
+    await expect(frame.locator('img')).toBeVisible();
+
+    const cardBox = await card.boundingBox();
+    const frameBox = await frame.boundingBox();
+    expect(cardBox).not.toBeNull();
+    expect(frameBox).not.toBeNull();
+    expect(cardBox!.width - frameBox!.width).toBeGreaterThan(200);
+    expect(frameBox!.width).toBeLessThanOrEqual(300);
+
     await card.click();
 
     await expect(page).toHaveURL(/\/art\/figures-in-an-interior\/$/);
