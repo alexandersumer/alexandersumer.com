@@ -166,7 +166,7 @@ describe('Build output', () => {
       const card = $('.art-card[href="/art/figures-in-an-interior/"]');
       expect(card.length).toBe(1);
       expect(card.find('img').attr('alt')).toContain('figurative painting');
-      expect(card.find('.art-card__title').text()).toBe('Untitled (Figures in an Interior)');
+      expect(card.find('.art-card__title').text()).toBe('Figures in an Interior');
       expect(card.find('.art-card__year').text()).toBe('2026');
     });
 

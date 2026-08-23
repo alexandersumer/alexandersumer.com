@@ -68,7 +68,7 @@ test.describe('built site browser conformance', () => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto('/art/');
 
-    const card = page.getByRole('link', { name: /Untitled \(Figures in an Interior\)/ });
+    const card = page.getByRole('link', { name: /Figures in an Interior/ });
     const frame = card.locator('.art-card__frame');
     await expect(frame.locator('img')).toBeVisible();
 
@@ -82,10 +82,11 @@ test.describe('built site browser conformance', () => {
     await card.click();
 
     await expect(page).toHaveURL(/\/art\/figures-in-an-interior\/$/);
-    await expect(
-      page.getByRole('heading', { name: 'Untitled (Figures in an Interior)' })
-    ).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Figures in an Interior' })).toBeVisible();
     await expect(page.locator('.artwork__image')).toBeVisible();
+    await expect(
+      page.getByRole('link', { name: /Kees van Dongen’s Amusement \(1914\)/ })
+    ).toHaveAttribute('href', 'https://www.artsy.net/artwork/kees-van-dongen-amusement');
   });
 
   test('resume keeps its content and metadata readable on narrow mobile', async ({ page }) => {

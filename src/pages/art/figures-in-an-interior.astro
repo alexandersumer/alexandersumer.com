@@ -5,14 +5,14 @@ import artwork from '../../assets/artworks/figures-in-an-interior.jpg';
 ---
 
 <BaseLayout
-  title="Untitled (Figures in an Interior)"
-  description="Untitled (Figures in an Interior), a 2026 painting by Alexander Sumer."
+  title="Figures in an Interior"
+  description="Figures in an Interior, a 2026 painting by Alexander Sumer."
   image={artwork.src}
 >
   <article class="artwork">
     <header class="artwork__header">
       <a class="artwork__back" href="/art/">← Art</a>
-      <h1>Untitled (Figures in an Interior)</h1>
+      <h1>Figures in an Interior</h1>
       <p>2026</p>
     </header>
 
@@ -26,5 +26,12 @@ import artwork from '../../assets/artworks/figures-in-an-interior.jpg';
         loading="eager"
       />
     </a>
+    <p class="artwork__note">
+      Inspired by <a
+        href="https://www.artsy.net/artwork/kees-van-dongen-amusement"
+        target="_blank"
+        rel="noopener">Kees van Dongen’s <cite>Amusement</cite> (1914)</a
+      >.
+    </p>
   </article>
 </BaseLayout>

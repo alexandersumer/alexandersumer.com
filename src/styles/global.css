@@ -809,6 +809,26 @@ summary:hover {
   border-radius: 0;
 }
 
+.artwork__note {
+  margin: 12px 0 0;
+  color: var(--text-faint);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.artwork__note a {
+  color: var(--text-muted);
+}
+
+.artwork__note a:visited {
+  color: var(--text-muted);
+}
+
+.artwork__note a:hover {
+  color: var(--text);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .art-card__image {
     transition: none;
