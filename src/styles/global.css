@@ -700,6 +700,116 @@ summary:hover {
 }
 
 /* ═══════════════════════════════════════
+   ART
+   ═══════════════════════════════════════ */
+.art-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 420px));
+  gap: 40px 28px;
+  margin: 28px 0 16px;
+}
+
+.art-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  color: var(--text);
+  font-family: var(--font-ui);
+  line-height: 1.35;
+  text-decoration: none;
+}
+
+.art-card:visited {
+  color: var(--text);
+}
+
+.art-card__frame {
+  grid-column: 1 / -1;
+  aspect-ratio: 4 / 5;
+  margin-bottom: 14px;
+  overflow: hidden;
+  background: var(--bg-code);
+}
+
+.art-card__image {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border-radius: 0;
+  object-fit: cover;
+  transform: scale(1.13);
+  transition: transform 0.35s ease;
+}
+
+.art-card:hover .art-card__image {
+  transform: scale(1.16);
+}
+
+.art-card__title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.art-card__year {
+  padding-left: 16px;
+  color: var(--text-faint);
+  font-size: 14px;
+  font-variant-numeric: lining-nums;
+}
+
+.art-card:hover .art-card__title {
+  color: var(--link);
+}
+
+.artwork__header {
+  margin-bottom: 28px;
+  font-family: var(--font-ui);
+}
+
+.artwork__back {
+  display: inline-block;
+  margin-bottom: 28px;
+  color: var(--text-muted);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.artwork__back:visited {
+  color: var(--text-muted);
+}
+
+.artwork__back:hover {
+  color: var(--text);
+}
+
+.artwork__header h1 {
+  margin: 0 0 6px;
+  font-size: 30px;
+}
+
+.artwork__header p {
+  margin: 0;
+  color: var(--text-faint);
+  font-size: 14px;
+  font-variant-numeric: lining-nums;
+}
+
+.artwork > a {
+  display: block;
+}
+
+.artwork__image {
+  width: 100%;
+  margin: 0;
+  border-radius: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .art-card__image {
+    transition: none;
+  }
+}
+
+/* ═══════════════════════════════════════
    POST NAVIGATION
    ═══════════════════════════════════════ */
 .post-navigation {

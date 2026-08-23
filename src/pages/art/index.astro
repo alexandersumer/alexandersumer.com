@@ -1,0 +1,25 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import artwork from '../../assets/artworks/figures-in-an-interior.jpg';
+---
+
+<BaseLayout title="Art" description="Paintings by Alexander Sumer.">
+  <h1>Art</h1>
+
+  <div class="art-grid">
+    <a class="art-card" href="/art/figures-in-an-interior/">
+      <span class="art-card__frame">
+        <Image
+          src={artwork}
+          alt="A figurative painting of people gathered in a richly coloured interior"
+          class="art-card__image"
+          widths={[420, 840]}
+          sizes="(max-width: 640px) calc(100vw - 40px), 420px"
+        />
+      </span>
+      <span class="art-card__title">Untitled (Figures in an Interior)</span>
+      <span class="art-card__year">2026</span>
+    </a>
+  </div>
+</BaseLayout>

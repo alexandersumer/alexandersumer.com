@@ -7,6 +7,8 @@ const routes = [
   '/resume/',
   '/slides/',
   '/slides/ai-coding-agents/',
+  '/art/',
+  '/art/figures-in-an-interior/',
 ];
 
 const overflowViewports = [
@@ -60,6 +62,20 @@ test.describe('built site browser conformance', () => {
     );
 
     expect(linksFit).toBe(true);
+  });
+
+  test('art gallery opens the artwork from its thumbnail', async ({ page }) => {
+    await page.goto('/art/');
+
+    const card = page.getByRole('link', { name: /Untitled \(Figures in an Interior\)/ });
+    await expect(card.locator('img')).toBeVisible();
+    await card.click();
+
+    await expect(page).toHaveURL(/\/art\/figures-in-an-interior\/$/);
+    await expect(
+      page.getByRole('heading', { name: 'Untitled (Figures in an Interior)' })
+    ).toBeVisible();
+    await expect(page.locator('.artwork__image')).toBeVisible();
   });
 
   test('resume keeps its content and metadata readable on narrow mobile', async ({ page }) => {

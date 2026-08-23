@@ -156,6 +156,29 @@ describe('Build output', () => {
     });
   });
 
+  describe('dist/art/index.html (art gallery)', () => {
+    let $: CheerioAPI;
+    beforeAll(() => {
+      $ = readHtml('art/index.html');
+    });
+
+    it('links a titled thumbnail to the artwork page', () => {
+      const card = $('.art-card[href="/art/figures-in-an-interior/"]');
+      expect(card.length).toBe(1);
+      expect(card.find('img').attr('alt')).toContain('figurative painting');
+      expect(card.find('.art-card__title').text()).toBe('Untitled (Figures in an Interior)');
+      expect(card.find('.art-card__year').text()).toBe('2026');
+    });
+
+    it('includes both art pages in the sitemap', () => {
+      const sitemap = readFileSync(join(DIST, 'sitemap-0.xml'), 'utf-8');
+      expect(sitemap).toContain('<loc>https://alexandersumer.com/art/</loc>');
+      expect(sitemap).toContain(
+        '<loc>https://alexandersumer.com/art/figures-in-an-interior/</loc>'
+      );
+    });
+  });
+
   describe('dist/resume/index.html', () => {
     let $: CheerioAPI;
 
