@@ -543,13 +543,41 @@ summary:hover {
    SIDEBAR TOC (wide screens)
    ═══════════════════════════════════════ */
 .toc-sidebar {
-  display: none;
+  margin: 0 0 32px;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.toc-sidebar details {
+  margin: 0;
+}
+
+.toc-sidebar__title {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.toc-sidebar ul {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+}
+
+.toc-sidebar a {
+  display: block;
+  padding: 6px 0;
+  text-decoration: none;
+}
+
+.toc-sidebar .toc-h3 {
+  padding-left: 12px;
 }
 
 @media (min-width: 1360px) {
   .toc-sidebar {
-    display: block;
     position: fixed;
+    margin: 0;
     top: 100px;
     left: calc((100vw - var(--content-w)) / 2 - var(--toc-gap) - var(--toc-w));
     width: var(--toc-w);
@@ -830,6 +858,10 @@ summary:hover {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   .art-card__image {
     transition: none;
   }

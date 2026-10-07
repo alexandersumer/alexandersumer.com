@@ -10,18 +10,20 @@ const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
 ---
 
 <nav class="toc-sidebar" aria-label="Table of contents" id="toc-sidebar">
-  <p class="toc-sidebar__title">On this page</p>
-  <ul>
-    {
-      tocHeadings.map((h) => (
-        <li>
-          <a href={`#${h.slug}`} class={h.depth === 3 ? 'toc-h3' : ''}>
-            {h.text}
-          </a>
-        </li>
-      ))
-    }
-  </ul>
+  <details>
+    <summary class="toc-sidebar__title">On this page</summary>
+    <ul>
+      {
+        tocHeadings.map((h) => (
+          <li>
+            <a href={`#${h.slug}`} class={h.depth === 3 ? 'toc-h3' : ''}>
+              {h.text}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </details>
 </nav>
 
 <script>
@@ -34,6 +36,14 @@ const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
 
     const toc = document.getElementById('toc-sidebar');
     if (!toc) return;
+    const disclosure = toc.querySelector('details');
+    if (!disclosure) return;
+    const desktop = window.matchMedia('(min-width: 1360px)');
+    function updateDisclosure() {
+      disclosure!.open = desktop.matches;
+    }
+    updateDisclosure();
+    desktop.addEventListener('change', updateDisclosure, { signal });
 
     const links = toc.querySelectorAll<HTMLAnchorElement>('a');
     const headingIds = Array.from(links).map((a) => a.getAttribute('href')!.slice(1));
@@ -79,24 +89,6 @@ const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
     );
 
     updateActive();
-
-    toc.addEventListener(
-      'click',
-      (e) => {
-        const link = (e.target as HTMLElement).closest('a');
-        if (!link) return;
-        e.preventDefault();
-        const target = document.getElementById(link.getAttribute('href')!.slice(1));
-        if (target) {
-          window.scrollTo({
-            top: target.getBoundingClientRect().top + window.scrollY - 80,
-            behavior: 'smooth',
-          });
-          history.replaceState(null, '', link.getAttribute('href')!);
-        }
-      },
-      { signal }
-    );
   }
 
   initToc();

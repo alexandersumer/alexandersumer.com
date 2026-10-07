@@ -156,10 +156,11 @@ test.describe('built site browser conformance', () => {
   test('table of contents switches at the desktop breakpoint', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto('/blog/what-to-do-if-you-take-agi-seriously/');
-    await expect(page.locator('#toc-sidebar')).toBeHidden();
+    await expect(page.locator('#toc-sidebar summary')).toBeVisible();
+    await expect(page.locator('#toc-sidebar a').first()).toBeHidden();
 
     await page.setViewportSize({ width: 1600, height: 1000 });
-    await expect(page.locator('#toc-sidebar')).toBeVisible();
+    await expect(page.locator('#toc-sidebar a').first()).toBeVisible();
   });
 
   test('theme toggle updates the document theme through the real header button', async ({

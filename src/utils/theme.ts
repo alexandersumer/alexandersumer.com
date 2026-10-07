@@ -16,5 +16,33 @@ export function updateThemeButton(btn: Element): void {
 export function toggleTheme(): void {
   const next = isDark() ? 'light' : 'dark';
   document.documentElement.setAttribute('data-theme', next);
-  localStorage.setItem('theme', next);
+  document.documentElement.setAttribute('data-theme-preference', 'manual');
+  try {
+    localStorage.setItem('theme', next);
+  } catch {
+    // Keep the current page's selection even when it cannot be persisted.
+  }
+}
+
+export function initThemeButton(btn: HTMLElement, signal?: AbortSignal): void {
+  updateThemeButton(btn);
+  btn.addEventListener(
+    'click',
+    () => {
+      toggleTheme();
+      updateThemeButton(btn);
+    },
+    { signal }
+  );
+
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener(
+    'change',
+    (event) => {
+      if (document.documentElement.getAttribute('data-theme-preference') !== 'manual') {
+        document.documentElement.setAttribute('data-theme', event.matches ? 'dark' : 'light');
+        updateThemeButton(btn);
+      }
+    },
+    { signal }
+  );
 }
